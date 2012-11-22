@@ -1,0 +1,18 @@
+$size: 600px;
+
+@mixin float {
+  float: left;
+}
+
+
+.treemap {
+  width: $size;
+  height: $size;
+  @include float;
+}
+
+.spacer {
+  width: 7px;
+  height: $size;
+  @include float;
+}

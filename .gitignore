@@ -1,0 +1,4 @@
+packages
+pubspec.lock
+*.sass-cache/
+*.swp
