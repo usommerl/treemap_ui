@@ -67,6 +67,7 @@ class Leaf extends DataModel {
     _title = title;
     _description = description;
   }
+  String toString() => "<Leaf size=${_size}, title=${_title}>";
 }
 
 class Branch extends DataModel {

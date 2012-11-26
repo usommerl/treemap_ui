@@ -1,9 +1,8 @@
-$size: 600px;
+$size: 300px;
 
 @mixin float {
   float: left;
 }
-
 
 .treemap {
   width: $size;
