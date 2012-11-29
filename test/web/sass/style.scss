@@ -1,17 +1,23 @@
-$size: 300px;
+$treemapSize: 300px;
+$spacerSize: 7px;
 
 @mixin float {
   float: left;
 }
 
 .treemap {
-  width: $size;
-  height: $size;
+  width: $treemapSize;
+  height: $treemapSize;
   @include float;
 }
 
-.spacer {
-  width: 7px;
-  height: $size;
+.vSpacer {
+  width: $spacerSize;
+  height: $treemapSize;
   @include float;
+}
+
+.hSpacer {
+  height: $spacerSize;
+  clear: both;
 }
