@@ -5,13 +5,14 @@ class ViewNode {
   static const String VERTICAL_ORIENTATION = "none";
   static const String HORIZONTAL_ORIENTATION = "left";
   final List<ViewNode> _children = new List();
+  ViewNode _parent;
   String _orientation = VERTICAL_ORIENTATION;
   DataModel _model;
   DivElement _container;
   DivElement _content;
   ParagraphElement _nodeLabel;
-  final int labelHeight = 19;
-  final int padding = 3;
+  final int _labelHeight = 19;
+  final int _padding = 3;
 
   ViewNode(this._model, num width, num height, [this._orientation]) {
     assert(this._model != null);
@@ -41,7 +42,7 @@ class ViewNode {
     _nodeLabel.style..marginAfter = "0px"
         ..marginBefore = "0px";
     _nodeLabel.text = this._model.title;
-    _nodeLabel.style.height = "${labelHeight}";
+    _nodeLabel.style.height = "${_labelHeight}";
     if (_model.isLeaf()) {
       _createLeafNode();
     } else {
@@ -65,30 +66,42 @@ class ViewNode {
         ..margin = "0px"
         ..padding = "0px"
         ..position = "absolute"
-        ..left = "${padding}px"
-        ..right = "${padding}px"
-        ..bottom = "${padding}px"
-        ..top = "${labelHeight + padding}px";
+        ..left = "${_padding}px"
+        ..right = "${_padding}px"
+        ..bottom = "${_padding}px"
+        ..top = "${_labelHeight + _padding}px";
     _container.children.add(_nodeLabel);
     _container.children.add(_content);
   }
   
   void _fixBorders(ViewNode node) {
-    int index = this._children.lastIndexOf(node) - 1;
-    if (index > -1) {
-      ViewNode previousSibling = this._children[index];
-      if (!previousSibling.isRoot()) {
-        if (previousSibling._orientation == HORIZONTAL_ORIENTATION) {
-          node._container.style.borderLeftWidth = "0px";
-        } else {
-          node._container.style.borderTopWidth = "0px";
-        }
-      }
+    if (this._children.some((child) => node._isPositionedBelow(child))) {
+      node._container.style.borderTopWidth = "0px";
     }
+    if (this._children.some((child) => node._isPositionedRightOf(child))) {
+      node._container.style.borderLeftWidth = "0px";
+    }
+  }
+  
+  bool _isPositionedBelow(ViewNode other) {
+    if (this.parent == other.parent) {
+      return this._container.offsetTop > other._container.offsetTop;
+    } else {
+      throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");
+    }
+  }
+  
+  bool _isPositionedRightOf(ViewNode other) {
+    if (this.parent == other.parent) {
+      return this._container.offsetLeft > other._container.offsetLeft;
+    } else {
+      throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");
+    } 
   }
 
   void add(ViewNode child) {
     _content.children.add(child._container);
+    child._parent = this;
     this._children.add(child);
     _fixBorders(child);
   }
@@ -106,5 +119,7 @@ class ViewNode {
   int get clientHeight => this._content.clientHeight;
   
   DataModel get model => this._model;
+  
+  ViewNode get parent => this._parent;
   
 }
