@@ -93,14 +93,14 @@ class ViewNode {
       node._container.style.borderLeftWidth = "0px";
       if (node._container.offsetWidth <= borderSize) {
         node._container.style.borderRightWidth = "0px";
-      } 
+      }
     } else if (node._container.offsetWidth <= 2*borderSize) {
       node._container.style.borderLeftWidth = "0px";
       node._container.style.borderRightWidth = "0px";
       _content.style.borderLeft = borderStyle;
     }
   }
-  
+
   bool _isPositionedBelow(ViewNode other) {
     if (this.parent == other.parent) {
       return this._container.offsetTop > other._container.offsetTop;
@@ -118,7 +118,7 @@ class ViewNode {
   }
 
   void add(ViewNode child) {
-    _content.children.add(child._container);
+    _content.append(child._container);
     child._parent = this;
     this._children.add(child);
     _fixBorders(child);
