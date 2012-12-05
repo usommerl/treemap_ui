@@ -3,7 +3,7 @@ import 'package:treemap/treemap.dart';
 
 main() {
     TreeMap treemap;
-    var sliceAndDice = new SliceAndDice();
+    var sliceAndDice = new SliceAndDice(ViewNode.VERTICAL_ORIENTATION);
     var strip = new Strip();
 
     DataModel dataModel1 = new Leaf(10, '1');

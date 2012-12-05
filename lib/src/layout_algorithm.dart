@@ -50,6 +50,12 @@ class SliceAndDice extends LayoutAlgorithm {
   }
 }
 
+/**
+ * Implementation of the strip algorithm. For further details see
+ * 'Ordered and Quantum Treemaps: Making Effective Use of 2D Space to Display Hierarchies' 
+ * by Benjamin B. Bederson, Martin Wattenberg and Ben Shneiderman, pp. 7-9, 2001
+ *
+ **/
 class Strip extends LayoutAlgorithm {
 
   void layout(ViewNode parent) {

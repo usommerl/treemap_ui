@@ -14,6 +14,7 @@ class ViewNode {
   final int _labelHeight = 19;
   final int _padding = 3;
   int borderSize = 1;
+  String borderColor = "black";
   String borderStyle;
 
   ViewNode(this._model, num width, num height, [this._orientation]) {
@@ -29,11 +30,11 @@ class ViewNode {
     assert(rootArea.clientHeight > 0);
     assert(rootArea.children.length == 0);
     _initNode(100, 100);
-    rootArea.children.add(this._container);
+    rootArea.append(this._container);
   }
 
   void _initNode(num width, num height) {
-    borderStyle = "${borderSize}px solid black";
+    borderStyle = "${borderSize}px solid ${borderColor}";
     _container = new DivElement();
     _container.style..boxSizing = "border-box"
         ..margin = "0px"
@@ -82,23 +83,31 @@ class ViewNode {
     if (this._children.some((child) => node._isPositionedBelow(child))) {
       node._container.style.borderTopWidth = "0px";
       if (node._container.offsetHeight <= borderSize) {
-        node._container.style.borderBottomWidth = "0px";
+        node.collapseHeight();
       }
-    } else if (node._container.offsetHeight <= 2*borderSize) {
-      node._container.style.borderTopWidth = "0px";
-      node._container.style.borderBottomWidth = "0px";
-      _content.style.borderTop = borderStyle;
+    } else if (node._container.offsetHeight <= 2 * borderSize) {
+      node.collapseHeight();
     }
     if (this._children.some((child) => node._isPositionedRightOf(child))) {
       node._container.style.borderLeftWidth = "0px";
       if (node._container.offsetWidth <= borderSize) {
-        node._container.style.borderRightWidth = "0px";
+        node.collapseWidth();
       }
-    } else if (node._container.offsetWidth <= 2*borderSize) {
-      node._container.style.borderLeftWidth = "0px";
-      node._container.style.borderRightWidth = "0px";
-      _content.style.borderLeft = borderStyle;
+    } else if (node._container.offsetWidth <= 2 * borderSize) {
+      node.collapseWidth();
     }
+  }
+  
+  void collapseWidth() {
+    _container.style.borderLeftWidth = "0px";
+    _container.style.borderRightWidth = "0px";
+    _content.style.backgroundColor = borderColor;
+  }
+  
+  void collapseHeight() {
+    _container.style.borderTopWidth = "0px";
+    _container.style.borderBottomWidth = "0px";
+    _content.style.backgroundColor = borderColor;
   }
 
   bool _isPositionedBelow(ViewNode other) {
@@ -118,10 +127,14 @@ class ViewNode {
   }
 
   void add(ViewNode child) {
-    _content.append(child._container);
+    this.append(child._container);
     child._parent = this;
     this._children.add(child);
     _fixBorders(child);
+  }
+  
+  void append(Element e) {
+    _content.append(e);
   }
 
   void addAll(Collection<ViewNode> children) {
