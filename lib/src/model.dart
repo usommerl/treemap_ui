@@ -57,15 +57,33 @@ abstract class DataModel {
   }
 
   bool isRoot() => _parent == null;
-
+  
+  /**
+   * Creates a deep copy of [other].
+   * 
+   * The reference to a potential parent [DataModel] of [other] will **not** be copied to the clone.
+   * 
+   **/
+  static DataModel copy(DataModel other) {
+    if (other.isLeaf()) {
+      return new Leaf._copy(other);
+    } else {
+      return new Branch._copy(other);
+    }
+  }
 }
 
 class Leaf extends DataModel {
+  
   Leaf(num size, String title, [String description = ""]) {
     assert(size > 0);
     _size = size;
     _title = title;
     _description = description;
+  }
+  
+  factory Leaf._copy(Leaf other) {
+    return new Leaf(other._size, other._title, other._description);
   }
   String toString() => "<Leaf size=${_size}, title=${_title}>";
 }
@@ -77,5 +95,11 @@ class Branch extends DataModel {
     _title = title;
     _description = description;
     _children.forEach((c) => c._parent = this);
+  }
+  
+  factory Branch._copy(Branch other) {
+    List<DataModel> childrenCopy = new List();
+    other._children.forEach((child) {childrenCopy.add(DataModel.copy(child));});
+    return new Branch(childrenCopy, other._title, other._description);
   }
 }
