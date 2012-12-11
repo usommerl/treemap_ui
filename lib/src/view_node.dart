@@ -130,13 +130,17 @@ class ViewNode {
   }
 
   void add(ViewNode child) {
-    this.append(child._container);
-    child.parent = this;
-    this._children.add(child);
-    _recitfyVisualRepresentation(child);
+    _content.append(child._container);
+    _linkNode(child);
   }
   
-  void _recitfyVisualRepresentation(ViewNode child) {
+  void _linkNode(ViewNode child) {
+    child.parent = this;
+    _children.add(child);
+    _rectifyVisualRepresentation(child);
+  }
+  
+  void _rectifyVisualRepresentation(ViewNode child) {
     child._fixBorders();
     child._recalculateContentBox();
   }
@@ -145,10 +149,6 @@ class ViewNode {
     if (!isLeaf()) {
       _content.style.top = "${_nodeLabel.offsetHeight}px";
     }
-  }
-  
-  void append(Element e) {
-    _content.append(e);
   }
 
   void addAll(Collection<ViewNode> children) {

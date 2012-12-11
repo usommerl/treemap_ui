@@ -17,10 +17,13 @@ abstract class LayoutAlgorithm {
  **/
 class Strip extends LayoutAlgorithm {
 
+  String _rowOrientation;
+  
   void layout(ViewNode parent) {
     if (!parent.model.isLeaf()) {
       Queue<DataModel> queue = new Queue.from(parent.model.children);
       List<DataModel> currentStrip = new List();
+      _rowOrientation = _rowOrientation == null ? determineRowOrientation(parent) : _rowOrientation;
       while (!queue.isEmpty) {
         DataModel currentItem = queue.removeFirst();
         var previousStrip = new List.from(currentStrip);
@@ -28,23 +31,36 @@ class Strip extends LayoutAlgorithm {
         var prevAvgAspectRatio = _avgAspectRatio(parent.clientWidth, parent.clientHeight,previousStrip);
         var currAvgAspectRatio = _avgAspectRatio(parent.clientWidth, parent.clientHeight,currentStrip);
         if (!previousStrip.isEmpty && currAvgAspectRatio > prevAvgAspectRatio) {
-         layoutRow(parent, previousStrip);
+         layoutRow(parent, previousStrip, _rowOrientation);
          currentStrip.clear();
          queue.addFirst(currentItem);
         } else if (!currentStrip.isEmpty && queue.isEmpty) {
-          layoutRow(parent, currentStrip);
+          layoutRow(parent, currentStrip, _rowOrientation);
         }
       }
     }
   }
+  
+  String determineRowOrientation(ViewNode parent) {
+    if (parent.clientWidth >= parent.clientHeight) {
+      return Row.HORIZONTAL_ORIENTATION;
+    } else {
+      return Row.VERTICAL_ORIENTATION;
+    }
+  }
 
-  void layoutRow(ViewNode parent, List<DataModel> row) {
-    row.forEach((e) {
-      var height = _percentValue(row.first.parent.size, row.reduce(0, (acc,e) => acc + e.size));
-      var width = _percentValue(row.reduce(0, (acc,e) => acc + e.size), e.size);
-      ViewNode node = new ViewNode(e, width, height, ViewNode.HORIZONTAL_ORIENTATION);
-      parent.add(node);
-      if (!e.isLeaf()) {
+  void layoutRow(ViewNode parent, List<DataModel> dataModels, String rowOrientation) {
+    var sizeRow = _percentValue(dataModels.first.parent.size, dataModels.reduce(0, (acc,e) => acc + e.size));
+    Row row = new Row(sizeRow, rowOrientation, parent);
+    dataModels.forEach((model) {
+      var value = _percentValue(dataModels.reduce(0, (acc,e) => acc + e.size), model.size);
+      var height = rowOrientation == Row.HORIZONTAL_ORIENTATION ? 100 : value;
+      var width = rowOrientation == Row.HORIZONTAL_ORIENTATION ? value : 100;
+      ViewNode node = rowOrientation == Row.HORIZONTAL_ORIENTATION ? 
+          new ViewNode(model, width, height, ViewNode.HORIZONTAL_ORIENTATION) :
+          new ViewNode(model, width, height, ViewNode.VERTICAL_ORIENTATION);
+      row.add(node);
+      if (!model.isLeaf()) {
         layout(node);
       }
     });
@@ -64,5 +80,36 @@ class Strip extends LayoutAlgorithm {
       });
       return aspectRatios.reduce(0, (acc, e) => acc + e) / aspectRatios.length;
     }
+  }
+}
+
+class Row {
+  DivElement _container = new DivElement();
+  List<ViewNode> _children = new List();
+  ViewNode _parent;
+  static const String VERTICAL_ORIENTATION = "left";
+  static const String HORIZONTAL_ORIENTATION = "none";
+  
+  Row(num size, String rowOrientation, this._parent) {
+    assert(size > 0 && size <= 100);
+    assert(rowOrientation == Row.HORIZONTAL_ORIENTATION 
+        || rowOrientation == Row.VERTICAL_ORIENTATION); 
+    _container.style..margin = "0px"
+        ..padding = "0px"
+        ..float = rowOrientation
+        ..borderWidth = "0px";
+    if (rowOrientation == Row.HORIZONTAL_ORIENTATION) {
+      _container.style..width = "100%"
+          ..height = "${size}%";
+    } else {
+      _container.style..width = "${size}%"
+          ..height = "100%";
+    }
+    _parent._content.append(this._container);
+  }
+  
+  void add(ViewNode child) {
+    this._container.append(child._container);
+    _parent._linkNode(child);
   }
 }
