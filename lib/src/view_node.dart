@@ -5,14 +5,13 @@ class ViewNode {
   static const String VERTICAL_ORIENTATION = "none";
   static const String HORIZONTAL_ORIENTATION = "left";
   final List<ViewNode> _children = new List();
-  ViewNode _parent;
+  ViewNode parent;
   String _orientation = VERTICAL_ORIENTATION;
   DataModel _model;
   DivElement _container;
   DivElement _content;
   ParagraphElement _nodeLabel;
-  final int _labelHeight = 19;
-  final int _padding = 3;
+  int _padding = 2;
   int borderSize = 1;
   String borderColor = "black";
   String borderStyle;
@@ -47,23 +46,27 @@ class ViewNode {
     _nodeLabel.style..marginAfter = "0px"
         ..marginBefore = "0px";
     _nodeLabel.text = this._model.title;
-    _nodeLabel.style.height = "${_labelHeight}";
     if (_model.isLeaf()) {
       _createLeafNode();
     } else {
       _createBranchNode();
     }
-    _container.style.border = borderStyle;
+    _container.style.border = isRoot() && !isLeaf() ? "0px" : borderStyle;
+    
   }
 
   void _createLeafNode() {
     _content = _container;
     _content.style..padding = "0px"
         ..backgroundColor = "#DDD";
-    _content.children.add(_nodeLabel);
+    _content.append(_nodeLabel);
   }
 
   void _createBranchNode() {
+    if (isRoot()) {
+      _padding = 0;
+      _nodeLabel.style.display = "none";
+    }
     _nodeLabel.align = "center";
     _container.style.backgroundColor = "#999";
     _content = new DivElement();
@@ -74,43 +77,43 @@ class ViewNode {
         ..left = "${_padding}px"
         ..right = "${_padding}px"
         ..bottom = "${_padding}px"
-        ..top = "${_labelHeight + _padding}px";
-    _container.children.add(_nodeLabel);
-    _container.children.add(_content);
+        ..top = "${_padding}px";
+    _container.append(_nodeLabel);
+    _container.append(_content);
   }
 
-  void _fixBorders(ViewNode node) {
-    if (this._children.some((child) => node._isPositionedBelow(child))) {
-      node._container.style.borderTopWidth = "0px";
-      if (node._container.offsetHeight <= borderSize) {
-        node.collapseHeight();
+  void _fixBorders() {
+    if (parent.children.some((child) => this.isPositionedBelow(child))) {
+      _container.style.borderTopWidth = "0px";
+      if (_container.offsetHeight <= borderSize) {
+        _collapseHeight();
       }
-    } else if (node._container.offsetHeight <= 2 * borderSize) {
-      node.collapseHeight();
+    } else if (_container.offsetHeight <= 2 * borderSize) {
+      _collapseHeight();
     }
-    if (this._children.some((child) => node._isPositionedRightOf(child))) {
-      node._container.style.borderLeftWidth = "0px";
-      if (node._container.offsetWidth <= borderSize) {
-        node.collapseWidth();
+    if (parent.children.some((child) => this.isPositionedRightOf(child))) {
+      _container.style.borderLeftWidth = "0px";
+      if (_container.offsetWidth <= borderSize) {
+        _collapseWidth();
       }
-    } else if (node._container.offsetWidth <= 2 * borderSize) {
-      node.collapseWidth();
+    } else if (_container.offsetWidth <= 2 * borderSize) {
+      _collapseWidth();
     }
   }
   
-  void collapseWidth() {
+  void _collapseWidth() {
     _container.style.borderLeftWidth = "0px";
     _container.style.borderRightWidth = "0px";
     _content.style.backgroundColor = borderColor;
   }
   
-  void collapseHeight() {
+  void _collapseHeight() {
     _container.style.borderTopWidth = "0px";
     _container.style.borderBottomWidth = "0px";
     _content.style.backgroundColor = borderColor;
   }
 
-  bool _isPositionedBelow(ViewNode other) {
+  bool isPositionedBelow(ViewNode other) {
     if (this.parent == other.parent) {
       return this._container.offsetTop > other._container.offsetTop;
     } else {
@@ -118,7 +121,7 @@ class ViewNode {
     }
   }
 
-  bool _isPositionedRightOf(ViewNode other) {
+  bool isPositionedRightOf(ViewNode other) {
     if (this.parent == other.parent) {
       return this._container.offsetLeft > other._container.offsetLeft;
     } else {
@@ -128,9 +131,20 @@ class ViewNode {
 
   void add(ViewNode child) {
     this.append(child._container);
-    child._parent = this;
+    child.parent = this;
     this._children.add(child);
-    _fixBorders(child);
+    _recitfyVisualRepresentation(child);
+  }
+  
+  void _recitfyVisualRepresentation(ViewNode child) {
+    child._fixBorders();
+    child._recalculateContentBox();
+  }
+  
+  void _recalculateContentBox() {
+    if (!isLeaf()) {
+      _content.style.top = "${_nodeLabel.offsetHeight}px";
+    }
   }
   
   void append(Element e) {
@@ -150,7 +164,7 @@ class ViewNode {
   int get clientHeight => this._content.clientHeight;
 
   DataModel get model => this._model;
-
-  ViewNode get parent => this._parent;
+  
+  List<ViewNode> get children => this._children;
 
 }

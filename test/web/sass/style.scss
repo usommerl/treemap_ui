@@ -1,6 +1,10 @@
 $treemapSize: 300px;
 $spacerSize: 7px;
 
+html * {
+   font-size: 1em;
+}
+
 @mixin float {
   float: left;
 }
