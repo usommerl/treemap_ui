@@ -2,10 +2,11 @@ import 'dart:html';
 import 'package:treemap/treemap.dart';
 
 main() {
-  
+
   TreeMap treemap;
-    var sliceAndDice = new SliceAndDice(ViewNode.HORIZONTAL_ORIENTATION);
-    var strip = new Strip();
+    var orientation = Orientation.VERTICAL;
+    var sliceAndDice = new SliceAndDice(orientation);
+    var strip = new Strip(orientation);
 
     DataModel dataModel1 = new Leaf(10, '1');
     DataModel dataModel2 = new Branch([DataModel.copy(dataModel1), new Leaf(20,'2'), new Leaf(100,'3')],"branch");
@@ -17,7 +18,7 @@ main() {
                                        new Leaf(731, '9'), new Leaf(384, '10'),
                                        new Leaf(450, '11'), new Leaf(10, '12'),
                                        new Leaf(10, '13'), new Leaf(10, '14')], 'root');
-    
+
 
     treemap = new TreeMap(document.query('#test1'), dataModel1, sliceAndDice);
     treemap = new TreeMap(document.query('#test2'), dataModel2, sliceAndDice);

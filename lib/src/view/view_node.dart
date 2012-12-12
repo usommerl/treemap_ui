@@ -1,4 +1,4 @@
-part of treemap;
+part of treemapView; 
 
 class ViewNode {
 
@@ -6,7 +6,7 @@ class ViewNode {
   static const String HORIZONTAL_ORIENTATION = "left";
   final List<ViewNode> _children = new List();
   ViewNode parent;
-  String _orientation = VERTICAL_ORIENTATION;
+  Orientation _orientation = Orientation.VERTICAL;
   DataModel _model;
   DivElement _container;
   DivElement _content;
@@ -38,7 +38,7 @@ class ViewNode {
     _container.style..boxSizing = "border-box"
         ..margin = "0px"
         ..position = "relative"
-        ..float = this._orientation
+        ..float = _orientation.isVertical() ? "none" : "left"
         ..overflow = "hidden"
         ..width = "${width}%"
         ..height = "${height}%";
@@ -52,7 +52,7 @@ class ViewNode {
       _createBranchNode();
     }
     _container.style.border = isRoot() && !isLeaf() ? "0px" : borderStyle;
-    
+
   }
 
   void _createLeafNode() {
@@ -100,13 +100,13 @@ class ViewNode {
       _collapseWidth();
     }
   }
-  
+
   void _collapseWidth() {
     _container.style.borderLeftWidth = "0px";
     _container.style.borderRightWidth = "0px";
     _content.style.backgroundColor = borderColor;
   }
-  
+
   void _collapseHeight() {
     _container.style.borderTopWidth = "0px";
     _container.style.borderBottomWidth = "0px";
@@ -133,18 +133,18 @@ class ViewNode {
     _content.append(child._container);
     _linkNode(child);
   }
-  
+
   void _linkNode(ViewNode child) {
     child.parent = this;
     _children.add(child);
     _rectifyVisualRepresentation(child);
   }
-  
+
   void _rectifyVisualRepresentation(ViewNode child) {
     child._fixBorders();
     child._recalculateContentBox();
   }
-  
+
   void _recalculateContentBox() {
     if (!isLeaf()) {
       _content.style.top = "${_nodeLabel.offsetHeight}px";
@@ -164,7 +164,7 @@ class ViewNode {
   int get clientHeight => this._content.clientHeight;
 
   DataModel get model => this._model;
-  
+
   List<ViewNode> get children => this._children;
 
 }

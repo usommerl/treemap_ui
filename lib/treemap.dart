@@ -1,11 +1,11 @@
 library treemap;
 
-import 'dart:html';
-import 'dart:math';
-part 'src/layout_algorithm.dart';
-part 'src/slice_and_dice.dart';
-part 'src/model.dart';
-part 'src/view_node.dart';
+import 'treemap_model.dart';
+export 'treemap_model.dart';
+import 'treemap_view.dart';
+export 'treemap_view.dart' show Orientation;
+import 'treemap_layout.dart';
+export 'treemap_layout.dart';
 
 class TreeMap{
 
