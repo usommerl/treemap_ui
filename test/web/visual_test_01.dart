@@ -5,8 +5,9 @@ main() {
 
   TreeMap treemap;
     var orientation = Orientation.VERTICAL;
-    var sliceAndDice = new SliceAndDice(orientation);
-    var strip = new Strip(orientation);
+    var sliceAndDice = new SliceAndDice();
+    var strip = new Strip();
+    var squarified = new Squarified();
 
     DataModel dataModel1 = new Leaf(10, '1');
     DataModel dataModel2 = new Branch([DataModel.copy(dataModel1), new Leaf(20,'2'), new Leaf(100,'3')],"branch");
@@ -20,17 +21,18 @@ main() {
                                        new Leaf(10, '13'), new Leaf(10, '14')], 'root');
 
 
-    treemap = new TreeMap(document.query('#test1'), dataModel1, sliceAndDice);
-    treemap = new TreeMap(document.query('#test2'), dataModel2, sliceAndDice);
-    treemap = new TreeMap(document.query('#test3'), dataModel3, sliceAndDice);
-    treemap = new TreeMap(document.query('#test4'), dataModel4, sliceAndDice);
+    treemap = new TreeMap(document.query('#sliceAndDice01'), dataModel1, sliceAndDice);
+    treemap = new TreeMap(document.query('#sliceAndDice02'), dataModel2, sliceAndDice);
+    treemap = new TreeMap(document.query('#sliceAndDice03'), dataModel3, sliceAndDice);
+    treemap = new TreeMap(document.query('#sliceAndDice04'), dataModel4, sliceAndDice);
 
-    treemap = new TreeMap(document.query('#test5'), dataModel1, strip);
-    treemap = new TreeMap(document.query('#test6'), dataModel2, strip);
-    treemap = new TreeMap(document.query('#test7'), dataModel3, strip);
-    treemap = new TreeMap(document.query('#test8'), dataModel4, strip);
-
-//    Test with collapsed rootArea
-//    treemap = new TreeMap(document.query('#test5'), dataModel2, sliceAndDice);
-
+    treemap = new TreeMap(document.query('#strip01'), dataModel1, strip);
+    treemap = new TreeMap(document.query('#strip02'), dataModel2, strip);
+    treemap = new TreeMap(document.query('#strip03'), dataModel3, strip);
+    treemap = new TreeMap(document.query('#strip04'), dataModel4, strip);
+    
+    treemap = new TreeMap(document.query('#squarified01'), dataModel1, squarified);
+    treemap = new TreeMap(document.query('#squarified02'), dataModel2, squarified);
+    treemap = new TreeMap(document.query('#squarified03'), dataModel3, squarified);
+    treemap = new TreeMap(document.query('#squarified04'), dataModel4, squarified);
 }

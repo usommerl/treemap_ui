@@ -5,23 +5,21 @@ html * {
    font-size: 1em;
 }
 
-@mixin float {
-  float: left;
+@mixin marginBottom {
+  margin-bottom: $spacerSize;
 }
 
 .treemap {
   width: $treemapSize;
   height: $treemapSize;
-  @include float;
+  margin-right: $spacerSize;
+  @include marginBottom;
+  float: left;
 }
 
-.vSpacer {
-  width: $spacerSize;
-  height: $treemapSize;
-  @include float;
-}
-
-.hSpacer {
-  height: $spacerSize;
+.description {
+  @include marginBottom;
   clear: both;
 }
+
+
