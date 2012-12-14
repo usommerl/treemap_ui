@@ -13,16 +13,13 @@ abstract class LayoutAlgorithm {
   void layout(ViewNode parent);
   
   /**
-   *  Calculates [part] as percentage of [total].
+   *  Calculates [amount] as percentage of [total].
    */
-  num _percentageValue(num total, num part) {
-    assert(total >= part && part >= 0);    
-    return (part / total) * 100;
+  num _percentageValue(num amount, num total) {
+    assert(total >= amount && amount >= 0);    
+    return (amount / total) * 100;
   }
   
-  /**
-   * Calculates the absolute 
-   */
   num _absoluteValue(num totalAmount, num percentageValue) {
     assert(percentageValue >= 0 && percentageValue <= 100);
     assert(totalAmount > 0);
@@ -40,7 +37,7 @@ abstract class LayoutAlgorithm {
   
   /**
    * Calculates the aspect ratios for every element of [childrenSubset] as if  
-   * it is placed inside the [ViewNode] [parent].
+   * the child is placed inside the [ViewNode] [parent].
    * 
    **/
   List<num> _aspectRatios(ViewNode parent, Collection<DataModel> childrenSubset) {
@@ -51,9 +48,9 @@ abstract class LayoutAlgorithm {
       assert(childrenSubset.every((child) {return parent.model.children.contains(child);}));
       List<num> aspectRatios = new List();
       final num sumOfAllChildren = childrenSubset.reduce(0, (acc,model) => acc + model.size);
-      var x = _absoluteValue(parent.clientHeight, _percentageValue(parent.model.size, sumOfAllChildren));
+      var x = _absoluteValue(parent.clientHeight, _percentageValue(sumOfAllChildren, parent.model.size));
       childrenSubset.forEach((child) {
-        var y = _absoluteValue(parent.clientWidth,_percentageValue(sumOfAllChildren, child.size));
+        var y = _absoluteValue(parent.clientWidth,_percentageValue(child.size, sumOfAllChildren));
         aspectRatios.add(_aspectRatio(x, y));
       });
       return aspectRatios;      
@@ -62,10 +59,10 @@ abstract class LayoutAlgorithm {
   
   void _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation orientation) {
     final num sumOfAllModels = dataModels.reduce(0, (acc,model) => acc + model.size);
-    var dimensionRow = _percentageValue(dataModels.first.parent.size, sumOfAllModels);
+    var dimensionRow = _percentageValue(sumOfAllModels, dataModels.first.parent.size);
     Row row = new Row(dimensionRow, orientation, parent);
     dataModels.forEach((model) {
-      var dimensionNode = _percentageValue(sumOfAllModels, model.size);
+      var dimensionNode = _percentageValue(model.size, sumOfAllModels);
       var height = orientation.isHorizontal() ? 100 : dimensionNode;
       var width = orientation.isHorizontal() ? dimensionNode : 100;
       var node = new ViewNode(model, width, height, orientation);
