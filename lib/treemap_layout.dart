@@ -8,27 +8,36 @@ part 'src/layout/strip.dart';
 part 'src/layout/slice_and_dice.dart';
 part 'src/layout/squarified.dart';
 
+/**
+ * Base class for all concrete layout algorithm implementations.
+ * 
+ */
 abstract class LayoutAlgorithm {
-
+  
+  /**
+   * Partitions the area occupied by [parent] according to the concrete 
+   * implementation and places a [ViewNode] instance for every child of [parent].
+   */
   void layout(ViewNode parent);
   
   /**
-   *  Calculates [amount] as percentage of [total].
+   *  Calculates [amount] as percentage of [basicValue].
    */
-  num _percentageValue(num amount, num total) {
-    assert(total >= amount && amount >= 0);    
-    return (amount / total) * 100;
+  num _percentage(num amount, num basicValue) {
+    assert(basicValue >= amount && amount >= 0);    
+    return (amount / basicValue) * 100;
   }
   
-  num _absoluteValue(num totalAmount, num percentageValue) {
-    assert(percentageValue >= 0 && percentageValue <= 100);
-    assert(totalAmount > 0);
-    return (totalAmount / 100) * percentageValue;
+  /**
+   *  Calculates the percentage value from [basicValue] and [percentage].
+   */
+  num _percentageValue(num basicValue, num percentage) {
+    assert(percentage >= 0 && percentage <= 100);
+    return (basicValue / 100) * percentage;
   }
 
   /**
    * Calculates the aspect ratio for the provided [width] and [height] arguments.
-   * 
    */
   num _aspectRatio(num width, num height) {
     assert(width > 0 && height > 0);
@@ -37,7 +46,7 @@ abstract class LayoutAlgorithm {
   
   /**
    * Calculates the aspect ratios for every element of [childrenSubset] as if  
-   * the child is placed inside the [ViewNode] [parent].
+   * all of them are placed inside the [parent] [ViewNode].
    * 
    **/
   List<num> _aspectRatios(ViewNode parent, Collection<DataModel> childrenSubset) {
@@ -47,22 +56,28 @@ abstract class LayoutAlgorithm {
     } else {
       assert(childrenSubset.every((child) {return parent.model.children.contains(child);}));
       List<num> aspectRatios = new List();
-      final num sumOfAllChildren = childrenSubset.reduce(0, (acc,model) => acc + model.size);
-      var x = _absoluteValue(parent.clientHeight, _percentageValue(sumOfAllChildren, parent.model.size));
+      final num sumChildrenSizes = childrenSubset.reduce(0, (acc,model) => acc + model.size);
+      var x = _percentageValue(parent.clientHeight, _percentage(sumChildrenSizes, parent.model.size));
       childrenSubset.forEach((child) {
-        var y = _absoluteValue(parent.clientWidth,_percentageValue(child.size, sumOfAllChildren));
+        var y = _percentageValue(parent.clientWidth, _percentage(child.size, sumChildrenSizes));
         aspectRatios.add(_aspectRatio(x, y));
       });
       return aspectRatios;      
     }
   }
   
+  /**
+   *  Creates [ViewNode] instances for the provided [dataModels] and places them 
+   *  inside [parent] along a invisible row.
+   * 
+   *  The parameter [orientation] determines the layout direction of the row.
+   */
   void _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation orientation) {
-    final num sumOfAllModels = dataModels.reduce(0, (acc,model) => acc + model.size);
-    var dimensionRow = _percentageValue(sumOfAllModels, dataModels.first.parent.size);
+    final num sumModelSizes = dataModels.reduce(0, (acc,model) => acc + model.size);
+    var dimensionRow = _percentage(sumModelSizes, dataModels.first.parent.size);
     Row row = new Row(dimensionRow, orientation, parent);
     dataModels.forEach((model) {
-      var dimensionNode = _percentageValue(model.size, sumOfAllModels);
+      var dimensionNode = _percentage(model.size, sumModelSizes);
       var height = orientation.isHorizontal() ? 100 : dimensionNode;
       var width = orientation.isHorizontal() ? dimensionNode : 100;
       var node = new ViewNode(model, width, height, orientation);
