@@ -1,4 +1,4 @@
-part of treemapView; 
+part of treemapView;
 
 class ViewNode {
 
@@ -46,6 +46,8 @@ class ViewNode {
     _nodeLabel.style..marginAfter = "0px"
         ..marginBefore = "0px";
     _nodeLabel.text = this._model.title;
+    _container.classes.add(this.runtimeType.toString());
+    _container.classes.add(this._orientation.toString());
     if (_model.isLeaf()) {
       _createLeafNode();
     } else {
@@ -70,7 +72,7 @@ class ViewNode {
     _nodeLabel.align = "center";
     _container.style.backgroundColor = "#999";
     _content = new DivElement();
-    _content.style..boxSizing = "border-box"
+    _content.style
         ..margin = "0px"
         ..padding = "0px"
         ..position = "absolute"

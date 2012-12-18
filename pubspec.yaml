@@ -1,7 +1,5 @@
 name: treemap
 author: Uwe Sommerlatt <uwe.sommerlatt@gmail.com>
-version: 0.0.0
+version: 0.0.1
 dependencies:
-  unittest: { sdk: unittest }
-  args: { sdk: args }
-  logging: { sdk: logging }
+  unittest: 0.2.9+7

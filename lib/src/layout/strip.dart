@@ -9,7 +9,7 @@ part of treemapLayout;
 class Strip extends LayoutAlgorithm {
 
   Orientation _stripOrientation;
-  
+
   Strip([this._stripOrientation]);
 
   void layout(ViewNode parent) {
@@ -36,8 +36,8 @@ class Strip extends LayoutAlgorithm {
 
   Orientation _determineStripOrientation(ViewNode parent) {
     if (_stripOrientation == null) {
-      _stripOrientation = parent.clientWidth >= parent.clientHeight ? 
-          Orientation.HORIZONTAL : 
+      _stripOrientation = parent.clientWidth >= parent.clientHeight ?
+          Orientation.HORIZONTAL :
           Orientation.VERTICAL;
     }
     return _stripOrientation;
@@ -47,5 +47,49 @@ class Strip extends LayoutAlgorithm {
     var aspectRatios = _aspectRatios(parent, dataModels);
     return aspectRatios.isEmpty ? 0 :
           aspectRatios.reduce(0, (acc, e) => acc + e) / aspectRatios.length;
+  }
+
+  /**
+   * Calculates the aspect ratios for every element of [childrenSubset] as if
+   * all of them are placed inside the [parent] [ViewNode].
+   *
+   **/
+  List<num> _aspectRatios(ViewNode parent, Collection<DataModel> childrenSubset) {
+    assert(parent.clientWidth > 0 && parent.clientHeight > 0);
+    if (childrenSubset.isEmpty) {
+      return [];
+    } else {
+      assert(childrenSubset.every((child) {return parent.model.children.contains(child);}));
+      List<num> aspectRatios = new List();
+      final num sumChildrenSizes = childrenSubset.reduce(0, (acc,model) => acc + model.size);
+      var x = percentageValue(parent.clientHeight, percentage(sumChildrenSizes, parent.model.size));
+      childrenSubset.forEach((child) {
+        var y = percentageValue(parent.clientWidth, percentage(child.size, sumChildrenSizes));
+        aspectRatios.add(_aspectRatio(x, y));
+      });
+      return aspectRatios;
+    }
+  }
+
+  /**
+   *  Creates [ViewNode] instances for the provided [dataModels] and places them
+   *  inside [parent] along a invisible row.
+   *
+   *  The parameter [orientation] determines the layout direction of the row.
+   */
+  void _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation orientation) {
+    final num sumModelSizes = dataModels.reduce(0, (acc,model) => acc + model.size);
+    var dimensionRow = percentage(sumModelSizes, dataModels.first.parent.size);
+    Row row = new Row.forStripLayout(dimensionRow, orientation, parent);
+    dataModels.forEach((model) {
+      var dimensionNode = percentage(model.size, sumModelSizes);
+      var height = orientation.isHorizontal() ? 100 : dimensionNode;
+      var width = orientation.isHorizontal() ? dimensionNode : 100;
+      var node = new ViewNode(model, width, height, orientation);
+      row.add(node);
+      if (!model.isLeaf()) {
+        layout(node);
+      }
+    });
   }
 }
