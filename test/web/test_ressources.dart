@@ -16,4 +16,6 @@ class TestRessources {
                                      new Leaf(10, '13'), new Leaf(10, '14')], 'root');
   
   static final List<DataModel> testDataModels = [dataModel0,dataModel1,dataModel2,dataModel3];
+  
+  static final List<LayoutAlgorithm> layoutAlgorithms = [new SliceAndDice(), new Strip(), new Squarified()]; 
 }

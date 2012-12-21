@@ -9,6 +9,7 @@ class Squarified extends LayoutAlgorithm {
       num availableWidthPercentage = 100.0;
       num availableHeightPercentage = 100.0;
       while(!queue.isEmpty) {
+        num consumedPercentage = 0;
         final model = queue.removeFirst();
         final previousRow = new List.from(currentRow);
         currentRow.add(model);
@@ -17,7 +18,6 @@ class Squarified extends LayoutAlgorithm {
         final rowOrientation = _determineRowOrientation(availableWidth, availableHeight);
         final prevWorstAspectRatio = _worstAspectRatio(availableWidth, availableHeight, parent, previousRow);
         final currWorstAspectRatio = _worstAspectRatio(availableWidth, availableHeight, parent, currentRow);
-        num consumedPercentage = 0;
         if (!previousRow.isEmpty && prevWorstAspectRatio < currWorstAspectRatio) {
           consumedPercentage = _layoutRow(parent, previousRow, rowOrientation, availableWidthPercentage, availableHeightPercentage);
           currentRow.clear();
