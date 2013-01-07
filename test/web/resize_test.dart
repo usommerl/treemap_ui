@@ -25,7 +25,7 @@ List<LayoutAlgorithm> algorithms = [sliceAndDice, strip, squarified];
 main() {
   prepareDocument("Resize Test");
   modelSelect.value = "dataModel3";
-  
+
   widthSlider.on.change.add((e) {
     var size = widthSlider.valueAsNumber;
     treemapContainer.style.width = "${size}px";
@@ -41,7 +41,7 @@ main() {
     createNewTreemap(selectedAlgorithm(), selectedModel());
   });
   createNewTreemap(selectedAlgorithm(), selectedModel());
-  
+
 }
 
 void prepareDocument(String documentTitle) {
@@ -50,13 +50,13 @@ void prepareDocument(String documentTitle) {
   treemapContainer = new Element.html("<div id=${treemapContainerId} style='width:${initialSize}px;height:${initialSize}px;'></div>");
   widthSlider = new RangeInputElement();
   widthSlider
-     ..min = min 
+     ..min = min
      ..max = max
      ..value = initialSize.toString()
      ..step = step;
   heightSlider = new RangeInputElement();
   heightSlider
-     ..min = min 
+     ..min = min
      ..max = max
      ..value = initialSize.toString()
      ..step = step;

@@ -26,14 +26,10 @@ class SliceAndDice extends LayoutAlgorithm {
       Queue<DataModel> queue = new Queue.from(parent.model.children);
       while (!queue.isEmpty) {
         DataModel model = queue.removeFirst();
-        ViewNode node;
-        num percentageA = 100;
-        num percentageB = percentage(model.size, parent.model.size);
-        if (model.depth % 2 == _remainderVerticalOrientation) {
-          node = new ViewNode(model, percentageA, percentageB, Orientation.VERTICAL);
-        } else {
-          node = new ViewNode(model, percentageB, percentageA, Orientation.HORIZONTAL);
-        }
+        final p = new Percentage.from(model.size, parent.model.size);
+        final node = model.depth % 2 == _remainderVerticalOrientation ?
+            new ViewNode(model, Percentage.p100, p, Orientation.VERTICAL) :
+            new ViewNode(model, p, Percentage.p100, Orientation.HORIZONTAL);
         parent.add(node);
         if (!model.isLeaf()) {
           layout(node);

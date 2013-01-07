@@ -3,7 +3,7 @@ library treemapTestRessources;
 import 'package:treemap/treemap.dart';
 
 class TestRessources {
-  
+
   static final DataModel dataModel0 = new Leaf(10, '1');
   static final DataModel dataModel1 = new Branch([DataModel.copy(dataModel0), new Leaf(20,'2'), new Leaf(100,'3')],"branch");
   static final DataModel dataModel2 = new Branch([new Leaf(70,'4'), DataModel.copy(dataModel1)],"root");
@@ -14,8 +14,7 @@ class TestRessources {
                                      new Leaf(731, '9'), new Leaf(384, '10'),
                                      new Leaf(450, '11'), new Leaf(10, '12'),
                                      new Leaf(10, '13'), new Leaf(10, '14')], 'root');
-  
+
   static final List<DataModel> testDataModels = [dataModel0,dataModel1,dataModel2,dataModel3];
-  
-  static final List<LayoutAlgorithm> layoutAlgorithms = [new SliceAndDice(), new Strip(), new Squarified()]; 
+  static final List<LayoutAlgorithm> layoutAlgorithms = [new SliceAndDice(), new Strip(), new Squarified()];
 }

@@ -62,9 +62,9 @@ class Strip extends LayoutAlgorithm {
       assert(childrenSubset.every((child) {return parent.model.children.contains(child);}));
       List<num> aspectRatios = new List();
       final num sumChildrenSizes = childrenSubset.reduce(0, (acc,model) => acc + model.size);
-      var x = percentageValue(parent.clientHeight, percentage(sumChildrenSizes, parent.model.size));
+      final x = new Percentage.from(sumChildrenSizes, parent.model.size).percentageValue(parent.clientHeight);
       childrenSubset.forEach((child) {
-        var y = percentageValue(parent.clientWidth, percentage(child.size, sumChildrenSizes));
+        final y = new Percentage.from(child.size, sumChildrenSizes).percentageValue(parent.clientWidth);
         aspectRatios.add(_aspectRatio(x, y));
       });
       return aspectRatios;
@@ -78,14 +78,14 @@ class Strip extends LayoutAlgorithm {
    *  The parameter [orientation] determines the layout direction of the row.
    */
   void _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation orientation) {
-    final num sumModelSizes = dataModels.reduce(0, (acc,model) => acc + model.size);
-    var dimensionRow = percentage(sumModelSizes, dataModels.first.parent.size);
+    final sumModelSizes = dataModels.reduce(0, (acc,model) => acc + model.size);
+    final dimensionRow = new Percentage.from(sumModelSizes, dataModels.first.parent.size);
     Row row = new Row.forStripLayout(dimensionRow, orientation, parent);
     dataModels.forEach((model) {
-      var dimensionNode = percentage(model.size, sumModelSizes);
-      var height = orientation.isHorizontal() ? 100 : dimensionNode;
-      var width = orientation.isHorizontal() ? dimensionNode : 100;
-      var node = new ViewNode(model, width, height, orientation);
+      final dimensionNode = new Percentage.from(model.size, sumModelSizes);
+      final height = orientation.isHorizontal() ? Percentage.p100 : dimensionNode;
+      final width = orientation.isHorizontal() ? dimensionNode : Percentage.p100;
+      final node = new ViewNode(model, width, height, orientation);
       row.add(node);
       if (!model.isLeaf()) {
         layout(node);

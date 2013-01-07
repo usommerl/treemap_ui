@@ -6,15 +6,15 @@ class Squarified extends LayoutAlgorithm {
     if (!parent.model.isLeaf()) {
       List<DataModel> currentRow = [];
       Queue<DataModel> queue = new Queue.from(_descendingSortedCopy(parent.model.children));
-      num availableWidthPercentage = 100.0;
-      num availableHeightPercentage = 100.0;
+      var availableWidthPercentage = Percentage.p100;
+      var availableHeightPercentage = Percentage.p100;
       while(!queue.isEmpty) {
-        num consumedPercentage = 0;
+        var consumedPercentage = Percentage.p0;
         final model = queue.removeFirst();
         final previousRow = new List.from(currentRow);
         currentRow.add(model);
-        final availableWidth = _computeAvailableWidth(parent, availableWidthPercentage);
-        final availableHeight = _computeAvailableHeight(parent, availableHeightPercentage);
+        final availableWidth = availableWidthPercentage.percentageValue(parent.clientWidth);
+        final availableHeight = availableHeightPercentage.percentageValue(parent.clientHeight);
         final rowOrientation = _determineRowOrientation(availableWidth, availableHeight);
         final prevWorstAspectRatio = _worstAspectRatio(availableWidth, availableHeight, parent, previousRow);
         final currWorstAspectRatio = _worstAspectRatio(availableWidth, availableHeight, parent, currentRow);
@@ -41,7 +41,7 @@ class Squarified extends LayoutAlgorithm {
   }
 
   num _worstAspectRatio(num availableWidth, num availableHeight, ViewNode parent, Collection<DataModel> dataModels) {
-    var aspectRatios = availableWidth >= availableHeight ? 
+    var aspectRatios = availableWidth >= availableHeight ?
         _aspectRatios(availableWidth, availableHeight, parent, dataModels) :
         _aspectRatios(availableHeight, availableWidth, parent, dataModels);
     return aspectRatios.reduce(0, (acc,ratio) => max(acc,ratio));
@@ -58,35 +58,35 @@ class Squarified extends LayoutAlgorithm {
       final remainingModels = childrenSubset.iterator().next().parent.children.filter((child) => !alreadyPlacedModels.contains(child));
       final num sumChildrenSizes = childrenSubset.reduce(0, (acc,model) => acc + model.size);
       final num sumModelSizesRemaining = remainingModels.reduce(0, (acc, model) => acc + model.size);
-      var x = percentageValue(longEdge, percentage(sumChildrenSizes, sumModelSizesRemaining));
+      final x = new Percentage.from(sumChildrenSizes, sumModelSizesRemaining).percentageValue(longEdge);
       childrenSubset.forEach((child) {
-        var y = percentageValue(shortEdge, percentage(child.size, sumChildrenSizes));
+        final y = new Percentage.from(child.size, sumChildrenSizes).percentageValue(shortEdge);
         aspectRatios.add(_aspectRatio(x, y));
       });
       return aspectRatios;
     }
   }
 
-  num _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation rowOrientation, num availableWidthPercentage, num availableHeightPercentage) {
+  Percentage _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation rowOrientation, Percentage availableWidthPercentage, Percentage availableHeightPercentage) {
     Row row;
-    num percentageConsumedByRow;
+    Percentage percentageConsumedByRow;
     final alreadyPlacedModels = parent.children.map((viewNode) => viewNode.model);
     final remainingModels = dataModels.first.parent.children.filter((child) => !alreadyPlacedModels.contains(child));
     final num sumModelSizesRow = dataModels.reduce(0, (acc,model) => acc + model.size);
     final num sumModelSizesRemaining = remainingModels.reduce(0, (acc, model) => acc + model.size);
-    final percentageOfAvailableArea = percentage(sumModelSizesRow, sumModelSizesRemaining);
+    final percentageOfAvailableArea = new Percentage.from(sumModelSizesRow, sumModelSizesRemaining);
     if (rowOrientation.isHorizontal()) {
-      percentageConsumedByRow = availableHeightPercentage * (percentageOfAvailableArea / 100.0);
+      percentageConsumedByRow = percentageOfAvailableArea.of(availableHeightPercentage);
       row = new Row.forSquarifiedLayout(availableWidthPercentage, percentageConsumedByRow, parent);
     } else {
-      percentageConsumedByRow = availableWidthPercentage * (percentageOfAvailableArea / 100.0);
+      percentageConsumedByRow = percentageOfAvailableArea.of(availableWidthPercentage);
       row = new Row.forSquarifiedLayout(percentageConsumedByRow, availableHeightPercentage, parent);
     }
     row.classes.add(rowOrientation.toString());
     dataModels.forEach((model) {
-      var percentageNode = percentage(model.size, sumModelSizesRow);
-      var height = rowOrientation.isHorizontal() ? 100 : percentageNode;
-      var width = rowOrientation.isHorizontal() ? percentageNode : 100;
+      var percentageNode = new Percentage.from(model.size, sumModelSizesRow);
+      var height = rowOrientation.isHorizontal() ? Percentage.p100 : percentageNode;
+      var width = rowOrientation.isHorizontal() ? percentageNode : Percentage.p100;
       var node = new ViewNode(model, width, height, rowOrientation);
       row.add(node);
       if (!model.isLeaf()) {
@@ -108,14 +108,6 @@ class Squarified extends LayoutAlgorithm {
       }
     });
     return copy;
-  }
-  
-  num _computeAvailableHeight(ViewNode node, num availableHeightPercentage) {
-    return percentageValue(node.clientHeight, availableHeightPercentage);
-  }
-  
-  num _computeAvailableWidth(ViewNode node, num availableWidthPercentage) {
-    return percentageValue(node.clientWidth, availableWidthPercentage);
   }
 
 }

@@ -15,7 +15,7 @@ class Orientation {
   bool isHorizontal() => !isVertical();
 
   bool equals(Orientation other) => this._value == other._value;
-  
+
   String toString() => this.isHorizontal() ? "horizontalOrientation" : "verticalOrientation";
 
 }

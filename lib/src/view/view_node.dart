@@ -16,11 +16,9 @@ class ViewNode {
   String borderColor = "black";
   String borderStyle;
 
-  ViewNode(this._model, num width, num height, [this._orientation]) {
+  ViewNode(this._model, Percentage width, Percentage height, [this._orientation]) {
     assert(this._model != null);
     assert(this._orientation != null);
-    assert(width > 0 && width <= 100);
-    assert(height > 0 && width <= 100);
     _initNode(width, height);
   }
 
@@ -28,11 +26,11 @@ class ViewNode {
     assert(this._model.isRoot());
     assert(rootArea.clientHeight > 0);
     assert(rootArea.children.length == 0);
-    _initNode(100, 100);
+    _initNode(Percentage.p100, Percentage.p100);
     rootArea.append(this._container);
   }
 
-  void _initNode(num width, num height) {
+  void _initNode(Percentage width, Percentage height) {
     borderStyle = "${borderSize}px solid ${borderColor}";
     _container = new DivElement();
     _container.style..boxSizing = "border-box"
@@ -40,8 +38,8 @@ class ViewNode {
         ..position = "relative"
         ..float = _orientation.isVertical() ? "none" : "left"
         ..overflow = "hidden"
-        ..width = "${width}%"
-        ..height = "${height}%";
+        ..width = width.toString()
+        ..height = height.toString();
     _nodeLabel = new ParagraphElement();
     _nodeLabel.style..marginAfter = "0px"
         ..marginBefore = "0px";

@@ -9,12 +9,9 @@ const margin = 7;
 
 main() {
     prepareDocument("Visual Tests");
-    final sliceAndDice = new SliceAndDice();
-    final strip = new Strip();
-    final squarified = new Squarified();
-    List<LayoutAlgorithm> algorithms = [squarified, strip, sliceAndDice];
+    List<LayoutAlgorithm> algorithms = TestRessources.layoutAlgorithms;
     List<DataModel> models = TestRessources.testDataModels;
-    
+
     algorithms.forEach((algorithm) {
       final algorithmName = algorithm.runtimeType.toString();
       final description = new Element.html("<div class='${descriptionClass}'>${algorithmName} Algorithm</div>");
