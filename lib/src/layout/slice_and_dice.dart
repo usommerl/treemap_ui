@@ -1,4 +1,4 @@
-part of treemapLayout;
+part of treemap_layout;
 
 /**
  * Implementation of the Slice-and-dice algorithm. For further details see

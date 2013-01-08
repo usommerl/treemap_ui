@@ -1,4 +1,4 @@
-part of treemapLayout;
+part of treemap_layout;
 
 class Squarified extends LayoutAlgorithm {
 
@@ -67,33 +67,30 @@ class Squarified extends LayoutAlgorithm {
     }
   }
 
-  Percentage _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation rowOrientation, Percentage availableWidthPercentage, Percentage availableHeightPercentage) {
-    Row row;
-    Percentage percentageConsumedByRow;
+  Percentage _layoutRow(ViewNode parent, List<DataModel> dataModels, Orientation rowOrientation, Percentage availableWidth, Percentage availableHeight) {
     final alreadyPlacedModels = parent.children.map((viewNode) => viewNode.model);
     final remainingModels = dataModels.first.parent.children.filter((child) => !alreadyPlacedModels.contains(child));
     final num sumModelSizesRow = dataModels.reduce(0, (acc,model) => acc + model.size);
     final num sumModelSizesRemaining = remainingModels.reduce(0, (acc, model) => acc + model.size);
-    final percentageOfAvailableArea = new Percentage.from(sumModelSizesRow, sumModelSizesRemaining);
-    if (rowOrientation.isHorizontal()) {
-      percentageConsumedByRow = percentageOfAvailableArea.of(availableHeightPercentage);
-      row = new Row.forSquarifiedLayout(availableWidthPercentage, percentageConsumedByRow, parent);
-    } else {
-      percentageConsumedByRow = percentageOfAvailableArea.of(availableWidthPercentage);
-      row = new Row.forSquarifiedLayout(percentageConsumedByRow, availableHeightPercentage, parent);
-    }
+    final percentageRowItems = new Percentage.from(sumModelSizesRow, sumModelSizesRemaining);
+    final consumedPercentage = rowOrientation.isHorizontal() ?
+        percentageRowItems.of(availableHeight):
+        percentageRowItems.of(availableWidth);
+    final row = rowOrientation.isHorizontal() ?
+        new Row.forSquarifiedLayout(availableWidth, consumedPercentage, parent):
+        new Row.forSquarifiedLayout(consumedPercentage, availableHeight, parent);
     row.classes.add(rowOrientation.toString());
     dataModels.forEach((model) {
-      var percentageNode = new Percentage.from(model.size, sumModelSizesRow);
-      var height = rowOrientation.isHorizontal() ? Percentage.p100 : percentageNode;
-      var width = rowOrientation.isHorizontal() ? percentageNode : Percentage.p100;
-      var node = new ViewNode(model, width, height, rowOrientation);
+      final percentageNode = new Percentage.from(model.size, sumModelSizesRow);
+      final height = rowOrientation.isHorizontal() ? Percentage.p100 : percentageNode;
+      final width = rowOrientation.isHorizontal() ? percentageNode : Percentage.p100;
+      final node = new ViewNode(model, width, height, rowOrientation);
       row.add(node);
       if (!model.isLeaf()) {
         layout(node);
       }
     });
-    return percentageConsumedByRow;
+    return consumedPercentage;
   }
 
   Collection<DataModel> _descendingSortedCopy(Collection<DataModel> original) {

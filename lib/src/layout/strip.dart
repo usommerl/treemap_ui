@@ -1,4 +1,4 @@
-part of treemapLayout;
+part of treemap_layout;
 
 /**
  * Implementation of the strip algorithm. For further details see

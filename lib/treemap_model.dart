@@ -1,4 +1,4 @@
-library treemapModel;
+library treemap_model;
 
 abstract class DataModel {
 

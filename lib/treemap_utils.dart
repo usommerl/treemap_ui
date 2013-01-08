@@ -1,4 +1,4 @@
-library treemapUtils;
+library treemap_utils;
 
 
 class Percentage {
@@ -20,7 +20,7 @@ class Percentage {
   
   num percentageValue(num basicValue) => (basicValue / 100) * this._p;
   
-  Percentage of(Percentage other) => new Percentage._internal((this._p / 100.0) * other._p);
+  Percentage of(Percentage other) => new Percentage._internal(this.percentageValue(other._p));
   
   operator +(Percentage other) => new Percentage._internal(this._p + other._p);
   

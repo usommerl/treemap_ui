@@ -1,4 +1,4 @@
-part of treemapView;
+part of treemap_view;
 
 class ViewNode {
 
