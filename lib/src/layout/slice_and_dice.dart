@@ -12,7 +12,7 @@ class SliceAndDice extends LayoutAlgorithm {
 
   SliceAndDice([Orientation initialOrientation]){
     if (initialOrientation == null) {
-      initialOrientation = Orientation.VERTICAL;
+      initialOrientation = Orientation.vertical;
     }
     if (initialOrientation.isVertical()) {
       _remainderVerticalOrientation = 0;
@@ -21,15 +21,15 @@ class SliceAndDice extends LayoutAlgorithm {
     }
   }
 
-  void layout(ViewNode parent) {
+  void layout(TreemapNode parent) {
     if (!parent.model.isLeaf()) {
       Queue<DataModel> queue = new Queue.from(parent.model.children);
       while (!queue.isEmpty) {
         DataModel model = queue.removeFirst();
         final p = new Percentage.from(model.size, parent.model.size);
         final node = model.depth % 2 == _remainderVerticalOrientation ?
-            new ViewNode(model, Percentage.p100, p, Orientation.VERTICAL) :
-            new ViewNode(model, p, Percentage.p100, Orientation.HORIZONTAL);
+            new TreemapNode(model, Percentage.x100, p, Orientation.vertical) :
+            new TreemapNode(model, p, Percentage.x100, Orientation.horizontal);
         parent.add(node);
         if (!model.isLeaf()) {
           layout(node);

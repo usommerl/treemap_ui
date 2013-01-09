@@ -10,12 +10,12 @@ export 'treemap_layout.dart';
 class TreeMap{
 
    DivElement rootArea;
-   ViewNode rootNode;
+   TreemapNode rootNode;
    DataModel dataModel;
    LayoutAlgorithm algorithm;
 
    TreeMap(this.rootArea, this.dataModel, this.algorithm) {
-     rootNode = new ViewNode.from(rootArea, dataModel);
+     rootNode = new TreemapNode.root(rootArea, dataModel);
      algorithm.layout(rootNode);
    }
 }
