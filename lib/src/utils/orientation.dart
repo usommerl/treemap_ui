@@ -11,12 +11,12 @@ class Orientation {
 
   Orientation._internal(this._value);
 
-  bool isVertical() => this._value == _VERTICAL_VALUE;
+  bool get isVertical => this._value == _VERTICAL_VALUE;
 
-  bool isHorizontal() => !isVertical();
+  bool get isHorizontal => !isVertical;
   
   bool operator ==(Orientation other) => this._value == other._value;
 
-  String toString() => this.isHorizontal() ? "horizontal" : "vertical";
+  String toString() => this.isHorizontal ? "horizontal" : "vertical";
 
 }

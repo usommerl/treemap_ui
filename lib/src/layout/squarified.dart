@@ -30,7 +30,7 @@ class Squarified extends RowBasedLayoutAlgorithms {
     final num sumModels = rowModels.reduce(0, (acc,model) => acc + model.size);
     final num sumNotPlacedModels = _notPlacedModels(parent).reduce(0, (acc, model) => acc + model.size);
     final percentageRowItems = new Percentage.from(sumModels, sumNotPlacedModels);
-    final row = orientation.isHorizontal() ?
+    final row = orientation.isHorizontal ?
         new LayoutHelper.rowSquarified(availableWidthPercentage, percentageRowItems.of(availableHeightPercentage), parent, orientation):
         new LayoutHelper.rowSquarified(percentageRowItems.of(availableWidthPercentage), availableHeightPercentage, parent, orientation);
     rowModels.forEach((model) {

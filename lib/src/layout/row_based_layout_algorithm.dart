@@ -9,12 +9,12 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
       _availableHeightPercentage(node).percentageValue(node.clientHeight);
   
   Percentage _availableWidthPercentage(TreemapNode node) {
-    final verticalRows = node.layoutHelpers.filter((row) => row.orientation.isVertical());
+    final verticalRows = node.layoutHelpers.filter((row) => row.orientation.isVertical);
     return Percentage.x100 - verticalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.width);
   }
   
   Percentage _availableHeightPercentage (TreemapNode node) {
-    final horizontalRows = node.layoutHelpers.filter((row) => row.orientation.isHorizontal());
+    final horizontalRows = node.layoutHelpers.filter((row) => row.orientation.isHorizontal);
     return Percentage.x100 - horizontalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.height);
   }
   
@@ -43,8 +43,8 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
     } else {
       assert(models.every((child) => parent.model.children.contains(child)));
       List<num> aspectRatios = new List();
-      final shortEdge = orientation.isVertical() ? _availableWidth(parent) : _availableHeight(parent);
-      final longEdge = orientation.isVertical() ? _availableHeight(parent) : _availableWidth(parent);
+      final shortEdge = orientation.isVertical ? _availableWidth(parent) : _availableHeight(parent);
+      final longEdge = orientation.isVertical ? _availableHeight(parent) : _availableWidth(parent);
       final sumModels = models.reduce(0, (acc,model) => acc + model.size);
       final sumNotPlacedModels = _notPlacedModels(parent).reduce(0, (acc, model) => acc + model.size);
       final x = new Percentage.from(sumModels, sumNotPlacedModels).percentageValue(shortEdge);
@@ -57,8 +57,8 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
   }
   
   TreemapNode _createNodeForRow(DataModel model, Percentage sizeNode, Orientation orientation) {
-    final height = orientation.isHorizontal() ? Percentage.x100 : sizeNode;
-    final width = orientation.isHorizontal() ? sizeNode : Percentage.x100;
+    final height = orientation.isHorizontal ? Percentage.x100 : sizeNode;
+    final width = orientation.isHorizontal ? sizeNode : Percentage.x100;
     return new TreemapNode(model, width, height, orientation);
   }
 }

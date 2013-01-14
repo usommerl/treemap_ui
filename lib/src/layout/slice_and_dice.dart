@@ -14,7 +14,7 @@ class SliceAndDice extends LayoutAlgorithm {
     if (initialOrientation == null) {
       initialOrientation = Orientation.vertical;
     }
-    if (initialOrientation.isVertical()) {
+    if (initialOrientation.isVertical) {
       _remainderVerticalOrientation = 0;
     } else {
       _remainderVerticalOrientation = 1;

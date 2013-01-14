@@ -21,7 +21,7 @@ class TreemapNode {
     container.style..boxSizing = "border-box"
         ..margin = "0px"
         ..position = "relative"
-        ..float = orientation.isVertical() ? "none" : "left"
+        ..float = orientation.isVertical ? "none" : "left"
         ..overflow = "hidden"
         ..width = width.toString()
         ..height = height.toString();

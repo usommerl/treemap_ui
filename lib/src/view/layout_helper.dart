@@ -20,7 +20,7 @@ class LayoutHelper {
 
   factory LayoutHelper.rowStrip(Percentage size, TreemapNode parent, Orientation orientation) {
     LayoutHelper row;
-    if (orientation.isHorizontal()) {
+    if (orientation.isHorizontal) {
       row = new LayoutHelper._internal(Percentage.x100, size, parent, orientation);
       row.container.style.float = "none";
     } else {
