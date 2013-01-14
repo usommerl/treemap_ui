@@ -55,4 +55,10 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
       return aspectRatios;
     }
   }
+  
+  TreemapNode _createNodeForRow(DataModel model, Percentage sizeNode, Orientation orientation) {
+    final height = orientation.isHorizontal() ? Percentage.x100 : sizeNode;
+    final width = orientation.isHorizontal() ? sizeNode : Percentage.x100;
+    return new TreemapNode(model, width, height, orientation);
+  }
 }

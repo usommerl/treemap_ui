@@ -3,7 +3,7 @@ part of treemap_layout;
 class Squarified extends RowBasedLayoutAlgorithms {
   
   void layout(TreemapNode parent) {
-    if (!parent.model.isLeaf()) {
+    if (parent.model.isBranch) {
       List<DataModel> currentRow = [];
       final descendingSizes = ((a,b) => b.size.compareTo(a.size));
       Queue<DataModel> queue = new Queue.from(sortedCopy(parent.model.children, descendingSizes));
@@ -25,11 +25,10 @@ class Squarified extends RowBasedLayoutAlgorithms {
     }
   }
 
-  Orientation _determineOrientation(TreemapNode node) {
-    return _availableWidth(node) > _availableHeight(node) ?
-        Orientation.vertical :
-        Orientation.horizontal;
-  }
+  Orientation _determineOrientation(TreemapNode node) => 
+      _availableWidth(node) > _availableHeight(node) ?
+          Orientation.vertical :
+          Orientation.horizontal;
 
   num _worstAspectRatio(TreemapNode parent, Collection<DataModel> dataModels, Orientation orientation) {
     final aspectRatios = _aspectRatios(parent, dataModels, orientation);
@@ -39,19 +38,16 @@ class Squarified extends RowBasedLayoutAlgorithms {
   void _layoutRow(TreemapNode parent, List<DataModel> rowModels, Orientation orientation) {
     final availableWidthPercentage = _availableWidthPercentage(parent);
     final availableHeightPercentage = _availableHeightPercentage(parent);
-    final num sumModelsRow = rowModels.reduce(0, (acc,model) => acc + model.size);
+    final num sumModels = rowModels.reduce(0, (acc,model) => acc + model.size);
     final num sumNotPlacedModels = _notPlacedModels(parent).reduce(0, (acc, model) => acc + model.size);
-    final percentageRowItems = new Percentage.from(sumModelsRow, sumNotPlacedModels);
+    final percentageRowItems = new Percentage.from(sumModels, sumNotPlacedModels);
     final row = orientation.isHorizontal() ?
         new LayoutHelper.rowSquarified(availableWidthPercentage, percentageRowItems.of(availableHeightPercentage), parent, orientation):
         new LayoutHelper.rowSquarified(percentageRowItems.of(availableWidthPercentage), availableHeightPercentage, parent, orientation);
     rowModels.forEach((model) {
-      final percentageNode = new Percentage.from(model.size, sumModelsRow);
-      final height = orientation.isHorizontal() ? Percentage.x100 : percentageNode;
-      final width = orientation.isHorizontal() ? percentageNode : Percentage.x100;
-      final node = new TreemapNode(model, width, height, orientation);
+      final node = _createNodeForRow(model, new Percentage.from(model.size, sumModels), orientation);
       row.add(node);
-      if (!model.isLeaf()) {
+      if (model.isBranch) {
         layout(node);
       }
     });

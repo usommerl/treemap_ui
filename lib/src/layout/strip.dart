@@ -13,7 +13,7 @@ class Strip extends RowBasedLayoutAlgorithms {
   Strip([this._stripOrientation]);
 
   void layout(TreemapNode parent) {
-    if (!parent.model.isLeaf()) {
+    if (parent.model.isBranch) {
       List<DataModel> currentStrip = [];
       Queue<DataModel> queue = new Queue.from(parent.model.children);
       final stripOrientation = _determineOrientation(parent);
@@ -54,12 +54,9 @@ class Strip extends RowBasedLayoutAlgorithms {
     final dimensionRow = new Percentage.from(sumModelSizes, rowModels.first.parent.size);
     LayoutHelper row = new LayoutHelper.rowStrip(dimensionRow, parent, orientation);
     rowModels.forEach((model) {
-      final dimensionNode = new Percentage.from(model.size, sumModelSizes);
-      final height = orientation.isHorizontal() ? Percentage.x100 : dimensionNode;
-      final width = orientation.isHorizontal() ? dimensionNode : Percentage.x100;
-      final node = new TreemapNode(model, width, height, orientation);
+      final node = _createNodeForRow(model, new Percentage.from(model.size, sumModelSizes), orientation);
       row.add(node);
-      if (!model.isLeaf()) {
+      if (model.isBranch) {
         layout(node);
       }
     });

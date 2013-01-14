@@ -15,39 +15,21 @@ abstract class DataModel {
 
   Branch get parent => _parent;
 
-  Branch get root {
-    if (this.isRoot()) {
-      return this;
-    } else {
-      return this.parent.root;
-    }
-  }
+  Branch get root => this.isRoot ? this : parent.root;
 
-  List<DataModel> get children {
-    if (_children == null) {
-      throw new UnsupportedError("A Leaf has no children");
-    } else {
-      return _children;
-    }
-  }
+  List<DataModel> get children => _children != null ?
+      _children : throw new UnsupportedError("A Leaf has no children");
 
-  num get size {
-    if (this.isLeaf()) {
-      return _size;
-    } else {
-      return this.children.reduce(0, (prev,elem) => prev + elem.size);
-    }
-  }
+  num get size => this.isLeaf ? _size : children.reduce(0, (prev,elem) => prev + elem.size);
 
-  int get depth {
-    if (this.isRoot()) {
-      return 0;
-    } else {
-      return 1 + this.parent.depth;
-    }
-  }
+  int get depth => this.isRoot ? 0 : 1 + parent.depth;
 
-  bool isLeaf() {
+  
+  bool get isBranch => !isLeaf;
+
+  bool get isRoot => _parent == null;
+
+  bool get isLeaf {
     try {
       this.children;
     } on UnsupportedError catch (ex) {
@@ -55,20 +37,12 @@ abstract class DataModel {
     }
     return false;
   }
-
-  bool isRoot() => _parent == null;
-
+  
   /**
-   * Creates a deep copy of [other].
-   *
-   * The reference to a potential parent [DataModel] of [other] will **not** be copied to the clone.
-   *
+   * Creates a deep copy of [model].
+   * The reference to a potential parent of [model] will **not** be copied to the clone.
    **/
-  static DataModel copy(DataModel other) {
-    if (other.isLeaf()) {
-      return new Leaf._copy(other);
-    } else {
-      return new Branch._copy(other);
-    }
-  }
+  static DataModel copy(DataModel model) => model.isLeaf ?
+      new Leaf._copy(model) :
+      new Branch._copy(model);
 }

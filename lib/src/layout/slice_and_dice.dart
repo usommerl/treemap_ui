@@ -22,7 +22,7 @@ class SliceAndDice extends LayoutAlgorithm {
   }
 
   void layout(TreemapNode parent) {
-    if (!parent.model.isLeaf()) {
+    if (parent.model.isBranch) {
       Queue<DataModel> queue = new Queue.from(parent.model.children);
       while (!queue.isEmpty) {
         DataModel model = queue.removeFirst();
@@ -31,7 +31,7 @@ class SliceAndDice extends LayoutAlgorithm {
             new TreemapNode(model, Percentage.x100, p, Orientation.vertical) :
             new TreemapNode(model, p, Percentage.x100, Orientation.horizontal);
         parent.add(node);
-        if (!model.isLeaf()) {
+        if (model.isBranch) {
           layout(node);
         }
       }

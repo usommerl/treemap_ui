@@ -29,17 +29,17 @@ class TreemapNode {
     _nodeLabel.style..marginAfter = "0px"
         ..marginBefore = "0px";
     _nodeLabel.text = this.model.title;
-    if (model.isLeaf()) {
+    if (model.isLeaf) {
       _createLeafNode();
     } else {
       _createBranchNode();
     }
     final borderStyle = "${_borderSize}px solid ${_borderColor}";
-    container.style.border = model.isRoot() && !model.isLeaf() ? "0px" : borderStyle;
+    container.style.border = model.isRoot && model.isBranch ? "0px" : borderStyle;
   }
   
   factory TreemapNode.root(DivElement rootHtmlElement, DataModel model) {
-      assert(model.isRoot());
+      assert(model.isRoot);
       assert(rootHtmlElement.clientHeight > 0);
       assert(rootHtmlElement.children.length == 0);
       var rootNode = new TreemapNode(model, Percentage.x100, Percentage.x100, Orientation.vertical);
@@ -56,7 +56,7 @@ class TreemapNode {
 
   void _createBranchNode() {
     var padding;
-    if (model.isRoot()) {
+    if (model.isRoot) {
       padding = 0;
       _nodeLabel.style.display = "none";
     } else {
@@ -142,7 +142,7 @@ class TreemapNode {
   }
 
   void _recalculateContentBox() {
-    if (!model.isLeaf()) { 
+    if (model.isBranch) { 
       _content.style.top = "${_nodeLabel.offsetHeight}px";
     }
   }

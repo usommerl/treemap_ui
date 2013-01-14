@@ -50,11 +50,11 @@ main() {
       expect(branch2.root, equals(branch2));
     });
     test('x.isLeaf()', () {
-      expect(leaf1.isLeaf(), isTrue);
-      expect(leaf2.isLeaf(), isTrue);
-      expect(leaf3.isLeaf(), isTrue);
-      expect(branch1.isLeaf(), isFalse);
-      expect(branch2.isLeaf(), isFalse);
+      expect(leaf1.isLeaf, isTrue);
+      expect(leaf2.isLeaf, isTrue);
+      expect(leaf3.isLeaf, isTrue);
+      expect(branch1.isLeaf, isFalse);
+      expect(branch2.isLeaf, isFalse);
     });
   });
 }
