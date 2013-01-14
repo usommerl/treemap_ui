@@ -8,7 +8,7 @@ part of treemap_layout;
  **/
 class Squarified extends RowBasedLayoutAlgorithms {
   
-  void layout(TreemapNode parent) {
+  void layout(BranchNode parent) {
     assert(parent.model.isBranch);
     List<DataModel> currentRow = [];
     final descendingSizes = ((a,b) => b.size.compareTo(a.size));
@@ -30,7 +30,7 @@ class Squarified extends RowBasedLayoutAlgorithms {
     }
   }
 
-  void _layoutRow(TreemapNode parent, List<DataModel> rowModels, Orientation orientation) {
+  void _layoutRow(BranchNode parent, List<DataModel> rowModels, Orientation orientation) {
     final availableWidthPercentage = _availableWidthPercentage(parent);
     final availableHeightPercentage = _availableHeightPercentage(parent);
     final num sumModels = rowModels.reduce(0, (acc,model) => acc + model.size);
@@ -48,11 +48,11 @@ class Squarified extends RowBasedLayoutAlgorithms {
     });
   }
 
-  Orientation _determineOrientation(TreemapNode node) => 
+  Orientation _determineOrientation(BranchNode node) => 
       _availableWidth(node) > _availableHeight(node) ?
           Orientation.vertical :
           Orientation.horizontal;
       
-  num _worstAspectRatio(TreemapNode parent, Collection<DataModel> models, Orientation orientation) =>
+  num _worstAspectRatio(BranchNode parent, Collection<DataModel> models, Orientation orientation) =>
       _aspectRatios(parent, models, orientation).reduce(0, (accum,ratio) => max(accum,ratio));
 }

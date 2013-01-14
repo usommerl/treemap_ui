@@ -2,28 +2,28 @@ part of treemap_layout;
 
 abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
     
-  num _availableWidth(TreemapNode node) => 
+  num _availableWidth(BranchNode node) => 
       _availableWidthPercentage(node).percentageValue(node.clientWidth);
   
-  num _availableHeight(TreemapNode node) => 
+  num _availableHeight(BranchNode node) => 
       _availableHeightPercentage(node).percentageValue(node.clientHeight);
   
-  Percentage _availableWidthPercentage(TreemapNode node) {
+  Percentage _availableWidthPercentage(BranchNode node) {
     final verticalRows = node.layoutHelpers.filter((row) => row.orientation.isVertical);
     return Percentage.x100 - verticalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.width);
   }
   
-  Percentage _availableHeightPercentage (TreemapNode node) {
+  Percentage _availableHeightPercentage (BranchNode node) {
     final horizontalRows = node.layoutHelpers.filter((row) => row.orientation.isHorizontal);
     return Percentage.x100 - horizontalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.height);
   }
   
   /**
    * Filters the [DataModel] of [node] for children, which have no corresponding
-   * [TreemapNode] instance connecteted to [node]
+   * [TmNode] instance connecteted to [node]
    */
-  List<DataModel> _notPlacedModels(TreemapNode node) {
-    final placedModels = node.children.map((TreemapNode child) => child.model);
+  List<DataModel> _notPlacedModels(BranchNode node) {
+    final placedModels = node.children.map((Node child) => child.model);
     return node.model.children.filter((DataModel child) => !placedModels.contains(child));
   }
   
@@ -37,7 +37,7 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
    * Calculates the aspect ratios for every element of [models] as if all of them 
    * were placed in the available area of [parent] along a row with the provided [orientation].
    */
-  List<num> _aspectRatios(TreemapNode parent, Collection<DataModel> models, Orientation orientation) {
+  List<num> _aspectRatios(BranchNode parent, Collection<DataModel> models, Orientation orientation) {
     if (models.isEmpty) {
       return [];
     } else {
@@ -56,9 +56,9 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
     }
   }
   
-  TreemapNode _createNodeForRow(DataModel model, Percentage sizeNode, Orientation orientation) {
+  Node _createNodeForRow(DataModel model, Percentage sizeNode, Orientation orientation) {
     final height = orientation.isHorizontal ? Percentage.x100 : sizeNode;
     final width = orientation.isHorizontal ? sizeNode : Percentage.x100;
-    return new TreemapNode(model, width, height, orientation);
+    return new Node(model, width, height, orientation);
   }
 }

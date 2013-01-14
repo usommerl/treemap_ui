@@ -12,7 +12,7 @@ class Strip extends RowBasedLayoutAlgorithms {
 
   Strip([this._stripOrientation]);
 
-  void layout(TreemapNode parent) {
+  void layout(BranchNode parent) {
     assert(parent.model.isBranch);
     List<DataModel> currentStrip = [];
     Queue<DataModel> queue = new Queue.from(parent.model.children);
@@ -33,7 +33,7 @@ class Strip extends RowBasedLayoutAlgorithms {
     }
   }
   
-  void _layoutRow(TreemapNode parent, List<DataModel> rowModels, Orientation orientation) {
+  void _layoutRow(BranchNode parent, List<DataModel> rowModels, Orientation orientation) {
     final sumModelSizes = rowModels.reduce(0, (acc,model) => acc + model.size);
     final dimensionRow = new Percentage.from(sumModelSizes, rowModels.first.parent.size);
     LayoutHelper row = new LayoutHelper.rowStrip(dimensionRow, parent, orientation);
@@ -46,7 +46,7 @@ class Strip extends RowBasedLayoutAlgorithms {
     });
   }
 
-  Orientation _determineOrientation(TreemapNode parent) {
+  Orientation _determineOrientation(BranchNode parent) {
     if (_stripOrientation == null) {
       _stripOrientation = parent.clientWidth >= parent.clientHeight ?
           Orientation.horizontal :
@@ -55,7 +55,7 @@ class Strip extends RowBasedLayoutAlgorithms {
     return _stripOrientation;
   }
 
-  num _avgAspectRatio(TreemapNode parent, Collection<DataModel> models, Orientation orientation) {
+  num _avgAspectRatio(BranchNode parent, Collection<DataModel> models, Orientation orientation) {
     final aspectRatios = _aspectRatios(parent, models, orientation);
     return aspectRatios.isEmpty ? 
         0 : aspectRatios.reduce(0, (accum, ratio) => accum + ratio) / aspectRatios.length;

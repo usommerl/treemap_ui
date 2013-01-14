@@ -2,7 +2,7 @@ part of treemap_view;
 
 class LayoutHelper {
   final DivElement _container = new DivElement();
-  final TreemapNode _parent;
+  final BranchNode _parent;
   final Orientation _orientation;
   final Percentage _width;
   final Percentage _height;
@@ -18,7 +18,7 @@ class LayoutHelper {
     _parent.addHelper(this);
   }
 
-  factory LayoutHelper.rowStrip(Percentage size, TreemapNode parent, Orientation orientation) {
+  factory LayoutHelper.rowStrip(Percentage size, BranchNode parent, Orientation orientation) {
     LayoutHelper row;
     if (orientation.isHorizontal) {
       row = new LayoutHelper._internal(Percentage.x100, size, parent, orientation);
@@ -30,13 +30,13 @@ class LayoutHelper {
     return row;
   }
 
-  factory LayoutHelper.rowSquarified(Percentage width, Percentage height, TreemapNode parent, Orientation orientation) {
+  factory LayoutHelper.rowSquarified(Percentage width, Percentage height, BranchNode parent, Orientation orientation) {
     var row = new LayoutHelper._internal(width, height, parent, orientation);
     row.container.style.float = "left";
     return row;
   }
 
-  void add(TreemapNode child) {
+  void add(Node child) {
     _container.append(child.container);
     _parent.register(child);
   }
