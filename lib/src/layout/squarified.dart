@@ -1,5 +1,11 @@
 part of treemap_layout;
 
+/**
+ * Implementation of the squarified layout algorithm. For further details see
+ * 'Squarified Treemaps' by Mark Bruls, Kees Huizing, Jarke J. van Wijk.
+ * Joint Eurographics and IEEE TCVG Symposium on Visualization, 
+ * IEEE Computer Society, pp. 33-42, 2000.
+ **/
 class Squarified extends RowBasedLayoutAlgorithms {
   
   void layout(TreemapNode parent) {

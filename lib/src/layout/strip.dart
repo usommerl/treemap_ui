@@ -1,10 +1,10 @@
 part of treemap_layout;
 
 /**
- * Implementation of the strip algorithm. For further details see
+ * Implementation of the strip layout algorithm. For further details see
  * 'Ordered and Quantum Treemaps: Making Effective Use of 2D Space to Display Hierarchies'
- * by Benjamin B. Bederson, Martin Wattenberg and Ben Shneiderman, pp. 7-9, 2001
- *
+ * by Benjamin B. Bederson, Martin Wattenberg and Ben Shneiderman.
+ * ACM Transactions on Graphics, Vol. 21, No. 4, pp. 833-854, October 2002.
  **/
 class Strip extends RowBasedLayoutAlgorithms {
 
