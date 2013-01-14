@@ -3,36 +3,25 @@ part of treemap_layout;
 class Squarified extends RowBasedLayoutAlgorithms {
   
   void layout(TreemapNode parent) {
-    if (parent.model.isBranch) {
-      List<DataModel> currentRow = [];
-      final descendingSizes = ((a,b) => b.size.compareTo(a.size));
-      Queue<DataModel> queue = new Queue.from(sortedCopy(parent.model.children, descendingSizes));
-      while(!queue.isEmpty) {
-        final model = queue.removeFirst();
-        final previousRow = new List.from(currentRow);
-        currentRow.add(model);
-        final orientation = _determineOrientation(parent);
-        final prevWorstAspectRatio = _worstAspectRatio(parent, previousRow, orientation);
-        final currWorstAspectRatio = _worstAspectRatio(parent, currentRow, orientation);
-        if (!previousRow.isEmpty && prevWorstAspectRatio < currWorstAspectRatio) {
-          _layoutRow(parent, previousRow, orientation);
-          currentRow.clear();
-          queue.addFirst(model);
-        } else if (queue.isEmpty) {
-          _layoutRow(parent, currentRow, orientation);
-        }
+    assert(parent.model.isBranch);
+    List<DataModel> currentRow = [];
+    final descendingSizes = ((a,b) => b.size.compareTo(a.size));
+    Queue<DataModel> queue = new Queue.from(sortedCopy(parent.model.children, descendingSizes));
+    while(!queue.isEmpty) {
+      final model = queue.removeFirst();
+      final previousRow = new List.from(currentRow);
+      currentRow.add(model);
+      final orientation = _determineOrientation(parent);
+      final prevWorstAspectRatio = _worstAspectRatio(parent, previousRow, orientation);
+      final currWorstAspectRatio = _worstAspectRatio(parent, currentRow, orientation);
+      if (!previousRow.isEmpty && prevWorstAspectRatio < currWorstAspectRatio) {
+        _layoutRow(parent, previousRow, orientation);
+        currentRow.clear();
+        queue.addFirst(model);
+      } else if (queue.isEmpty) {
+        _layoutRow(parent, currentRow, orientation);
       }
     }
-  }
-
-  Orientation _determineOrientation(TreemapNode node) => 
-      _availableWidth(node) > _availableHeight(node) ?
-          Orientation.vertical :
-          Orientation.horizontal;
-
-  num _worstAspectRatio(TreemapNode parent, Collection<DataModel> dataModels, Orientation orientation) {
-    final aspectRatios = _aspectRatios(parent, dataModels, orientation);
-    return aspectRatios.reduce(0, (acc,ratio) => max(acc,ratio));
   }
 
   void _layoutRow(TreemapNode parent, List<DataModel> rowModels, Orientation orientation) {
@@ -52,4 +41,12 @@ class Squarified extends RowBasedLayoutAlgorithms {
       }
     });
   }
+
+  Orientation _determineOrientation(TreemapNode node) => 
+      _availableWidth(node) > _availableHeight(node) ?
+          Orientation.vertical :
+          Orientation.horizontal;
+      
+  num _worstAspectRatio(TreemapNode parent, Collection<DataModel> models, Orientation orientation) =>
+      _aspectRatios(parent, models, orientation).reduce(0, (accum,ratio) => max(accum,ratio));
 }

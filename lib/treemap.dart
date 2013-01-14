@@ -16,6 +16,8 @@ class TreeMap{
 
    TreeMap(this.rootArea, this.dataModel, this.algorithm) {
      rootNode = new TreemapNode.root(rootArea, dataModel);
-     algorithm.layout(rootNode);
+     if (rootNode.model.isBranch) {
+       algorithm.layout(rootNode);       
+     }
    }
 }
