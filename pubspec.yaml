@@ -2,4 +2,5 @@ name: treemap
 author: Uwe Sommerlatt <uwe.sommerlatt@gmail.com>
 version: 0.0.1
 dependencies:
-  unittest: 0.2.9+7
+  browser: any
+  unittest: any
