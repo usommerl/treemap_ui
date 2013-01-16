@@ -29,7 +29,6 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
   
   /** Calculates the aspect ratio for the provided [width] and [height] arguments. */
   num _aspectRatio(num width, num height) {
-    assert(width > 0 && height > 0);
     return max(width/height, height/width);
   }
   

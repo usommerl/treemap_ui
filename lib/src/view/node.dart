@@ -3,13 +3,13 @@ part of treemap_view;
 abstract class Node {
 
   final DivElement container = new DivElement();
-  final DataModel model;
+  final DataModel _model;
   final Orientation orientation;
   const int _borderSize = 1;
   const String _borderColor = "black"; 
   final Percentage width, height;
   String _borderStyle;
-  Node parent;
+  BranchNode parent;
   DivElement _content;
   ParagraphElement _nodeLabel;
 
@@ -27,7 +27,7 @@ abstract class Node {
     return rootNode;
   }
   
-  Node._internal(this.model, this.width, this.height, this.orientation) {
+  Node._internal(this._model, this.width, this.height, this.orientation) {
     container.classes.add(this.runtimeType.toString());
     container.classes.add(this.orientation.toString());
     container.style..boxSizing = "border-box"
@@ -40,7 +40,7 @@ abstract class Node {
     _nodeLabel = new ParagraphElement();
     _nodeLabel.style..marginAfter = "0px"
         ..marginBefore = "0px";
-    _nodeLabel.text = model.title;
+    _nodeLabel.text = _model.title;
     _borderStyle = "${_borderSize}px solid ${_borderColor}";
   }
 
@@ -83,14 +83,14 @@ abstract class Node {
     this.container.offsetLeft > other.container.offsetLeft :
     throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");   
   
-  bool get isLeaf => this.model.isLeaf;
+  bool get isLeaf => model.isLeaf;
   
-  bool get isBranch => this.model.isBranch;
+  bool get isBranch => model.isBranch;
   
-  int get clientWidth => this._content.clientWidth;
+  int get clientWidth => _content.clientWidth;
   
-  int get clientHeight => this._content.clientHeight;
+  int get clientHeight => _content.clientHeight;
   
-  List<Node> get children;
+  DataModel get model;
 }
 

@@ -9,7 +9,6 @@ part of treemap_layout;
 class Squarified extends RowBasedLayoutAlgorithms {
   
   void layout(BranchNode parent) {
-    assert(parent.model.isBranch);
     List<DataModel> currentRow = [];
     final descendingSizes = ((a,b) => b.size.compareTo(a.size));
     Queue<DataModel> queue = new Queue.from(sortedCopy(parent.model.children, descendingSizes));
@@ -42,7 +41,7 @@ class Squarified extends RowBasedLayoutAlgorithms {
     rowModels.forEach((model) {
       final node = _createNodeForRow(model, new Percentage.from(model.size, sumModels), orientation);
       row.add(node);
-      if (model.isBranch) {
+      if (node.isBranch) {
         layout(node);
       }
     });

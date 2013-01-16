@@ -1,6 +1,8 @@
 part of treemap_model;
 
 class Leaf extends DataModel {
+  
+  num _size;
 
   Leaf(num size, String title, [String description = ""]) {
     assert(size > 0);
@@ -12,5 +14,8 @@ class Leaf extends DataModel {
   factory Leaf._copy(Leaf other) {
     return new Leaf(other._size, other._title, other._description);
   }
-  String toString() => "<Leaf size=${_size}, title=${_title}>";
+  
+  num get size => _size;
+  
+  bool get isLeaf => true;
 }

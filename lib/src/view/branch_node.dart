@@ -5,7 +5,7 @@ class BranchNode extends Node {
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
   
-  BranchNode(model, width, height, orientation) :
+  BranchNode(Branch model, width, height, orientation) :
     super._internal(model,width,height,orientation) {
       var padding;
       if (model.isRoot) {
@@ -48,4 +48,6 @@ class BranchNode extends Node {
     _content.append(helper.container);
     layoutHelpers.add(helper);
   }
+  
+  Branch get model => this._model;
 }

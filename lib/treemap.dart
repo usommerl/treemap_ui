@@ -10,14 +10,14 @@ export 'treemap_layout.dart';
 class TreeMap{
 
    DivElement htmlRoot;
-   Node root;
+   Node rootNode;
    DataModel dataModel;
    LayoutAlgorithm algorithm;
 
    TreeMap(this.htmlRoot, this.dataModel, this.algorithm) {
-     root = new Node.forRoot(htmlRoot, dataModel);
-     if (root.model.isBranch) {
-       algorithm.layout(root);       
+     rootNode = new Node.forRoot(htmlRoot, dataModel);
+     if (rootNode.isBranch) {
+       algorithm.layout(rootNode);       
      }
    }
 }

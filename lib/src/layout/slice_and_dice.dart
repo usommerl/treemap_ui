@@ -21,7 +21,6 @@ class SliceAndDice extends LayoutAlgorithm {
   }
 
   void layout(BranchNode parent) {
-    assert(parent.model.isBranch);
     Queue<DataModel> queue = new Queue.from(parent.model.children);
     while (!queue.isEmpty) {
       DataModel model = queue.removeFirst();
@@ -30,7 +29,7 @@ class SliceAndDice extends LayoutAlgorithm {
           new Node(model, Percentage.x100, p, Orientation.vertical) :
           new Node(model, p, Percentage.x100, Orientation.horizontal);
       parent.add(node);
-      if (model.isBranch) {
+      if (node.isBranch) {
         layout(node);
       }
     }

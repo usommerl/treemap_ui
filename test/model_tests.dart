@@ -19,10 +19,6 @@ main() {
     test('x.size (branch with three leafes)', () {
       expect(branch2.size, equals(branch1.size + leaf3.size));
     });
-    test('x.children (x is leaf => exception)', (){
-      expect(() => leaf1.children,
-          throwsA(new isInstanceOf<UnsupportedError>()));
-    });
     test('${new Leaf(1,"").runtimeType}(size,...) (size < 0 => exception)', () {
       expect(() => new Leaf(-1, ''),
           throwsA(new isInstanceOf<AssertionError>()));

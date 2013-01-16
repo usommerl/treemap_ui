@@ -13,7 +13,6 @@ class Strip extends RowBasedLayoutAlgorithms {
   Strip([this._stripOrientation]);
 
   void layout(BranchNode parent) {
-    assert(parent.model.isBranch);
     List<DataModel> currentStrip = [];
     Queue<DataModel> queue = new Queue.from(parent.model.children);
     final stripOrientation = _determineOrientation(parent);
@@ -40,7 +39,7 @@ class Strip extends RowBasedLayoutAlgorithms {
     rowModels.forEach((model) {
       final node = _createNodeForRow(model, new Percentage.from(model.size, sumModelSizes), orientation);
       row.add(node);
-      if (model.isBranch) {
+      if (node.isBranch) {
         layout(node);
       }
     });
