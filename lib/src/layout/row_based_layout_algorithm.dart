@@ -23,8 +23,8 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
    * [TmNode] instance connecteted to [node]
    */
   List<DataModel> _notPlacedModels(BranchNode node) {
-    final placedModels = node.children.map((Node child) => child.model);
-    return node.model.children.filter((DataModel child) => !placedModels.contains(child));
+    final placedModels = node.children.map((Node child) => child.dataModel);
+    return node.dataModel.children.filter((DataModel child) => !placedModels.contains(child));
   }
   
   /** Calculates the aspect ratio for the provided [width] and [height] arguments. */
@@ -40,7 +40,7 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
     if (models.isEmpty) {
       return [];
     } else {
-      assert(models.every((child) => parent.model.children.contains(child)));
+      assert(models.every((child) => parent.dataModel.children.contains(child)));
       List<num> aspectRatios = new List();
       final shortEdge = orientation.isVertical ? _availableWidth(parent) : _availableHeight(parent);
       final longEdge = orientation.isVertical ? _availableHeight(parent) : _availableWidth(parent);

@@ -3,12 +3,14 @@ part of treemap_view;
 abstract class Node {
 
   final DivElement container = new DivElement();
-  final DataModel _model;
   final Orientation orientation;
   const int _borderSize = 1;
   const String _borderColor = "black"; 
+  const String _borderStyle = "solid";
   final Percentage width, height;
-  String _borderStyle;
+  final DataModel _dataModel;
+  ViewModel viewModel;
+  String _initialBorderString;
   BranchNode parent;
   DivElement _content;
   ParagraphElement _nodeLabel;
@@ -18,16 +20,16 @@ abstract class Node {
         new LeafNode(model,width,height,orientation) :
         new BranchNode(model,width,height,orientation);
         
-  factory Node.forRoot(DivElement rootHtmlElement, DataModel model) {
-    assert(model.isRoot);
-    assert(rootHtmlElement.clientHeight > 0);
-    assert(rootHtmlElement.children.length == 0);
-    final rootNode = new Node(model, Percentage.x100, Percentage.x100, Orientation.vertical);
-    rootHtmlElement.append(rootNode.container);
+  factory Node.forRoot(DataModel dataModel, ViewModel viewModel) {
+    assert(dataModel.isRoot);
+    final rootNode = new Node(dataModel, Percentage.x100, Percentage.x100, Orientation.vertical);
+    rootNode.viewModel = viewModel;
+    rootNode.viewModel.treemapHtmlRoot.append(rootNode.container);
+    rootNode.viewModel.currentViewRoot = rootNode;
     return rootNode;
   }
   
-  Node._internal(this._model, this.width, this.height, this.orientation) {
+  Node._internal(this._dataModel, this.width, this.height, this.orientation) {
     container.classes.add(this.runtimeType.toString());
     container.classes.add(this.orientation.toString());
     container.style..boxSizing = "border-box"
@@ -40,8 +42,9 @@ abstract class Node {
     _nodeLabel = new ParagraphElement();
     _nodeLabel.style..marginAfter = "0px"
         ..marginBefore = "0px";
-    _nodeLabel.text = _model.title;
-    _borderStyle = "${_borderSize}px solid ${_borderColor}";
+    _nodeLabel.text = _dataModel.title;
+    _initialBorderString = "${_borderSize}px ${_borderStyle} ${_borderColor}";
+    container.style.border = _initialBorderString;
   }
 
   void _fixBorders() {
@@ -83,14 +86,16 @@ abstract class Node {
     this.container.offsetLeft > other.container.offsetLeft :
     throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");   
   
-  bool get isLeaf => model.isLeaf;
+  bool get isLeaf => dataModel.isLeaf;
   
-  bool get isBranch => model.isBranch;
+  bool get isBranch => dataModel.isBranch;
+  
+  bool get isModelRoot => dataModel.isRoot;
   
   int get clientWidth => _content.clientWidth;
   
   int get clientHeight => _content.clientHeight;
   
-  DataModel get model;
+  DataModel get dataModel;
 }
 

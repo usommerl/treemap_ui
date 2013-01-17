@@ -14,7 +14,7 @@ class Strip extends RowBasedLayoutAlgorithms {
 
   void layout(BranchNode parent) {
     List<DataModel> currentStrip = [];
-    Queue<DataModel> queue = new Queue.from(parent.model.children);
+    Queue<DataModel> queue = new Queue.from(parent.dataModel.children);
     final stripOrientation = _determineOrientation(parent);
     while (!queue.isEmpty) {
       final previousStrip = new List.from(currentStrip);

@@ -24,7 +24,7 @@ List<LayoutAlgorithm> algorithms = [sliceAndDice, strip, squarified];
 
 main() {
   prepareDocument("Resize Test");
-  modelSelect.value = "dataModel3";
+  modelSelect.value = "dataModel2";
 
   widthSlider.on.change.add((e) {
     var size = widthSlider.valueAsNumber;

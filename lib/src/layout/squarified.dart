@@ -11,7 +11,7 @@ class Squarified extends RowBasedLayoutAlgorithms {
   void layout(BranchNode parent) {
     List<DataModel> currentRow = [];
     final descendingSizes = ((a,b) => b.size.compareTo(a.size));
-    Queue<DataModel> queue = new Queue.from(sortedCopy(parent.model.children, descendingSizes));
+    Queue<DataModel> queue = new Queue.from(sortedCopy(parent.dataModel.children, descendingSizes));
     while(!queue.isEmpty) {
       final model = queue.removeFirst();
       final previousRow = new List.from(currentRow);
