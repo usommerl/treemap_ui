@@ -8,13 +8,9 @@ class LayoutHelper {
   final Percentage _height;
 
   LayoutHelper._internal(this._width, this._height, this._parent, this._orientation) {
-    _container.style..margin = "0px"
-        ..boxSizing = "border-box"
-        ..padding = "0px"
-        ..width = _width.toString()
+    _container.classes.add("${_parent.viewModel.style.cssPrefix}${CssIdentifiers.LAYOUT_HELPER}");
+    _container.style..width = _width.toString()
         ..height = _height.toString();
-    _container.classes.add(this.runtimeType.toString());
-    _container.classes.add(_orientation.toString());
     _parent.addHelper(this);
   }
 

@@ -39,7 +39,7 @@ class Squarified extends RowBasedLayoutAlgorithms {
         new LayoutHelper.rowSquarified(availableWidthPercentage, percentageRowItems.of(availableHeightPercentage), parent, orientation):
         new LayoutHelper.rowSquarified(percentageRowItems.of(availableWidthPercentage), availableHeightPercentage, parent, orientation);
     rowModels.forEach((model) {
-      final node = _createNodeForRow(model, new Percentage.from(model.size, sumModels), orientation);
+      final node = _createNodeForRow(model, parent.viewModel, new Percentage.from(model.size, sumModels), orientation);
       row.add(node);
       if (node.isBranch) {
         layout(node);

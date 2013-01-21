@@ -55,9 +55,9 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
     }
   }
   
-  Node _createNodeForRow(DataModel model, Percentage sizeNode, Orientation orientation) {
+  Node _createNodeForRow(DataModel dModel, ViewModel vModel, Percentage sizeNode, Orientation orientation) {
     final height = orientation.isHorizontal ? Percentage.x100 : sizeNode;
     final width = orientation.isHorizontal ? sizeNode : Percentage.x100;
-    return new Node(model, width, height, orientation);
+    return new Node(dModel, vModel, width, height, orientation);
   }
 }

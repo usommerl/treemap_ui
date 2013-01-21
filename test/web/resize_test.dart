@@ -76,7 +76,7 @@ void prepareDocument(String documentTitle) {
 
 void createNewTreemap(LayoutAlgorithm algorithm, DataModel model) {
   treemapContainer.children.clear();
-  new TreeMap(treemapContainer, model, algorithm);
+  new Treemap(treemapContainer, model, algorithm);
 }
 
 LayoutAlgorithm selectedAlgorithm() {

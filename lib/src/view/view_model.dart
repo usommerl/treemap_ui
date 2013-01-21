@@ -6,12 +6,11 @@ class ViewModel {
   Node currentViewRoot;
   Element cachedHtmlParent;
   Element cachedNextSibling;
-  String cachedBorder;
-  String cachedBorderWidth;
   final DivElement treemapHtmlRoot;
-  final TreeMap treemap;
+  final Treemap treemap;
+  final TreemapStyle style;
   
-  ViewModel(this.treemap, this.treemapHtmlRoot) {
+  ViewModel(this.treemap, this.treemapHtmlRoot, this.style) {
     assert(treemapHtmlRoot.clientHeight > 0);
     assert(treemapHtmlRoot.children.length == 0);
   }

@@ -5,38 +5,22 @@ class BranchNode extends Node {
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
   
-  BranchNode(Branch dataModel, width, height, orientation) :
-    super._internal(dataModel,width,height,orientation) {
-      var padding;
+  BranchNode(Branch dModel, vModel, width, height, orientation) :
+    super._internal(dModel, vModel, width, height, orientation, CssIdentifiers.BRANCH) {
       if (isModelRoot) {
-        padding = 0;
+        container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.MODEL_ROOT}");
         _nodeLabel.style.display = "none";
-      } else {
-        padding = 2;
       }
       _nodeLabel.attributes["align"] = "center";
-      container.style.backgroundColor = "#999";
       _content = new DivElement();
-      _content.style
-          ..margin = "0px"
-          ..padding = "0px"
-          ..position = "absolute"
-          ..left = "${padding}px"
-          ..right = "${padding}px"
-          ..bottom = "${padding}px"
-          ..top = "${padding}px";
+      _content.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.BRANCH_CONTENT}");
       container.append(_nodeLabel);
       container.append(_content);
-      if (isModelRoot) {
-        _initialBorderString = "0px";
-        container.style.border = _initialBorderString;
-      }
       registerListeners();
     }
   
   void register(Node child) {
     child.parent = this;
-    child.viewModel = this.viewModel;
     children.add(child);
     child._fixBorders();
     if (child.isBranch) { 
@@ -86,11 +70,9 @@ class BranchNode extends Node {
   void _setAsViewRoot(BranchNode node) {
     viewModel.cachedHtmlParent = node.container.parent;
     viewModel.cachedNextSibling = node.container.nextElementSibling;
-    viewModel.cachedBorder = node.container.style.border;
-    viewModel.cachedBorderWidth = node.container.style.borderWidth;
     node.container.style.width = Percentage.x100.toString();
     node.container.style.height = Percentage.x100.toString();
-    node.container.style.border = node._initialBorderString;
+    node.container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.VIEW_ROOT}");
     viewModel.currentViewRoot = node;
     viewModel.treemapHtmlRoot.children.clear();
     viewModel.treemapHtmlRoot.append(node.container);
@@ -99,8 +81,7 @@ class BranchNode extends Node {
   void _recreateInitialHtmlHierarchy(BranchNode node) {
     node.container.style.width = node.width.toString();
     node.container.style.height = node.height.toString();
-    node.container.style.border = viewModel.cachedBorder;
-    node.container.style.borderWidth = viewModel.cachedBorderWidth;
+    node.container.classes.remove("${viewModel.style.cssPrefix}${CssIdentifiers.VIEW_ROOT}");
     if (viewModel.cachedNextSibling == null) {
       viewModel.cachedHtmlParent.append(node.container);      
     } else {

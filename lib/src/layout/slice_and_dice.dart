@@ -23,11 +23,11 @@ class SliceAndDice extends LayoutAlgorithm {
   void layout(BranchNode parent) {
     Queue<DataModel> queue = new Queue.from(parent.dataModel.children);
     while (!queue.isEmpty) {
-      DataModel model = queue.removeFirst();
-      final p = new Percentage.from(model.size, parent.dataModel.size);
-      final node = model.depth % 2 == _remainderVerticalOrientation ?
-          new Node(model, Percentage.x100, p, Orientation.vertical) :
-          new Node(model, p, Percentage.x100, Orientation.horizontal);
+      DataModel dataModel = queue.removeFirst();
+      final p = new Percentage.from(dataModel.size, parent.dataModel.size);
+      final node = dataModel.depth % 2 == _remainderVerticalOrientation ?
+          new Node(dataModel, parent.viewModel, Percentage.x100, p, Orientation.vertical) :
+          new Node(dataModel, parent.viewModel, p, Percentage.x100, Orientation.horizontal);
       parent.add(node);
       if (node.isBranch) {
         layout(node);

@@ -1,5 +1,5 @@
 import 'package:unittest/unittest.dart';
-import '../lib/treemap_model.dart';
+import '../lib/treemap.dart';
 
 main() {
   group('model tests -', () {

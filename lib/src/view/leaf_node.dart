@@ -2,11 +2,9 @@ part of treemap_view;
 
 class LeafNode extends Node {
   
-  LeafNode(Leaf dataModel, width, height, orientation) :
-    super._internal(dataModel,width,height,orientation) {
+  LeafNode(Leaf dataModel, vModel, width, height, orientation) :
+    super._internal(dataModel, vModel, width, height, orientation, CssIdentifiers.LEAF) {
     _content = container;
-    _content.style..padding = "0px"
-        ..backgroundColor = "#DDD";
     _content.append(_nodeLabel);
   }
   
