@@ -14,10 +14,10 @@ class TestRessources {
                                      new Leaf(731, '9'), new Leaf(384, '10'),
                                      new Leaf(450, '11'), new Leaf(10, '12'),
                                      new Leaf(10, '13'), new Leaf(10, '14')], 'root');
-  
+
   static final DataModel dataModel4 = new Branch([new Leaf(1000,'1'),new Leaf(2000,'2'), new Branch([new Leaf(10,'3')],'smallBranch')],'root');
   static final DataModel dataModel5 = new Branch([DataModel.copy(dataModel0), DataModel.copy(dataModel2)],'root');
-  
+
   static final List<DataModel> testDataModels = [dataModel0,dataModel1,dataModel2,dataModel3, dataModel4, dataModel5];
   static final List<LayoutAlgorithm> layoutAlgorithms = [new SliceAndDice(), new Strip(), new Squarified()];
 }

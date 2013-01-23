@@ -10,7 +10,7 @@ class Strip extends RowBasedLayoutAlgorithms {
 
   Orientation _stripOrientation;
 
-  Strip([this._stripOrientation]);
+  Strip({this._stripOrientation});
 
   void layout(BranchNode parent) {
     List<DataModel> currentStrip = [];
@@ -31,7 +31,7 @@ class Strip extends RowBasedLayoutAlgorithms {
       }
     }
   }
-  
+
   void _layoutRow(BranchNode parent, List<DataModel> rowModels, Orientation orientation) {
     final sumModelSizes = rowModels.reduce(0, (acc,model) => acc + model.size);
     final dimensionRow = new Percentage.from(sumModelSizes, rowModels.first.parent.size);
@@ -56,7 +56,7 @@ class Strip extends RowBasedLayoutAlgorithms {
 
   num _avgAspectRatio(BranchNode parent, Collection<DataModel> models, Orientation orientation) {
     final aspectRatios = _aspectRatios(parent, models, orientation);
-    return aspectRatios.isEmpty ? 
+    return aspectRatios.isEmpty ?
         0 : aspectRatios.reduce(0, (accum, ratio) => accum + ratio) / aspectRatios.length;
   }
 }

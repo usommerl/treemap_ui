@@ -1,7 +1,7 @@
 part of treemap_view;
 
 class CssIdentifiers {
-  
+
   static const String LEAF = 'leaf';
   static const String BRANCH = 'branch';
   static const String BRANCH_CONTENT = 'branch-content';
@@ -14,5 +14,5 @@ class CssIdentifiers {
   static const String HEIGHT_COLLAPSED = 'heightCollapsed';
   static const String WIDTH_COLLAPSED = 'widthCollapsed';
   static const String VIEW_ROOT = "viewRoot";
-  
+
 }

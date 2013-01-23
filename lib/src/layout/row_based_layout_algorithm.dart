@@ -1,39 +1,39 @@
 part of treemap_layout;
 
 abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
-    
-  num _availableWidth(BranchNode node) => 
+
+  num _availableWidth(BranchNode node) =>
       _availableWidthPercentage(node).percentageValue(node.clientWidth);
-  
-  num _availableHeight(BranchNode node) => 
+
+  num _availableHeight(BranchNode node) =>
       _availableHeightPercentage(node).percentageValue(node.clientHeight);
-  
+
   Percentage _availableWidthPercentage(BranchNode node) {
-    final verticalRows = node.layoutHelpers.filter((row) => row.orientation.isVertical);
+    final verticalRows = node.layoutHelpers.where((row) => row.orientation.isVertical);
     return Percentage.x100 - verticalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.width);
   }
-  
+
   Percentage _availableHeightPercentage (BranchNode node) {
-    final horizontalRows = node.layoutHelpers.filter((row) => row.orientation.isHorizontal);
+    final horizontalRows = node.layoutHelpers.where((row) => row.orientation.isHorizontal);
     return Percentage.x100 - horizontalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.height);
   }
-  
+
   /**
    * Filters the [DataModel] of [node] for children, which have no corresponding
    * [TmNode] instance connecteted to [node]
    */
-  List<DataModel> _notPlacedModels(BranchNode node) {
-    final placedModels = node.children.map((Node child) => child.dataModel);
-    return node.dataModel.children.filter((DataModel child) => !placedModels.contains(child));
+  Iterable<DataModel> _notPlacedModels(BranchNode node) {
+    final placedModels = node.children.mappedBy((Node child) => child.dataModel);
+    return node.dataModel.children.where((DataModel child) => !placedModels.contains(child));
   }
-  
+
   /** Calculates the aspect ratio for the provided [width] and [height] arguments. */
   num _aspectRatio(num width, num height) {
     return max(width/height, height/width);
   }
-  
+
   /**
-   * Calculates the aspect ratios for every element of [models] as if all of them 
+   * Calculates the aspect ratios for every element of [models] as if all of them
    * were placed in the available area of [parent] along a row with the provided [orientation].
    */
   List<num> _aspectRatios(BranchNode parent, Collection<DataModel> models, Orientation orientation) {
@@ -54,7 +54,7 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
       return aspectRatios;
     }
   }
-  
+
   Node _createNodeForRow(DataModel dModel, ViewModel vModel, Percentage sizeNode, Orientation orientation) {
     final height = orientation.isHorizontal ? Percentage.x100 : sizeNode;
     final width = orientation.isHorizontal ? sizeNode : Percentage.x100;

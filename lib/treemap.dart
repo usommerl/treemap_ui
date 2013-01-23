@@ -10,7 +10,7 @@ export 'src/layout/treemap_layout.dart';
 part 'treemap_style.dart';
 
 class Treemap{
-   
+
    final LayoutAlgorithm algorithm;
    bool isNavigatable = true;
 
@@ -19,7 +19,7 @@ class Treemap{
      final viewModel = new ViewModel(this, htmlRoot, style);
      final rootNode = new Node.forRoot(dataModel, viewModel);
      if (rootNode.isBranch) {
-       algorithm.layout(rootNode);       
+       algorithm.layout(rootNode);
      }
    }
 }

@@ -9,7 +9,7 @@ class SliceAndDice extends LayoutAlgorithm {
 
   int _remainderVerticalOrientation;
 
-  SliceAndDice([Orientation initialOrientation]){
+  SliceAndDice({Orientation initialOrientation}){
     if (initialOrientation == null) {
       initialOrientation = Orientation.vertical;
     }

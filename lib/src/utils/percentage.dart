@@ -1,7 +1,7 @@
 part of treemap_utils;
 
 class Percentage {
-  
+
   final num _percentage;
   static final Percentage x100 = new Percentage._internal(100);
   static final Percentage x0 = new Percentage._internal(0);

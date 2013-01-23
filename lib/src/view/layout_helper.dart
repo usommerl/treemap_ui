@@ -36,13 +36,13 @@ class LayoutHelper {
     _container.append(child.container);
     _parent.register(child);
   }
-  
+
   Orientation get orientation => this._orientation;
-  
+
   Percentage get width => this._width;
-  
+
   Percentage get height => this._height;
-  
+
   Element get container => this._container;
-  
+
 }

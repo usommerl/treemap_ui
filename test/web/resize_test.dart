@@ -60,9 +60,9 @@ void prepareDocument(String documentTitle) {
      ..max = max
      ..value = initialSize.toString()
      ..step = step;
-  var options = algorithmMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
+  var options = algorithmMap.keys.mappedBy((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   algorithmSelect = new Element.html("<select>$options</select>");
-  options = modelMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
+  options = modelMap.keys.mappedBy((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   modelSelect = new Element.html("<select>$options</select>");
   controllsContainer
     ..append(widthSlider)

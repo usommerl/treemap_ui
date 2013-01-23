@@ -5,11 +5,11 @@ part of treemap_layout;
  *
  */
 abstract class LayoutAlgorithm {
-  
+
   /**
-   * Partitions the area occupied by [node] according to the concrete implementation 
+   * Partitions the area occupied by [node] according to the concrete implementation
    * and places a [Node] instances for every child of [node]'s [DataModel].
    */
   void layout(BranchNode node);
-  
+
 }

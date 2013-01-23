@@ -11,11 +11,11 @@ abstract class Node {
   DivElement _content;
   ParagraphElement _nodeLabel;
 
-  factory Node(DataModel dModel, ViewModel vModel, Percentage width, Percentage height, Orientation orientation) 
-    => dModel.isLeaf ? 
+  factory Node(DataModel dModel, ViewModel vModel, Percentage width, Percentage height, Orientation orientation)
+    => dModel.isLeaf ?
         new LeafNode(dModel,vModel,width,height,orientation) :
         new BranchNode(dModel,vModel,width,height,orientation);
-        
+
   factory Node.forRoot(DataModel dataModel, ViewModel viewModel) {
     assert(dataModel.isRoot);
     final rootNode = new Node(dataModel, viewModel, Percentage.x100, Percentage.x100, Orientation.vertical);
@@ -23,7 +23,7 @@ abstract class Node {
     rootNode.viewModel.currentViewRoot = rootNode;
     return rootNode;
   }
-  
+
   Node._internal(this._dataModel, this.viewModel, this.width, this.height, this.orientation, String cssIdentifier) {
     container.classes.add("${viewModel.style.cssPrefix}${cssIdentifier}");
     container.classes.add("${viewModel.style.cssPrefix}${orientation.toString()}");
@@ -36,7 +36,7 @@ abstract class Node {
   }
 
   void _fixBorders() {
-    if (parent.children.some((child) => this.isPositionedBelow(child))) {
+    if (parent.children.any((other) => this.isPositionedBelow(other))) {
       container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.NO_TOP_BORDER}");
       if (container.offsetHeight <= viewModel.style.borderSize) {
         container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.COLLAPSED_HEIGHT}");
@@ -44,7 +44,7 @@ abstract class Node {
     } else if (container.offsetHeight <= 2 * viewModel.style.borderSize) {
       container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.COLLAPSED_HEIGHT}");
     }
-    if (parent.children.some((child) => this.isPositionedRightOf(child))) {
+    if (parent.children.any((other) => this.isPositionedRightOf(other))) {
       container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.NO_LEFT_BORDER}");
       if (container.offsetWidth <= viewModel.style.borderSize) {
         container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.COLLAPSED_WIDTH}");
@@ -54,25 +54,25 @@ abstract class Node {
     }
   }
 
-  bool isPositionedBelow(Node other) => this.parent == other.parent ? 
+  bool isPositionedBelow(Node other) => this.parent == other.parent ?
     this.container.offsetTop > other.container.offsetTop :
     throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");
 
-  bool isPositionedRightOf(Node other) => this.parent == other.parent ? 
+  bool isPositionedRightOf(Node other) => this.parent == other.parent ?
     this.container.offsetLeft > other.container.offsetLeft :
-    throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");   
-  
+    throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");
+
   bool get isLeaf => dataModel.isLeaf;
-  
+
   bool get isBranch => dataModel.isBranch;
-  
+
   bool get isModelRoot => dataModel.isRoot;
-  
+
   int get clientWidth => _content.clientWidth;
-  
+
   int get clientHeight => _content.clientHeight;
-  
+
   DataModel get dataModel;
-  
+
 }
 

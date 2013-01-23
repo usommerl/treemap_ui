@@ -1,10 +1,10 @@
 part of treemap_view;
 
 class BranchNode extends Node {
-  
+
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
-  
+
   BranchNode(Branch dModel, vModel, width, height, orientation) :
     super._internal(dModel, vModel, width, height, orientation, CssIdentifiers.BRANCH) {
       if (isModelRoot) {
@@ -18,30 +18,30 @@ class BranchNode extends Node {
       container.append(_content);
       registerListeners();
     }
-  
+
   void register(Node child) {
     child.parent = this;
     children.add(child);
     child._fixBorders();
-    if (child.isBranch) { 
-      child._content.style.top = "${child._nodeLabel.offsetHeight}px";      
+    if (child.isBranch) {
+      child._content.style.top = "${child._nodeLabel.offsetHeight}px";
     }
   }
-  
+
   void add(Node child) {
     _content.append(child.container);
     register(child);
   }
-  
+
   void addHelper(LayoutHelper helper) {
     _content.append(helper.container);
     layoutHelpers.add(helper);
   }
-  
+
   Branch get dataModel => this._dataModel;
-  
+
   bool get isViewRoot => viewModel.currentViewRoot == this;
-  
+
   void registerListeners() {
     _nodeLabel.on.mouseOver.add((MouseEvent event) {
       if (viewModel.treemap.isNavigatable) {
@@ -62,11 +62,11 @@ class BranchNode extends Node {
             _recreateInitialHtmlHierarchy(parent);
           }
           _setAsViewRoot(this);
-        }        
+        }
       }
     });
   }
-  
+
   void _setAsViewRoot(BranchNode node) {
     viewModel.cachedHtmlParent = node.container.parent;
     viewModel.cachedNextSibling = node.container.nextElementSibling;
@@ -77,13 +77,13 @@ class BranchNode extends Node {
     viewModel.treemapHtmlRoot.children.clear();
     viewModel.treemapHtmlRoot.append(node.container);
   }
-  
+
   void _recreateInitialHtmlHierarchy(BranchNode node) {
     node.container.style.width = node.width.toString();
     node.container.style.height = node.height.toString();
     node.container.classes.remove("${viewModel.style.cssPrefix}${CssIdentifiers.VIEW_ROOT}");
     if (viewModel.cachedNextSibling == null) {
-      viewModel.cachedHtmlParent.append(node.container);      
+      viewModel.cachedHtmlParent.append(node.container);
     } else {
       viewModel.cachedNextSibling.insertAdjacentElement('beforeBegin', node.container);
     }

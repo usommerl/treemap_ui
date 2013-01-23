@@ -3,11 +3,11 @@ part of treemap_layout;
 /**
  * Implementation of the squarified layout algorithm. For further details see
  * 'Squarified Treemaps' by Mark Bruls, Kees Huizing, Jarke J. van Wijk.
- * Joint Eurographics and IEEE TCVG Symposium on Visualization, 
+ * Joint Eurographics and IEEE TCVG Symposium on Visualization,
  * IEEE Computer Society, pp. 33-42, 2000.
  **/
 class Squarified extends RowBasedLayoutAlgorithms {
-  
+
   void layout(BranchNode parent) {
     List<DataModel> currentRow = [];
     final descendingSizes = ((a,b) => b.size.compareTo(a.size));
@@ -47,11 +47,11 @@ class Squarified extends RowBasedLayoutAlgorithms {
     });
   }
 
-  Orientation _determineOrientation(BranchNode node) => 
+  Orientation _determineOrientation(BranchNode node) =>
       _availableWidth(node) > _availableHeight(node) ?
           Orientation.vertical :
           Orientation.horizontal;
-      
+
   num _worstAspectRatio(BranchNode parent, Collection<DataModel> models, Orientation orientation) =>
       _aspectRatios(parent, models, orientation).reduce(0, (accum,ratio) => max(accum,ratio));
 }

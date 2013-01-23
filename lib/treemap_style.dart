@@ -1,47 +1,47 @@
 part of treemap;
 
 class TreemapStyle {
-  
+
   final String cssPrefix;
   final String branchColor;
   final String borderColor;
-  final int borderSize; 
+  final int borderSize;
   final int branchPadding;
   final String borderStyle;
-    
+
   TreemapStyle(
     {this.cssPrefix     : 'tm-',
      this.branchPadding : 2,
      this.branchColor   : "#999",
      this.borderColor   : "black",
-     this.borderSize    : 1, 
+     this.borderSize    : 1,
      this.borderStyle   : "solid"
     }
   ){
     final inlineStyle = _inlineStyle;
-    final styleOrLinkElements = document.head.children.filter((e) => e.runtimeType == StyleElement || e.runtimeType == LinkElement);
+    final styleOrLinkElements = document.head.children.where((e) => e.runtimeType == StyleElement || e.runtimeType == LinkElement);
     if (styleOrLinkElements.isEmpty) {
       document.head.append(inlineStyle);
     } else {
-      if (!styleOrLinkElements.some((e) => e.text == inlineStyle.text)) {
-        styleOrLinkElements.first.insertAdjacentElement('beforeBegin', inlineStyle);        
+      if (!styleOrLinkElements.any((e) => e.text == inlineStyle.text)) {
+        styleOrLinkElements.first.insertAdjacentElement('beforeBegin', inlineStyle);
       }
     }
-   }  
+   }
 
   StyleElement get _inlineStyle {
-    final String inlineStyleHtml = 
+    final String inlineStyleHtml =
 """
 <style type="text/css">
-.${cssPrefix}${CssIdentifiers.LEAF}, 
-.${cssPrefix}${CssIdentifiers.BRANCH}, 
-.${cssPrefix}${CssIdentifiers.BRANCH_CONTENT}, 
+.${cssPrefix}${CssIdentifiers.LEAF},
+.${cssPrefix}${CssIdentifiers.BRANCH},
+.${cssPrefix}${CssIdentifiers.BRANCH_CONTENT},
 .${cssPrefix}${CssIdentifiers.LAYOUT_HELPER} {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
 }
-.${cssPrefix}${CssIdentifiers.LEAF}, 
+.${cssPrefix}${CssIdentifiers.LEAF},
 .${cssPrefix}${CssIdentifiers.BRANCH} {
   position: relative;
   overflow: hidden;
@@ -60,7 +60,7 @@ class TreemapStyle {
   left: ${branchPadding}px;
 }
 .${cssPrefix}${CssIdentifiers.MODEL_ROOT},
-.${cssPrefix}${CssIdentifiers.LAYOUT_HELPER}, 
+.${cssPrefix}${CssIdentifiers.LAYOUT_HELPER},
 .${cssPrefix}${CssIdentifiers.MODEL_ROOT}.${cssPrefix}${CssIdentifiers.VIEW_ROOT} {
   border-width: 0px;
 }
