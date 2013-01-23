@@ -1,6 +1,11 @@
 part of treemap_view;
 
 abstract class Node {
+  
+  static const String NO_LEFT_BORDER = 'noLeftBorder';
+  static const String NO_TOP_BORDER = 'noTopBorder';
+  static const String COLLAPSED_WIDTH = 'collapsedWidth';
+  static const String COLLAPSED_HEIGHT = 'collapsedHeight';
 
   final DivElement container = new DivElement();
   final Orientation orientation;
@@ -24,9 +29,9 @@ abstract class Node {
     return rootNode;
   }
 
-  Node._internal(this._dataModel, this.viewModel, this.width, this.height, this.orientation, String cssIdentifier) {
-    container.classes.add("${viewModel.style.cssPrefix}${cssIdentifier}");
-    container.classes.add("${viewModel.style.cssPrefix}${orientation.toString()}");
+  Node._internal(this._dataModel, this.viewModel, this.width, this.height, this.orientation) {
+    container.classes.add("${viewModel.style._classNames[runtimeType.toString()]}");
+    container.classes.add("${viewModel.style._classNames[orientation.toString()]}");
     container.style..width = width.toString()
                    ..height = height.toString();
     _nodeLabel = new ParagraphElement();
@@ -37,20 +42,20 @@ abstract class Node {
 
   void _fixBorders() {
     if (parent.children.any((other) => this.isPositionedBelow(other))) {
-      container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.NO_TOP_BORDER}");
-      if (container.offsetHeight <= viewModel.style.borderSize) {
-        container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.COLLAPSED_HEIGHT}");
+      container.classes.add("${viewModel.style._classNames[NO_TOP_BORDER]}");
+      if (container.offsetHeight <= viewModel.style.borderWidth) {
+        container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
       }
-    } else if (container.offsetHeight <= 2 * viewModel.style.borderSize) {
-      container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.COLLAPSED_HEIGHT}");
+    } else if (container.offsetHeight <= 2 * viewModel.style.borderWidth) {
+      container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
     }
     if (parent.children.any((other) => this.isPositionedRightOf(other))) {
-      container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.NO_LEFT_BORDER}");
-      if (container.offsetWidth <= viewModel.style.borderSize) {
-        container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.COLLAPSED_WIDTH}");
+      container.classes.add("${viewModel.style._classNames[NO_LEFT_BORDER]}");
+      if (container.offsetWidth <= viewModel.style.borderWidth) {
+        container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
       }
-    } else if (container.offsetWidth <= 2 * viewModel.style.borderSize) {
-      container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.COLLAPSED_WIDTH}");
+    } else if (container.offsetWidth <= 2 * viewModel.style.borderWidth) {
+      container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
     }
   }
 

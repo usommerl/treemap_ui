@@ -20,7 +20,7 @@ main() {
         final String testId = "${algorithmName}${i}";
         final treemapContainer = new Element.html("<div id='${testId}' class='${treeMapClass}'></div>");
         document.body.children.addLast(treemapContainer);
-        new Treemap(treemapContainer, models[i], algorithm);
+        new Treemap(treemapContainer, models[i], layoutAlgorithm : algorithm);
       }
     });
 }

@@ -1,19 +1,23 @@
 part of treemap_view;
 
 class BranchNode extends Node {
+  
+  static const String CONTENT = 'branch-content';
+  static const String MODEL_ROOT = 'model-root';
+  static const String VIEW_ROOT = "viewRoot";
 
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
 
   BranchNode(Branch dModel, vModel, width, height, orientation) :
-    super._internal(dModel, vModel, width, height, orientation, CssIdentifiers.BRANCH) {
+    super._internal(dModel, vModel, width, height, orientation) {
       if (isModelRoot) {
-        container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.MODEL_ROOT}");
+        container.classes.add("${viewModel.style._classNames[MODEL_ROOT]}");
         _nodeLabel.style.display = "none";
       }
       _nodeLabel.attributes["align"] = "center";
       _content = new DivElement();
-      _content.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.BRANCH_CONTENT}");
+      _content.classes.add("${viewModel.style._classNames[CONTENT]}");
       container.append(_nodeLabel);
       container.append(_content);
       registerListeners();
@@ -72,7 +76,7 @@ class BranchNode extends Node {
     viewModel.cachedNextSibling = node.container.nextElementSibling;
     node.container.style.width = Percentage.x100.toString();
     node.container.style.height = Percentage.x100.toString();
-    node.container.classes.add("${viewModel.style.cssPrefix}${CssIdentifiers.VIEW_ROOT}");
+    node.container.classes.add("${viewModel.style._classNames[VIEW_ROOT]}");
     viewModel.currentViewRoot = node;
     viewModel.treemapHtmlRoot.children.clear();
     viewModel.treemapHtmlRoot.append(node.container);
@@ -81,7 +85,7 @@ class BranchNode extends Node {
   void _recreateInitialHtmlHierarchy(BranchNode node) {
     node.container.style.width = node.width.toString();
     node.container.style.height = node.height.toString();
-    node.container.classes.remove("${viewModel.style.cssPrefix}${CssIdentifiers.VIEW_ROOT}");
+    node.container.classes.remove("${viewModel.style._classNames[VIEW_ROOT]}");
     if (viewModel.cachedNextSibling == null) {
       viewModel.cachedHtmlParent.append(node.container);
     } else {

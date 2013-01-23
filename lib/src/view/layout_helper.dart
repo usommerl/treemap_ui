@@ -8,7 +8,7 @@ class LayoutHelper {
   final Percentage _height;
 
   LayoutHelper._internal(this._width, this._height, this._parent, this._orientation) {
-    _container.classes.add("${_parent.viewModel.style.cssPrefix}${CssIdentifiers.LAYOUT_HELPER}");
+    _container.classes.add("${_parent.viewModel.style._classNames[runtimeType.toString()]}");
     _container.style..width = _width.toString()
         ..height = _height.toString();
     _parent.addHelper(this);
