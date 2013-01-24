@@ -13,11 +13,10 @@ class BranchNode extends Node {
     super._internal(dModel, vModel, width, height, orientation) {
       if (isModelRoot) {
         container.classes.add("${viewModel.style._classNames[MODEL_ROOT]}");
-        _nodeLabel.style.display = "none";
       }
-      _nodeLabel.attributes["align"] = "center";
       _content = new DivElement();
       _content.classes.add("${viewModel.style._classNames[CONTENT]}");
+      _nodeLabel = dataModel.ancillaryData.provideNodeLabel();
       container.append(_nodeLabel);
       container.append(_content);
       registerListeners();

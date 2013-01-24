@@ -2,20 +2,19 @@ part of treemap_model;
 
 class Leaf extends DataModel {
 
-  num _size;
-
-  Leaf(num size, String title, [String description = ""]) {
-    assert(size > 0);
-    _size = size;
-    _title = title;
-    _description = description;
+  final num size;
+  
+  Leaf(num this.size, [AncillaryData ancillaryData]) : super._internal(ancillaryData) {
+      assert(size > 0);
+  }
+  
+  factory Leaf.withTitle(num size, String title) {
+    return new Leaf(size, new SimpleTitleData(title));
   }
 
-  factory Leaf._copy(Leaf other) {
-    return new Leaf(other._size, other._title, other._description);
+  Leaf copy() {
+    return new Leaf(size, ancillaryData.copy());    
   }
-
-  num get size => _size;
-
+  
   bool get isLeaf => true;
 }

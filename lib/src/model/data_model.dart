@@ -2,14 +2,20 @@ part of treemap_model;
 
 abstract class DataModel {
 
-  String _title;
-  String _description;
   Branch _root;
   Branch _parent;
-
-  String get title => _title;
-
-  String get description => _description;
+  AncillaryData _ancillaryData;
+  
+  DataModel._internal([AncillaryData ancillaryData]) {
+    if (ancillaryData != null) {
+      this._ancillaryData = ancillaryData;
+    } else {
+      this._ancillaryData = new DebugData();
+    }
+    this._ancillaryData._model = this;
+  }
+  
+  AncillaryData get ancillaryData => _ancillaryData;
 
   Branch get parent => _parent;
 
@@ -26,10 +32,8 @@ abstract class DataModel {
   num get size;
 
   /**
-   * Creates a deep copy of [model].
-   * The reference to a potential parent of [model] will **not** be copied to the clone.
+   * Creates a deep copy of this [DataModel].
+   * The reference to a potential parent will **not** be copied to the clone.
    **/
-  static DataModel copy(DataModel model) => model.isLeaf ?
-      new Leaf._copy(model) :
-      new Branch._copy(model);
+  DataModel copy();
 }

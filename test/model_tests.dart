@@ -6,11 +6,11 @@ main() {
     DataModel leaf1, leaf2, leaf3, branch1, branch2;
 
     setUp(() {
-      leaf1 = new Leaf(5,"leaf1");
-      leaf2 = new Leaf(2,"leaf2");
-      leaf3 = new Leaf(10,"leaf2");
-      branch1 = new Branch([leaf1,leaf2],"branch1");
-      branch2 = new Branch([branch1,leaf3],"branch2");
+      leaf1 = new Leaf(5);
+      leaf2 = new Leaf(2);
+      leaf3 = new Leaf(10);
+      branch1 = new Branch([leaf1,leaf2]);
+      branch2 = new Branch([branch1,leaf3]);
     });
 
     test('x.size (branch with two leafes)', () {
@@ -19,12 +19,12 @@ main() {
     test('x.size (branch with three leafes)', () {
       expect(branch2.size, equals(branch1.size + leaf3.size));
     });
-    test('${new Leaf(1,"").runtimeType}(size,...) (size < 0 => exception)', () {
-      expect(() => new Leaf(-1, ''),
+    test('${new Leaf(1).runtimeType}(size,...) (size < 0 => exception)', () {
+      expect(() => new Leaf(-1),
           throwsA(new isInstanceOf<AssertionError>()));
     });
-    test('${new Branch([], '').runtimeType}(children,...) (children == null => exception)', () {
-      expect(() => new Branch(null, ''),
+    test('${new Branch([]).runtimeType}(children,...) (children == null => exception)', () {
+      expect(() => new Branch(null),
           throwsA(new isInstanceOf<AssertionError>()));
     });
     test('x.depth', () {

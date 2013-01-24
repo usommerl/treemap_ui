@@ -14,7 +14,7 @@ abstract class Node {
   final ViewModel viewModel;
   BranchNode parent;
   DivElement _content;
-  ParagraphElement _nodeLabel;
+  Element _nodeLabel;
 
   factory Node(DataModel dModel, ViewModel vModel, Percentage width, Percentage height, Orientation orientation)
     => dModel.isLeaf ?
@@ -34,10 +34,6 @@ abstract class Node {
     container.classes.add("${viewModel.style._classNames[orientation.toString()]}");
     container.style..width = width.toString()
                    ..height = height.toString();
-    _nodeLabel = new ParagraphElement();
-    _nodeLabel.style..marginAfter = "0px"
-        ..marginBefore = "0px";
-    _nodeLabel.text = _dataModel.title;
   }
 
   void _fixBorders() {

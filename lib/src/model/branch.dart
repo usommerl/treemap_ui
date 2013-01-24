@@ -4,17 +4,19 @@ class Branch extends DataModel {
 
   final List<DataModel> children;
 
-  Branch(this.children, String title, [String description = ""]) {
+  Branch(List<DataModel> this.children, [AncillaryData ancillaryData]) : super._internal(ancillaryData) {
     assert(children != null);
-    _title = title;
-    _description = description;
     children.forEach((child) => child._parent = this);
   }
+  
+  factory Branch.withTitle(List<DataModel> children, String title) {
+    return new Branch(children, new SimpleTitleData(title));
+  }
 
-  factory Branch._copy(Branch other) {
+  Branch copy() {
     List<DataModel> childrenCopy = new List();
-    other.children.forEach((child) {childrenCopy.add(DataModel.copy(child));});
-    return new Branch(childrenCopy, other._title, other._description);
+    children.forEach((child) => childrenCopy.add(child.copy()));
+    return new Branch(childrenCopy, ancillaryData.copy());
   }
 
   num get size => children.reduce(0, (prev,elem) => prev + elem.size);
