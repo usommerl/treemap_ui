@@ -3,6 +3,8 @@ part of treemap_model;
 abstract class AncillaryData {
 
     DataModel _model;
+    
+    DataModel get model => this._model;
 
     Element provideNodeLabel();
 
@@ -20,7 +22,7 @@ class SimpleTitleData extends AncillaryData {
     element.style..marginAfter = "0px"
                  ..marginBefore = "0px";
     element.text = this.nodeTitle;
-    if (_model.isBranch) {
+    if (model.isBranch) {
       element.attributes["align"] = "center";
     }
     return element;
@@ -35,7 +37,7 @@ class DebugData extends AncillaryData {
     Element element = new ParagraphElement();
     element.style..marginAfter = "0px"
                  ..marginBefore = "0px";
-    if (_model.isBranch) {
+    if (model.isBranch) {
       element.attributes["align"] = "center";
       element.text = "Branch [${_model.size}]";
     } else {

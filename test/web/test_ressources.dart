@@ -15,7 +15,7 @@ class TestRessources {
                                      new Leaf(450), new Leaf(10),
                                      new Leaf(10), new Leaf(10)]);
 
-  static final DataModel dataModel4 = new Branch([new Leaf(1000),new Leaf(2000), new Branch([new Leaf(10)])]);
+  static final DataModel dataModel4 = new Branch([new Leaf(1000),new Leaf(2000), new Branch([new Leaf(2), new Leaf(5), new Branch([new Leaf(3)])])]);
   static final DataModel dataModel5 = new Branch([dataModel0.copy(), dataModel2.copy()]);
 
   static final List<DataModel> testDataModels = [dataModel0,dataModel1,dataModel2,dataModel3, dataModel4, dataModel5];

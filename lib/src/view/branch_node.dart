@@ -9,8 +9,8 @@ class BranchNode extends Node {
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
 
-  BranchNode(Branch dModel, vModel, width, height, orientation) :
-    super._internal(dModel, vModel, width, height, orientation) {
+  BranchNode(Branch dataModel, viewModel, width, height, orientation) :
+    super._internal(dataModel, viewModel, width, height, orientation) {
       if (isModelRoot) {
         container.classes.add("${viewModel.style._classNames[MODEL_ROOT]}");
       }
@@ -25,10 +25,7 @@ class BranchNode extends Node {
   void register(Node child) {
     child.parent = this;
     children.add(child);
-    child._fixBorders();
-    if (child.isBranch) {
-      child._content.style.top = "${child._nodeLabel.offsetHeight}px";
-    }
+    child._rectifyAppearance();
   }
 
   void add(Node child) {
@@ -79,6 +76,7 @@ class BranchNode extends Node {
     viewModel.currentViewRoot = node;
     viewModel.treemapHtmlRoot.children.clear();
     viewModel.treemapHtmlRoot.append(node.container);
+    _rectifyAppearance();
   }
 
   void _recreateInitialHtmlHierarchy(BranchNode node) {
