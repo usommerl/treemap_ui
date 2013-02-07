@@ -8,6 +8,7 @@ class BranchNode extends Node {
 
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
+  Tooltip tooltip;
 
   BranchNode(Branch dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
@@ -25,6 +26,7 @@ class BranchNode extends Node {
   void register(Node child) {
     child.parent = this;
     children.add(child);
+    child.tooltip = new Tooltip(child);
     child._rectifyAppearance();
   }
 

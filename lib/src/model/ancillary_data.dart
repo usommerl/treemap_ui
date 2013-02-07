@@ -7,6 +7,8 @@ abstract class AncillaryData {
     DataModel get model => this._model;
 
     Element provideNodeLabel();
+    
+    Element provideTooltip();
 
     AncillaryData copy();
 }
@@ -27,6 +29,8 @@ class SimpleTitleData extends AncillaryData {
     }
     return element;
   }
+  
+  Element provideTooltip() => new Element.html("<span></span>");
 
   SimpleTitleData copy() => new SimpleTitleData(nodeTitle);
 }
@@ -39,12 +43,26 @@ class DebugData extends AncillaryData {
                  ..marginBefore = "0px";
     if (model.isBranch) {
       element.attributes["align"] = "center";
-      element.text = "Branch [${_model.size}]";
+      element.text = "Branch";
     } else {
-      element.text = "Leaf [${_model.size}]";
+      element.text = "Leaf";
     }
     return element;
   }
+  
+  Element provideTooltip() {
+    Element element = new Element.html("<div></div>");
+    element.style..backgroundColor = "white"
+        ..fontSize = "0.8em"
+        ..padding = "1px 5px 1px 5px";
+    if (model.isLeaf) {
+      element.text = "Leaf, size: ${model.size}";
+    } else {
+      element.text = "Branch, size: ${model.size}";      
+    }
+    return element;
+  }
+  
   DebugData copy() => new DebugData();
 }
 

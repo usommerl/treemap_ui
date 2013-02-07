@@ -35,6 +35,7 @@ class TreemapStyle {
     map["${LeafNode}"] = "${stylePrefix}leaf";
     map["${BranchNode}"] = "${stylePrefix}branch";
     map["${LayoutHelper}"] = "${stylePrefix}layoutHelper";
+    map["${Tooltip}"] = "${stylePrefix}tooltip";
     map[BranchNode.CONTENT] = "${stylePrefix}${BranchNode.CONTENT}";
     map[BranchNode.MODEL_ROOT] = "${stylePrefix}${BranchNode.MODEL_ROOT}";
     map[BranchNode.VIEW_ROOT] = "${stylePrefix}${BranchNode.VIEW_ROOT}";
@@ -92,6 +93,14 @@ class TreemapStyle {
 }
 .${_classNames["${LeafNode}"]} {
   background-color: #DDD;
+}
+.${_classNames["${Tooltip}"]} {
+  position: absolute;
+  z-index: 1;
+  display: none;
+}
+.${_classNames["${Tooltip}"]}.${Tooltip.VISIBLE} {
+  display: block;
 }
 .${_classNames[Node.NO_LEFT_BORDER]}{
   border-left-width: 0px;

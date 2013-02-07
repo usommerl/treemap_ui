@@ -1,6 +1,7 @@
 library treemap_view;
 
 import 'dart:html' hide Node;
+import 'dart:async';
 import '../../treemap.dart' show Treemap;
 import '../model/treemap_model.dart';
 import '../utils/treemap_utils.dart';
@@ -12,3 +13,4 @@ part 'branch_node.dart';
 part 'layout_helper.dart';
 part 'view_model.dart';
 part 'treemap_style.dart';
+part 'tooltip.dart';

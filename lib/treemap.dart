@@ -13,6 +13,7 @@ class Treemap{
    LayoutAlgorithm layoutAlgorithm;
    TreemapStyle style;
    bool isNavigatable = true;
+   bool showTooltips = true;
 
    Treemap(DivElement htmlRoot, DataModel dataModel, {this.layoutAlgorithm, this.style}) {
      if (layoutAlgorithm == null) {
