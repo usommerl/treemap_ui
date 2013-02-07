@@ -1,7 +1,7 @@
 part of treemap_view;
 
 abstract class Node {
-  
+
   static const String NO_LEFT_BORDER = 'noLeftBorder';
   static const String NO_TOP_BORDER = 'noTopBorder';
   static const String COLLAPSED_WIDTH = 'collapsedWidth';

@@ -1,7 +1,7 @@
 part of treemap_view;
 
 class BranchNode extends Node {
-  
+
   static const String CONTENT = 'branch-content';
   static const String MODEL_ROOT = 'model-root';
   static const String VIEW_ROOT = "viewRoot";
@@ -46,14 +46,14 @@ class BranchNode extends Node {
   bool get isViewRoot => viewModel.currentViewRoot == this;
 
   void registerListeners() {
-    _nodeLabel.on.mouseOver.add((MouseEvent event) {
+    _nodeLabel.onMouseOver.listen((MouseEvent event) {
       if (viewModel.treemap.isNavigatable) {
         _nodeLabel.style.cursor = "pointer";
       } else {
         _nodeLabel.style.cursor = "auto";
       }
     });
-    _nodeLabel.on.mouseDown.add((MouseEvent event) {
+    _nodeLabel.onMouseDown.listen((MouseEvent event) {
       if (viewModel.treemap.isNavigatable) {
         if (viewModel.currentViewRoot == this) {
           if (!isModelRoot) {

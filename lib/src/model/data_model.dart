@@ -5,7 +5,7 @@ abstract class DataModel {
   Branch _root;
   Branch _parent;
   AncillaryData _ancillaryData;
-  
+
   DataModel._internal([AncillaryData ancillaryData]) {
     if (ancillaryData != null) {
       this._ancillaryData = ancillaryData;
@@ -14,7 +14,7 @@ abstract class DataModel {
     }
     this._ancillaryData._model = this;
   }
-  
+
   AncillaryData get ancillaryData => _ancillaryData;
 
   Branch get parent => _parent;

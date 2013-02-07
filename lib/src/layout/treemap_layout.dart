@@ -1,6 +1,7 @@
 library treemap_layout;
 
 import 'dart:math';
+import 'dart:collection';
 import '../view/treemap_view.dart';
 import '../model/treemap_model.dart';
 import '../utils/treemap_utils.dart' hide Orientation;

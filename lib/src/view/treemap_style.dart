@@ -29,7 +29,7 @@ class TreemapStyle {
       }
     }
    }
-  
+
   Map<String,String> _initClassNames() {
     final map = new Map<String,String>();
     map["${LeafNode}"] = "${stylePrefix}leaf";
@@ -44,7 +44,7 @@ class TreemapStyle {
     map[Node.COLLAPSED_HEIGHT] = "${stylePrefix}${Node.COLLAPSED_HEIGHT}";
     map[Orientation.vertical.toString()] = "${stylePrefix}${Orientation.vertical.toString()}";
     map[Orientation.horizontal.toString()] = "${stylePrefix}${Orientation.horizontal.toString()}";
-    
+
     return map;
   }
 
@@ -55,7 +55,7 @@ class TreemapStyle {
 <style type="text/css">
 .${_classNames["${LeafNode}"]},
 .${_classNames["${BranchNode}"]},
-.${_classNames["${LayoutHelper}"]}, 
+.${_classNames["${LayoutHelper}"]},
 .${_classNames[BranchNode.CONTENT]} {
   margin: 0px;
   padding: 0px;

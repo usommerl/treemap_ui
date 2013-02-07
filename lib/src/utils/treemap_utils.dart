@@ -4,7 +4,7 @@ part 'percentage.dart';
 part 'orientation.dart';
 
 Collection sortedCopy(Collection original, Comparator compare) {
-  final copy = new List.from(original);
+  final copy = original.toList();
   copy.sort(compare);
   return copy;
 }

@@ -8,7 +8,7 @@ class Branch extends DataModel {
     assert(children != null);
     children.forEach((child) => child._parent = this);
   }
-  
+
   factory Branch.withTitle(List<DataModel> children, String title) {
     return new Branch(children, new SimpleTitleData(title));
   }
