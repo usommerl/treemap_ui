@@ -5,7 +5,7 @@ import 'dart:async';
 import '../../treemap.dart' show Treemap;
 import '../model/treemap_model.dart';
 import '../utils/treemap_utils.dart';
-export '../utils/treemap_utils.dart' show Orientation;
+export '../utils/treemap_utils.dart' show Orientation, Color;
 
 part 'node.dart';
 part 'leaf_node.dart';

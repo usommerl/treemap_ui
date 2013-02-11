@@ -14,6 +14,8 @@ class ViewModel {
     assert(treemapHtmlRoot.clientHeight > 0);
     assert(treemapHtmlRoot.children.length == 0);
   }
+  
+  bool get tooltipsEnabled => treemap.showTooltips;
 
 
 }

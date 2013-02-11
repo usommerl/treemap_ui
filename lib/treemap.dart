@@ -4,7 +4,7 @@ import 'dart:html' hide Node;
 import 'src/model/treemap_model.dart';
 export 'src/model/treemap_model.dart';
 import 'src/view/treemap_view.dart';
-export 'src/view/treemap_view.dart' show Orientation, TreemapStyle;
+export 'src/view/treemap_view.dart' show TreemapStyle, Orientation, Color;
 import 'src/layout/treemap_layout.dart';
 export 'src/layout/treemap_layout.dart';
 

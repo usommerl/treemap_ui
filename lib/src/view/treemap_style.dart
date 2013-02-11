@@ -3,8 +3,8 @@ part of treemap_view;
 class TreemapStyle {
 
   final String stylePrefix;
-  final String branchColor;
-  final String borderColor;
+  final Color branchColor;
+  final Color borderColor;
   final int borderWidth;
   final int branchPadding;
   final String borderStyle;
@@ -13,8 +13,8 @@ class TreemapStyle {
   TreemapStyle(
     {this.stylePrefix   : 'tm-',
      this.branchPadding : 2,
-     this.branchColor   : "#999",
-     this.borderColor   : "black",
+     this.branchColor   : Color.gray,
+     this.borderColor   : Color.black,
      this.borderWidth   : 1,
      this.borderStyle   : "solid"
     }
@@ -93,6 +93,9 @@ class TreemapStyle {
 }
 .${_classNames["${LeafNode}"]} {
   background-color: #DDD;
+}
+.${_classNames["${LeafNode}"]} *:first-child {
+  cursor: default;
 }
 .${_classNames["${Tooltip}"]} {
   position: absolute;
