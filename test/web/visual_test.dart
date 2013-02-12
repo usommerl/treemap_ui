@@ -1,6 +1,6 @@
 import 'dart:html';
 import 'package:treemap/treemap.dart';
-import 'test_ressources.dart';
+import '../resources/test_resources.dart';
 
 const treeMapClass = "treemapContainer";
 const descriptionClass = "description";
@@ -9,8 +9,8 @@ const margin = 7;
 
 main() {
     prepareDocument("Visual Tests");
-    List<LayoutAlgorithm> algorithms = TestRessources.layoutAlgorithms;
-    List<DataModel> models = TestRessources.testDataModels;
+    List<LayoutAlgorithm> algorithms = TestResources.layoutAlgorithms;
+    List<DataModel> models = TestResources.testDataModels;
 
     algorithms.forEach((algorithm) {
       final algorithmName = algorithm.runtimeType.toString();

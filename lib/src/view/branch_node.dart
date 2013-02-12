@@ -10,14 +10,14 @@ class BranchNode extends Node {
   final List<LayoutHelper> layoutHelpers = [];
   Tooltip tooltip;
 
-  BranchNode(Branch dataModel, viewModel, width, height, orientation) :
+  BranchNode(AbstractBranch dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
       if (isModelRoot) {
         container.classes.add("${viewModel.style._classNames[MODEL_ROOT]}");
       }
       _content = new DivElement();
       _content.classes.add("${viewModel.style._classNames[CONTENT]}");
-      _nodeLabel = dataModel.ancillaryData.provideNodeLabel();
+      _nodeLabel = dataModel.provideNodeLabel();
       container.append(_nodeLabel);
       container.append(_content);
       registerListeners();
@@ -40,7 +40,7 @@ class BranchNode extends Node {
     layoutHelpers.add(helper);
   }
 
-  Branch get dataModel => this._dataModel;
+  AbstractBranch get dataModel => this._dataModel;
 
   bool get isViewRoot => viewModel.currentViewRoot == this;
 

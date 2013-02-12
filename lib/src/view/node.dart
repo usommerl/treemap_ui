@@ -34,6 +34,7 @@ abstract class Node {
     final rootNode = new Node(dataModel, viewModel, Percentage.x100, Percentage.x100, Orientation.vertical);
     rootNode.viewModel.treemapHtmlRoot.append(rootNode.container);
     rootNode.viewModel.currentViewRoot = rootNode;
+    rootNode._nodeLabel.style.display = "none";
     return rootNode;
   }
   

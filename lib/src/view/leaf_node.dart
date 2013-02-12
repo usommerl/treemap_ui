@@ -4,13 +4,14 @@ class LeafNode extends Node {
   
   Tooltip tooltip;
 
-  LeafNode(Leaf dataModel, viewModel, width, height, orientation) :
+  LeafNode(AbstractLeaf dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
     _content = container;
-    _nodeLabel = dataModel.ancillaryData.provideNodeLabel();
+    _nodeLabel = dataModel.provideNodeLabel();
+    container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
     _content.append(_nodeLabel);  
   }
 
-  Leaf get dataModel => this._dataModel;
+  AbstractLeaf get dataModel => this._dataModel;
  
 }

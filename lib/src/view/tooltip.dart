@@ -51,7 +51,7 @@ class Tooltip {
   
   void resetTooltipContent() {
     container.children.clear();
-    container.append(node.dataModel.ancillaryData.provideTooltip());
+    container.append(node.dataModel.provideTooltip());
   }
   
 }

@@ -1,8 +1,8 @@
 library treemap_model;
 
-import 'dart:html' show Element, ParagraphElement;
+import 'dart:html' show Element;
+import '../utils/treemap_utils.dart' show Color;
 
 part 'data_model.dart';
-part 'leaf.dart';
-part 'branch.dart';
-part 'ancillary_data.dart';
+part 'abstract_leaf.dart';
+part 'abstract_branch.dart';

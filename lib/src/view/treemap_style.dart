@@ -91,9 +91,6 @@ class TreemapStyle {
   bottom: 0px;
   left: 0px;
 }
-.${_classNames["${LeafNode}"]} {
-  background-color: #DDD;
-}
 .${_classNames["${LeafNode}"]} *:first-child {
   cursor: default;
 }
@@ -111,15 +108,15 @@ class TreemapStyle {
 .${_classNames[Node.NO_TOP_BORDER]}{
   border-top-width: 0px;
 }
-.${_classNames[Node.COLLAPSED_WIDTH]}{
+.${_classNames[Node.COLLAPSED_WIDTH]}[style] {
   border-left-width: 0px;
   border-right-width: 0px;
-  background-color: ${borderColor};
+  background-color: ${borderColor} !important;
 }
-.${_classNames[Node.COLLAPSED_HEIGHT]}{
+.${_classNames[Node.COLLAPSED_HEIGHT]}[style] {
   border-top-width: 0px;
   border-bottom-width: 0px;
-  background-color: ${borderColor};
+  background-color: ${borderColor} !important;
 }
 .${_classNames[Node.COLLAPSED_WIDTH]}.${_classNames["${BranchNode}"]},
 .${_classNames[Node.COLLAPSED_HEIGHT]}.${_classNames["${BranchNode}"]} {

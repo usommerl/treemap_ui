@@ -1,6 +1,6 @@
 import 'dart:html';
 import 'package:treemap/treemap.dart';
-import 'test_ressources.dart';
+import '../resources/test_resources.dart';
 
 const controllsContainerId = "controllsContainer";
 const treemapContainerId = "treemapContainer";
@@ -26,22 +26,21 @@ main() {
   prepareDocument("Resize Test");
   modelSelect.value = "dataModel2";
 
-  widthSlider.on.change.add((e) {
+  widthSlider.onChange.listen((e) {
     var size = widthSlider.valueAsNumber;
     treemapContainer.style.width = "${size}px";
   });
-  heightSlider.on.change.add((e) {
+  heightSlider.onChange.listen((e) {
     var size = heightSlider.valueAsNumber;
     treemapContainer.style.height = "${size}px";
   });
-  algorithmSelect.on.change.add((e) {
+  algorithmSelect.onChange.listen((e) {
     createNewTreemap(selectedAlgorithm(), selectedModel());
   });
-  modelSelect.on.change.add((e) {
+  modelSelect.onChange.listen((e) {
     createNewTreemap(selectedAlgorithm(), selectedModel());
   });
   createNewTreemap(selectedAlgorithm(), selectedModel());
-
 }
 
 void prepareDocument(String documentTitle) {
@@ -60,9 +59,9 @@ void prepareDocument(String documentTitle) {
      ..max = max
      ..value = initialSize.toString()
      ..step = step;
-  var options = algorithmMap.keys.mappedBy((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
+  var options = algorithmMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   algorithmSelect = new Element.html("<select>$options</select>");
-  options = modelMap.keys.mappedBy((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
+  options = modelMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   modelSelect = new Element.html("<select>$options</select>");
   controllsContainer
     ..append(widthSlider)
@@ -90,7 +89,7 @@ DataModel selectedModel() {
 Map<String, DataModel> initModelMap() {
   var i = 0;
   var map = new Map();
-  TestRessources.testDataModels.forEach((model) {
+  TestResources.testDataModels.forEach((model) {
     map["dataModel${i++}"] = model;
   });
   return map;
@@ -99,7 +98,7 @@ Map<String, DataModel> initModelMap() {
 Map<String, LayoutAlgorithm> initAlgorithmMap() {
   var i = 0;
   var map = new Map();
-  TestRessources.layoutAlgorithms.forEach((alg) {
+  TestResources.layoutAlgorithms.forEach((alg) {
     map["${alg.runtimeType.toString()}"] = alg;
   });
   return map;
