@@ -39,10 +39,10 @@ class LayoutHelper {
 
   Orientation get orientation => this._orientation;
 
-  Percentage get width => this._width;
+  Percentage get width => _width;
 
-  Percentage get height => this._height;
+  Percentage get height => _height;
 
-  Element get container => this._container;
+  Element get container => _container;
 
 }

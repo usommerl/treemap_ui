@@ -1,4 +1,6 @@
 import 'dart:html';
+import 'dart:math';
+import 'dart:async';
 import 'package:treemap/treemap.dart';
 import '../resources/test_resources.dart';
 
@@ -15,12 +17,13 @@ Element treemapContainer;
 SelectElement algorithmSelect;
 Map<String, LayoutAlgorithm> algorithmMap = initAlgorithmMap();
 SelectElement modelSelect;
+CheckboxInputElement randomSizeCheckbox = new CheckboxInputElement();
 Map<String, DataModel> modelMap = initModelMap();
+Timer sizeUpdateTimer;
+NumberInputElement sizeUpdateInput = new NumberInputElement();
+Treemap treemap;
 
-final LayoutAlgorithm sliceAndDice = new SliceAndDice();
-final LayoutAlgorithm strip = new Strip();
-final LayoutAlgorithm squarified = new Squarified();
-List<LayoutAlgorithm> algorithms = [sliceAndDice, strip, squarified];
+List<LayoutAlgorithm> algorithms = TestResources.layoutAlgorithms;
 
 main() {
   prepareDocument("Resize Test");
@@ -35,17 +38,24 @@ main() {
     treemapContainer.style.height = "${size}px";
   });
   algorithmSelect.onChange.listen((e) {
-    createNewTreemap(selectedAlgorithm(), selectedModel());
+    treemap.layoutAlgorithm = selectedAlgorithm();
   });
   modelSelect.onChange.listen((e) {
-    createNewTreemap(selectedAlgorithm(), selectedModel());
+    treemap.model = selectedModel();
+  });
+  randomSizeCheckbox.onChange.listen((e) {
+    sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeFunction);
+  });
+  sizeUpdateInput.onChange.listen((e) {
+    sizeUpdateTimer.cancel();
+    sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeFunction);
   });
   createNewTreemap(selectedAlgorithm(), selectedModel());
 }
 
 void prepareDocument(String documentTitle) {
   document.title = documentTitle;
-  var controllsContainer = new Element.html("<div id=${controllsContainerId}></div>");
+  final controllsContainer = new Element.html("<div id=${controllsContainerId}></div>");
   treemapContainer = new Element.html("<div id=${treemapContainerId} style='width:${initialSize}px;height:${initialSize}px;'></div>");
   widthSlider = new RangeInputElement();
   widthSlider
@@ -59,15 +69,24 @@ void prepareDocument(String documentTitle) {
      ..max = max
      ..value = initialSize.toString()
      ..step = step;
+  final sizeControls = new DivElement();
+  sizeControls..append(widthSlider)..append(heightSlider);
+  final dynamicSizeLabel = new Element.html("<span> random size updates every </span>");
+  randomSizeCheckbox.style.verticalAlign = "middle";
+  randomSizeCheckbox.checked = false;
+  final sizeUpdateLabel = new Element.html("<span> ms</span>");
+  sizeUpdateInput..min = "100"..max = "10000"..step = "100"..valueAsNumber = 200;
+  final dynamicSizeControls = new DivElement();
+  dynamicSizeControls..append(randomSizeCheckbox)..append(dynamicSizeLabel)..append(sizeUpdateInput)..append(sizeUpdateLabel);
   var options = algorithmMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   algorithmSelect = new Element.html("<select>$options</select>");
   options = modelMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   modelSelect = new Element.html("<select>$options</select>");
   controllsContainer
-    ..append(widthSlider)
-    ..append(heightSlider)
     ..append(algorithmSelect)
-    ..append(modelSelect);
+    ..append(modelSelect)
+    ..append(dynamicSizeControls)
+    ..append(sizeControls);
   document.body
     ..append(controllsContainer)
     ..append(treemapContainer);
@@ -75,7 +94,7 @@ void prepareDocument(String documentTitle) {
 
 void createNewTreemap(LayoutAlgorithm algorithm, DataModel model) {
   treemapContainer.children.clear();
-  new Treemap(treemapContainer, model, layoutAlgorithm : algorithm);    
+  treemap = new Treemap(treemapContainer, model, algorithm : algorithm);    
 }
 
 LayoutAlgorithm selectedAlgorithm() {
@@ -96,10 +115,31 @@ Map<String, DataModel> initModelMap() {
 }
 
 Map<String, LayoutAlgorithm> initAlgorithmMap() {
-  var i = 0;
   var map = new Map();
   TestResources.layoutAlgorithms.forEach((alg) {
-    map["${alg.runtimeType.toString()}"] = alg;
+    map["${alg.runtimeType.toString().toLowerCase()}"] = alg;
   });
   return map;
+}
+
+final randomSizeFunction = (Timer timer) {
+  final Random r = new Random();
+  if (randomSizeCheckbox.checked) {
+    final leafes = leafesOnly(selectedModel());
+    final leaf = leafes.elementAt(r.nextInt(leafes.length));
+    leaf.size = r.nextInt(1000);      
+  } else {
+    timer.cancel();
+  }
+};
+
+List<AbstractLeaf> leafesOnly(DataModel model) {
+  final List<AbstractLeaf> result = [];
+  if (model.isLeaf) {
+    result.add(model);
+  } else {
+    final branch = model as AbstractBranch;
+    branch.children.map((child) => leafesOnly(child)).forEach((x) => result.addAll(x));
+  }
+  return result;
 }

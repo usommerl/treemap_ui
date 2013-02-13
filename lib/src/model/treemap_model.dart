@@ -1,6 +1,7 @@
 library treemap_model;
 
 import 'dart:html' show Element;
+import 'dart:async';
 import '../utils/treemap_utils.dart' show Color;
 
 part 'data_model.dart';

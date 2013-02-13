@@ -20,10 +20,10 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
 
   /**
    * Filters the [DataModel] of [node] for children, which have no corresponding
-   * [TmNode] instance connecteted to [node]
+   * [Node] instance connecteted to [node]
    */
   Iterable<DataModel> _notPlacedModels(BranchNode node) {
-    final placedModels = node.children.mappedBy((Node child) => child.dataModel);
+    final placedModels = node.children.map((Node child) => child.dataModel);
     return node.dataModel.children.where((DataModel child) => !placedModels.contains(child));
   }
 

@@ -1,10 +1,15 @@
 part of treemap_model;
 
 abstract class DataModel {
-
-  AbstractBranch _root;
   
+  final StreamController<num> _sizeChangeController = new StreamController.broadcast();
+  Stream<num> onSizeChange;
+  AbstractBranch _root;
   AbstractBranch _parent;
+  
+  DataModel() {
+    onSizeChange = _sizeChangeController.stream;
+  }
 
   AbstractBranch get parent => _parent;
 
@@ -23,4 +28,11 @@ abstract class DataModel {
   Element provideNodeLabel();
   
   Element provideTooltip();  
+
+  void _propagateSizeChange() {
+    _sizeChangeController.add(size);
+    if (parent != null) {
+      parent._propagateSizeChange();
+    }
+  }
 }

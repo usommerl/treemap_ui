@@ -7,12 +7,18 @@ class Percentage {
   static final Percentage x0 = new Percentage._internal(0);
 
   Percentage._internal(this._percentage){
-    assert(_percentage >= 0 && _percentage <= 100);
+    assert(_percentage >= 0);
+    assert(_percentage <= 100);
   }
 
   factory Percentage.from(num amount, num basicValue) {
-    assert(basicValue >= amount && amount >= 0);
-    return new Percentage._internal((amount / basicValue) * 100);
+    assert(amount >= 0);
+    assert(basicValue >= amount);
+    if (amount == 0) {
+      return Percentage.x0;
+    } else {
+      return new Percentage._internal((amount / basicValue) * 100);
+    }
   }
 
   num percentageValue(num basicValue) => (basicValue / 100) * this._percentage;

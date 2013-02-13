@@ -5,11 +5,10 @@ class Branch extends AbstractBranch {
   Branch(List<DataModel> children) : super(children);
   
   Element provideNodeLabel() {
-    Element element = new ParagraphElement();
-    element.style..marginAfter = "0px"
-                 ..marginBefore = "0px";
-    element.attributes["align"] = "center";
-    element.text = "Branch";
+    Element element = new Element.html("<p align=center>&nbsp;</p>");
+    
+    element.style..marginBefore = "0px"
+                 ..marginAfter = "0px";
     return element;
   }
   
@@ -18,7 +17,7 @@ class Branch extends AbstractBranch {
     element.style..backgroundColor = "white"
         ..fontSize = "0.8em"
         ..padding = "1px 5px 1px 5px";
-    element.text = "Branch, size: ${size}";      
+    element.text = "Branch (size: ${size}, depth: ${depth})";      
     return element;
   }
   
