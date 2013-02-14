@@ -26,7 +26,7 @@ Treemap treemap;
 List<LayoutAlgorithm> algorithms = TestResources.layoutAlgorithms;
 
 main() {
-  prepareDocument("Resize Test");
+  prepareDocument("dynamic test");
   modelSelect.value = "dataModel2";
 
   widthSlider.onChange.listen((e) {
@@ -50,7 +50,7 @@ main() {
     sizeUpdateTimer.cancel();
     sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeFunction);
   });
-  createNewTreemap(selectedAlgorithm(), selectedModel());
+  treemap = new Treemap(treemapContainer, selectedModel(), algorithm : selectedAlgorithm());    
 }
 
 void prepareDocument(String documentTitle) {
@@ -90,11 +90,6 @@ void prepareDocument(String documentTitle) {
   document.body
     ..append(controllsContainer)
     ..append(treemapContainer);
-}
-
-void createNewTreemap(LayoutAlgorithm algorithm, DataModel model) {
-  treemapContainer.children.clear();
-  treemap = new Treemap(treemapContainer, model, algorithm : algorithm);    
 }
 
 LayoutAlgorithm selectedAlgorithm() {

@@ -8,7 +8,7 @@ const sizeTreemap = 300;
 const margin = 7;
 
 main() {
-    prepareDocument("Visual Tests");
+    prepareDocument("static test");
     List<LayoutAlgorithm> algorithms = TestResources.layoutAlgorithms;
     List<DataModel> models = TestResources.testDataModels;
 
@@ -20,7 +20,7 @@ main() {
         final String testId = "${algorithmName}${i}";
         final treemapContainer = new Element.html("<div id='${testId}' class='${treeMapClass}'></div>");
         document.body.children.addLast(treemapContainer);
-        new Treemap(treemapContainer, models[i], layoutAlgorithm : algorithm);
+        new Treemap(treemapContainer, models[i], algorithm : algorithm);
       }
     });
 }
