@@ -4,11 +4,14 @@ abstract class DataModel {
   
   final StreamController<num> _sizeChangeController = new StreamController.broadcast();
   Stream<num> onSizeChange;
+  final StreamController _propertyChangeController = new StreamController.broadcast();
+  Stream onPropertyChange;
   AbstractBranch _root;
   AbstractBranch _parent;
   
   DataModel() {
     onSizeChange = _sizeChangeController.stream;
+    onPropertyChange = _propertyChangeController.stream;
   }
 
   AbstractBranch get parent => _parent;
@@ -34,5 +37,9 @@ abstract class DataModel {
     if (parent != null) {
       parent._propagateSizeChange();
     }
+  }
+
+  void updateView() {
+    _propertyChangeController.add(null);
   }
 }

@@ -1,20 +1,22 @@
 part of treemap_view;
 
-class Tooltip {
+class Tooltip implements Attachable {
   
-  static const String VISIBLE = 'visible';
   final DivElement container = new DivElement();
+  static const String VISIBLE = 'visible';
   Timer _delayTimer = new Timer(0,(timer){});
   final Node node;
   
   Tooltip(Node this.node) {  
     container.classes.add("${node.viewModel.style._classNames[runtimeType.toString()]}");
-    resetTooltipContent();
-    if (node.isLeaf) {
-      _establishDomHierarchyAndListeners(node.container, node.parent._content);
-    } else {
-      _establishDomHierarchyAndListeners(node._nodeLabel, node.container);
-    }
+    repaintContent();
+    node.parent.then((BranchNode parent) {
+      if (node.isLeaf) {
+        _establishDomHierarchyAndListeners(node.container, parent._content);
+      } else {
+        _establishDomHierarchyAndListeners(node._nodeLabel.container, node.container);
+      }      
+    });
   }
   
   void _establishDomHierarchyAndListeners(Element hoverElement, Element tooltipDomParent) {
@@ -49,7 +51,7 @@ class Tooltip {
     });
   }
   
-  void resetTooltipContent() {
+  void repaintContent() {
     container.children.clear();
     container.append(node.dataModel.provideTooltip());
   }

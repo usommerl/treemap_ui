@@ -1,26 +1,27 @@
 part of treemap_view;
 
-class LayoutHelper {
-  final DivElement _container = new DivElement();
+class LayoutHelper implements Attachable {
+  
+  final DivElement container = new DivElement();
   final BranchNode _parent;
-  final Orientation _orientation;
-  final Percentage _width;
-  final Percentage _height;
+  final Orientation orientation;
+  final Percentage width;
+  final Percentage height;
 
-  LayoutHelper._internal(this._width, this._height, this._parent, this._orientation) {
-    _container.classes.add("${_parent.viewModel.style._classNames[runtimeType.toString()]}");
-    _container.style..width = _width.toString()
-        ..height = _height.toString();
+  LayoutHelper._internal(this.width, this.height, this._parent, this.orientation) {
+    container.classes.add("${_parent.viewModel.style._classNames[runtimeType.toString()]}");
+    container.style..width = width.toString()
+        ..height = height.toString();
     _parent.addHelper(this);
   }
 
   factory LayoutHelper.rowStrip(Percentage size, BranchNode parent, Orientation orientation) {
     LayoutHelper row;
     if (orientation.isHorizontal) {
-      row = new LayoutHelper._internal(Percentage.x100, size, parent, orientation);
+      row = new LayoutHelper._internal(Percentage.ONE_HUNDRED, size, parent, orientation);
       row.container.style.float = "none";
     } else {
-      row = new LayoutHelper._internal(size, Percentage.x100, parent, orientation);
+      row = new LayoutHelper._internal(size, Percentage.ONE_HUNDRED, parent, orientation);
       row.container.style.float = "left";
     }
     return row;
@@ -33,16 +34,8 @@ class LayoutHelper {
   }
 
   void add(Node child) {
-    _container.append(child.container);
+    container.append(child.container);
     _parent.register(child);
   }
-
-  Orientation get orientation => this._orientation;
-
-  Percentage get width => _width;
-
-  Percentage get height => _height;
-
-  Element get container => _container;
 
 }

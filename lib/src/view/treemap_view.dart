@@ -14,3 +14,5 @@ part 'layout_helper.dart';
 part 'view_model.dart';
 part 'treemap_style.dart';
 part 'tooltip.dart';
+part 'node_label.dart';
+part 'attachable.dart';

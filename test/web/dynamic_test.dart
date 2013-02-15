@@ -6,6 +6,7 @@ import '../resources/test_resources.dart';
 
 const controllsContainerId = "controllsContainer";
 const treemapContainerId = "treemapContainer";
+const prefixDataModel = "dataModel";
 const initialSize = 525;
 const min = "10";
 const max = "1300";
@@ -13,14 +14,18 @@ const step = "1";
 
 RangeInputElement widthSlider;
 RangeInputElement heightSlider;
+ButtonElement resetModelButton = new ButtonElement();
 Element treemapContainer;
 SelectElement algorithmSelect;
 Map<String, LayoutAlgorithm> algorithmMap = initAlgorithmMap();
 SelectElement modelSelect;
 CheckboxInputElement randomSizeCheckbox = new CheckboxInputElement();
+CheckboxInputElement randomPropertyCheckbox = new CheckboxInputElement();
 Map<String, DataModel> modelMap = initModelMap();
-Timer sizeUpdateTimer;
+Timer sizeUpdateTimer = new Timer(0,(_){});
 NumberInputElement sizeUpdateInput = new NumberInputElement();
+Timer propertyUpdateTimer =  new Timer(0,(_){});
+NumberInputElement propertyUpdateInput = new NumberInputElement();
 Treemap treemap;
 
 List<LayoutAlgorithm> algorithms = TestResources.layoutAlgorithms;
@@ -46,10 +51,26 @@ main() {
   randomSizeCheckbox.onChange.listen((e) {
     sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeFunction);
   });
+  randomPropertyCheckbox.onChange.listen((e) {
+    propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyFunction);
+  });
   sizeUpdateInput.onChange.listen((e) {
     sizeUpdateTimer.cancel();
     sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeFunction);
   });
+  propertyUpdateInput.onChange.listen((e) {
+    propertyUpdateTimer.cancel();
+    propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyFunction);
+  });
+  resetModelButton.onClick.listen((e) {
+    final index = int.parse(modelSelect.value.substring(prefixDataModel.length));
+    final tmp = TestResources.testDataModels.elementAt(index);
+    final model = tmp.isBranch ? tmp as Branch : tmp as Leaf;
+    final copy = model.copy();
+    modelMap["${prefixDataModel}${index}"] = copy;
+    treemap.model = selectedModel();
+  });
+  
   treemap = new Treemap(treemapContainer, selectedModel(), algorithm : selectedAlgorithm());    
 }
 
@@ -69,6 +90,8 @@ void prepareDocument(String documentTitle) {
      ..max = max
      ..value = initialSize.toString()
      ..step = step;
+  resetModelButton.text = "reset";
+  resetModelButton.title = "Resets the selected model";
   final sizeControls = new DivElement();
   sizeControls..append(widthSlider)..append(heightSlider);
   final dynamicSizeLabel = new Element.html("<span> random size updates every </span>");
@@ -78,6 +101,13 @@ void prepareDocument(String documentTitle) {
   sizeUpdateInput..min = "100"..max = "10000"..step = "100"..valueAsNumber = 200;
   final dynamicSizeControls = new DivElement();
   dynamicSizeControls..append(randomSizeCheckbox)..append(dynamicSizeLabel)..append(sizeUpdateInput)..append(sizeUpdateLabel);
+  final dynamicPropertyLabel = new Element.html("<span> random property updates every </span>");
+  randomPropertyCheckbox.style.verticalAlign = "middle";
+  randomPropertyCheckbox.checked = false;
+  final propertyUpdateLabel = new Element.html("<span> ms</span>");
+  propertyUpdateInput..min = "1"..max = "10000"..step = "10"..valueAsNumber = 50;
+  final dynamicPropertyControls = new DivElement();
+  dynamicPropertyControls..append(randomPropertyCheckbox)..append(dynamicPropertyLabel)..append(propertyUpdateInput)..append(propertyUpdateLabel);
   var options = algorithmMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   algorithmSelect = new Element.html("<select>$options</select>");
   options = modelMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
@@ -85,7 +115,9 @@ void prepareDocument(String documentTitle) {
   controllsContainer
     ..append(algorithmSelect)
     ..append(modelSelect)
+    ..append(resetModelButton)
     ..append(dynamicSizeControls)
+    ..append(dynamicPropertyControls)
     ..append(sizeControls);
   document.body
     ..append(controllsContainer)
@@ -104,7 +136,7 @@ Map<String, DataModel> initModelMap() {
   var i = 0;
   var map = new Map();
   TestResources.testDataModels.forEach((model) {
-    map["dataModel${i++}"] = model;
+    map["${prefixDataModel}${i++}"] = model.copy();
   });
   return map;
 }
@@ -128,7 +160,18 @@ final randomSizeFunction = (Timer timer) {
   }
 };
 
-List<AbstractLeaf> leafesOnly(DataModel model) {
+final randomPropertyFunction = (Timer timer) {
+  final Random r = new Random();
+  if (randomPropertyCheckbox.checked) {
+    final leafes = leafesOnly(selectedModel());
+    final leaf = leafes.elementAt(r.nextInt(leafes.length));
+    leaf.someProperty = r.nextInt(1000); 
+  } else {
+    timer.cancel();
+  }
+};
+
+List<Leaf> leafesOnly(DataModel model) {
   final List<AbstractLeaf> result = [];
   if (model.isLeaf) {
     result.add(model);

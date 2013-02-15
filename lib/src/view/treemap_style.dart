@@ -13,8 +13,8 @@ class TreemapStyle {
   TreemapStyle(
     {this.stylePrefix   : 'tm-',
      this.branchPadding : 2,
-     this.branchColor   : Color.gray,
-     this.borderColor   : Color.black,
+     this.branchColor   : Color.GRAY,
+     this.borderColor   : Color.BLACK,
      this.borderWidth   : 1,
      this.borderStyle   : "solid"
     }
@@ -36,6 +36,7 @@ class TreemapStyle {
     map["${BranchNode}"] = "${stylePrefix}branch";
     map["${LayoutHelper}"] = "${stylePrefix}layoutHelper";
     map["${Tooltip}"] = "${stylePrefix}tooltip";
+    map["${NodeLabel}"] = "${stylePrefix}label";
     map[BranchNode.CONTENT] = "${stylePrefix}${BranchNode.CONTENT}";
     map[BranchNode.MODEL_ROOT] = "${stylePrefix}${BranchNode.MODEL_ROOT}";
     map[BranchNode.VIEW_ROOT] = "${stylePrefix}${BranchNode.VIEW_ROOT}";
@@ -43,8 +44,8 @@ class TreemapStyle {
     map[Node.NO_TOP_BORDER] = "${stylePrefix}${Node.NO_TOP_BORDER}";
     map[Node.COLLAPSED_WIDTH] = "${stylePrefix}${Node.COLLAPSED_WIDTH}";
     map[Node.COLLAPSED_HEIGHT] = "${stylePrefix}${Node.COLLAPSED_HEIGHT}";
-    map[Orientation.vertical.toString()] = "${stylePrefix}${Orientation.vertical.toString()}";
-    map[Orientation.horizontal.toString()] = "${stylePrefix}${Orientation.horizontal.toString()}";
+    map[Orientation.VERTICAL.toString()] = "${stylePrefix}${Orientation.VERTICAL.toString()}";
+    map[Orientation.HORIZONTAL.toString()] = "${stylePrefix}${Orientation.HORIZONTAL.toString()}";
 
     return map;
   }
@@ -125,10 +126,10 @@ class TreemapStyle {
 .${_classNames[BranchNode.VIEW_ROOT]}{
   border-width: ${borderWidth}px;
 }
-.${_classNames[Orientation.vertical.toString()]}{
+.${_classNames[Orientation.VERTICAL.toString()]}{
   float: none;
 }
-.${_classNames[Orientation.horizontal.toString()]}{
+.${_classNames[Orientation.HORIZONTAL.toString()]}{
   float: left;
 }
 </style>

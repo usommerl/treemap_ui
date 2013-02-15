@@ -49,8 +49,8 @@ class Squarified extends RowBasedLayoutAlgorithms {
 
   Orientation _determineOrientation(BranchNode node) =>
       _availableWidth(node) > _availableHeight(node) ?
-          Orientation.vertical :
-          Orientation.horizontal;
+          Orientation.VERTICAL :
+          Orientation.HORIZONTAL;
 
   num _worstAspectRatio(BranchNode parent, Collection<DataModel> models, Orientation orientation) =>
       _aspectRatios(parent, models, orientation).reduce(0, (accum,ratio) => max(accum,ratio));

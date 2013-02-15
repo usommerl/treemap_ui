@@ -3,19 +3,16 @@ part of treemap_utils;
 class Percentage {
 
   final num _percentage;
-  static final Percentage x100 = new Percentage._internal(100);
-  static final Percentage x0 = new Percentage._internal(0);
+  static const Percentage ONE_HUNDRED = const Percentage._internal(100);
+  static const Percentage ZERO = const Percentage._internal(0);
 
-  Percentage._internal(this._percentage){
-    assert(_percentage >= 0);
-    assert(_percentage <= 100);
-  }
-
+  const Percentage._internal(this._percentage);
+  
   factory Percentage.from(num amount, num basicValue) {
     assert(amount >= 0);
     assert(basicValue >= amount);
     if (amount == 0) {
-      return Percentage.x0;
+      return Percentage.ZERO;
     } else {
       return new Percentage._internal((amount / basicValue) * 100);
     }

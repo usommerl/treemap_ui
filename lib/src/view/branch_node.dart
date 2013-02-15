@@ -8,31 +8,27 @@ class BranchNode extends Node {
 
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
-  Tooltip tooltip;
 
-  BranchNode(AbstractBranch dataModel, viewModel, width, height, orientation) :
+  BranchNode(dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
       if (isModelRoot) {
         container.classes.add("${viewModel.style._classNames[MODEL_ROOT]}");
       }
       _content = new DivElement();
       _content.classes.add("${viewModel.style._classNames[CONTENT]}");
-      _nodeLabel = dataModel.provideNodeLabel();
-      container.append(_nodeLabel);
+      container.append(_nodeLabel.container);
       container.append(_content);
-      registerListeners();
+      _registerListeners();
     }
-
-  void register(Node child) {
-    child.parent = this;
-    children.add(child);
-    child.tooltip = new Tooltip(child);
-    child._rectifyAppearance();
-  }
 
   void add(Node child) {
     _content.append(child.container);
     register(child);
+  }
+
+  void register(Node child) {
+    child.setParent(this);
+    children.add(child);
   }
 
   void addHelper(LayoutHelper helper) {
@@ -44,24 +40,24 @@ class BranchNode extends Node {
 
   bool get isViewRoot => viewModel.currentViewRoot == this;
 
-  void registerListeners() {
-    _nodeLabel.onMouseOver.listen((MouseEvent event) {
+  void _registerListeners() {
+    _nodeLabel.container.onMouseOver.listen((MouseEvent event) {
       if (viewModel.treemap.isNavigatable) {
-        _nodeLabel.style.cursor = "pointer";
+        _nodeLabel.container.style.cursor = "pointer";
       } else {
-        _nodeLabel.style.cursor = "auto";
+        _nodeLabel.container.style.cursor = "auto";
       }
     });
-    _nodeLabel.onMouseDown.listen((MouseEvent event) {
+    _nodeLabel.container.onMouseDown.listen((MouseEvent event) {
       if (viewModel.treemap.isNavigatable) {
         if (viewModel.currentViewRoot == this) {
           if (!isModelRoot) {
             _recreateInitialHtmlHierarchy(this);
-            _setAsViewRoot(parent);
+            _setAsViewRoot(_parent);
           }
         } else {
-          if (parent.isViewRoot && !parent.isModelRoot) {
-            _recreateInitialHtmlHierarchy(parent);
+          if (_parent.isViewRoot && !_parent.isModelRoot) {
+            _recreateInitialHtmlHierarchy(_parent);
           }
           _setAsViewRoot(this);
         }
@@ -72,8 +68,8 @@ class BranchNode extends Node {
   void _setAsViewRoot(BranchNode node) {
     viewModel.cachedHtmlParent = node.container.parent;
     viewModel.cachedNextSibling = node.container.nextElementSibling;
-    node.container.style.width = Percentage.x100.toString();
-    node.container.style.height = Percentage.x100.toString();
+    node.container.style.width = Percentage.ONE_HUNDRED.toString();
+    node.container.style.height = Percentage.ONE_HUNDRED.toString();
     node.container.classes.add("${viewModel.style._classNames[VIEW_ROOT]}");
     viewModel.currentViewRoot = node;
     viewModel.treemapHtmlRoot.children.clear();
@@ -90,5 +86,10 @@ class BranchNode extends Node {
     } else {
       viewModel.cachedNextSibling.insertAdjacentElement('beforeBegin', node.container);
     }
+  }
+
+  void repaintContent() {
+    _nodeLabel.repaintContent();
+    _tooltip.repaintContent();
   }
 }

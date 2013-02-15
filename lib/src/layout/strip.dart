@@ -48,8 +48,8 @@ class Strip extends RowBasedLayoutAlgorithms {
   Orientation _determineOrientation(BranchNode parent) {
     if (_stripOrientation == null) {
       _stripOrientation = parent.clientWidth >= parent.clientHeight ?
-          Orientation.horizontal :
-          Orientation.vertical;
+          Orientation.HORIZONTAL :
+          Orientation.VERTICAL;
     }
     return _stripOrientation;
   }

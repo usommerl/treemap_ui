@@ -11,7 +11,7 @@ class SliceAndDice extends LayoutAlgorithm {
 
   SliceAndDice({Orientation initialOrientation}){
     if (initialOrientation == null) {
-      initialOrientation = Orientation.vertical;
+      initialOrientation = Orientation.VERTICAL;
     }
     if (initialOrientation.isVertical) {
       _remainderVerticalOrientation = 0;
@@ -26,8 +26,8 @@ class SliceAndDice extends LayoutAlgorithm {
       DataModel dataModel = queue.removeFirst();
       final p = new Percentage.from(dataModel.size, parent.dataModel.size);
       final node = dataModel.depth % 2 == _remainderVerticalOrientation ?
-          new Node(dataModel, parent.viewModel, Percentage.x100, p, Orientation.vertical) :
-          new Node(dataModel, parent.viewModel, p, Percentage.x100, Orientation.horizontal);
+          new Node(dataModel, parent.viewModel, Percentage.ONE_HUNDRED, p, Orientation.VERTICAL) :
+          new Node(dataModel, parent.viewModel, p, Percentage.ONE_HUNDRED, Orientation.HORIZONTAL);
       parent.add(node);
       if (node.isBranch) {
         layout(node);

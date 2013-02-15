@@ -10,12 +10,12 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
 
   Percentage _availableWidthPercentage(BranchNode node) {
     final verticalRows = node.layoutHelpers.where((row) => row.orientation.isVertical);
-    return Percentage.x100 - verticalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.width);
+    return Percentage.ONE_HUNDRED - verticalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.width);
   }
 
   Percentage _availableHeightPercentage (BranchNode node) {
     final horizontalRows = node.layoutHelpers.where((row) => row.orientation.isHorizontal);
-    return Percentage.x100 - horizontalRows.reduce(Percentage.x0, (sum,elem) => sum + elem.height);
+    return Percentage.ONE_HUNDRED - horizontalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.height);
   }
 
   /**
@@ -56,8 +56,8 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
   }
 
   Node _createNodeForRow(DataModel dModel, ViewModel vModel, Percentage sizeNode, Orientation orientation) {
-    final height = orientation.isHorizontal ? Percentage.x100 : sizeNode;
-    final width = orientation.isHorizontal ? sizeNode : Percentage.x100;
+    final height = orientation.isHorizontal ? Percentage.ONE_HUNDRED : sizeNode;
+    final width = orientation.isHorizontal ? sizeNode : Percentage.ONE_HUNDRED;
     return new Node(dModel, vModel, width, height, orientation);
   }
 }
