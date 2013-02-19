@@ -1,10 +1,12 @@
-import 'package:unittest/unittest.dart';
-import '../lib/src/model/treemap_model.dart';
-import 'resources/test_resources.dart';
+import '../../packages/unittest/unittest.dart';
+import '../../packages/unittest/html_config.dart';
+import '../../lib/src/model/treemap_model.dart';
+import '../resources/test_resources.dart';
 
 main() {
+  useHtmlConfiguration();
   group('model tests -', () {
-    DataModel leaf1, leaf2, leaf3, branch1, branch2;
+    var leaf1, leaf2, leaf3, branch1, branch2;
 
     setUp(() {
       leaf1 = new Leaf(5);
@@ -22,7 +24,7 @@ main() {
     });
     test('${new Leaf(1).runtimeType}(size,...) (size < 0 => exception)', () {
       expect(() => new Leaf(-1),
-          throwsA(new isInstanceOf<AssertionError>()));
+          throwsA(new isInstanceOf<ArgumentError>()));
     });
     test('${new Branch([]).runtimeType}(children,...) (children == null => exception)', () {
       expect(() => new Branch(null),
