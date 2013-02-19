@@ -25,13 +25,11 @@ abstract class Node implements Attachable {
                    ..height = height.toString();
     _nodeLabel = new NodeLabel(this);
     _tooltip = new Tooltip(this);
+    _rectifyAppearance();
     _dataModel.onPropertyChange.listen((_) { 
       if (viewModel.treemap.automaticUpdates) { 
         repaintContent(); 
       } 
-    });
-    parent.then((_) {
-      _rectifyAppearance();
     });
   }
   
@@ -49,10 +47,58 @@ abstract class Node implements Attachable {
     return rootNode;
   }
   
-  DataModel get dataModel;
+  Future<BranchNode> get parent => _parent == null ? 
+      _parentCompleter.future : 
+      _parentCompleter.complete(_parent); 
+  
+  void setParent(BranchNode parent) {
+    _parent = parent;
+    _parentCompleter.complete(_parent);
+  }
 
-  void repaintContent();
+  void _rectifyAppearance() {
+    parent.then((BranchNode parent) {
+      container.classes.remove("${viewModel.style._classNames[NO_TOP_BORDER]}");
+      container.classes.remove("${viewModel.style._classNames[NO_LEFT_BORDER]}");
+      container.classes.remove("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
+      container.classes.remove("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
+      
+      if (parent.children.any((other) => this._isPositionedBelow(other))) {
+        container.classes.add("${viewModel.style._classNames[NO_TOP_BORDER]}");
+        if (container.offsetHeight <= viewModel.style.borderWidth) {
+          container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
+        }
+      } else if (container.offsetHeight <= 2 * viewModel.style.borderWidth) {
+        container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
+      }    
+      
+      if (parent.children.any((other) => this._isPositionedRightOf(other))) {
+        container.classes.add("${viewModel.style._classNames[NO_LEFT_BORDER]}");
+        if (container.offsetWidth <= viewModel.style.borderWidth) {
+          container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
+        } 
+      } else if (container.offsetWidth <= 2 * viewModel.style.borderWidth) {
+        container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
+      }
+      
+      if (isBranch) {
+        if (_nodeLabel.container.offsetHeight > viewModel.style.branchPadding ) {
+          _content.style.top = "${_nodeLabel.container.offsetHeight}px";
+        } else {
+          _nodeLabel.container.style.height = "${viewModel.style.branchPadding}px";
+        }
+        final thisNode = this as BranchNode;
+        thisNode.children.forEach((child) => child._rectifyAppearance());
+      }
+    });
+  }
+  
+  bool _isPositionedBelow(Node other) =>
+    this.container.offsetTop > other.container.offsetTop;
 
+  bool _isPositionedRightOf(Node other) =>
+    this.container.offsetLeft > other.container.offsetLeft;
+    
   bool get isLeaf => dataModel.isLeaf;
 
   bool get isBranch => dataModel.isBranch;
@@ -63,57 +109,8 @@ abstract class Node implements Attachable {
 
   int get clientHeight => _content.clientHeight;
   
-  Future<BranchNode> get parent => _parent == null ? 
-      _parentCompleter.future : 
-      _parentCompleter.complete(_parent); 
-  
-  void setParent(BranchNode parent) {
-    _parent = parent;
-    _parentCompleter.complete(_parent);
-  }
+  DataModel get dataModel;
 
-  bool _isPositionedBelow(Node other) => this._parent == other._parent ?
-    this.container.offsetTop > other.container.offsetTop :
-    throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");
-
-  bool _isPositionedRightOf(Node other) => this._parent == other._parent ?
-    this.container.offsetLeft > other.container.offsetLeft :
-    throw new RuntimeError("Can't tell. Are you comparing nodes from different branches?");
-
-  void _rectifyAppearance() {
-    container.classes.remove("${viewModel.style._classNames[NO_TOP_BORDER]}");
-    container.classes.remove("${viewModel.style._classNames[NO_LEFT_BORDER]}");
-    container.classes.remove("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
-    container.classes.remove("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
-    
-    if (_parent.children.any((other) => this._isPositionedBelow(other))) {
-      container.classes.add("${viewModel.style._classNames[NO_TOP_BORDER]}");
-      if (container.offsetHeight <= viewModel.style.borderWidth) {
-        container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
-      }
-    } else if (container.offsetHeight <= 2 * viewModel.style.borderWidth) {
-      container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
-    }    
-    
-    if (_parent.children.any((other) => this._isPositionedRightOf(other))) {
-      container.classes.add("${viewModel.style._classNames[NO_LEFT_BORDER]}");
-      if (container.offsetWidth <= viewModel.style.borderWidth) {
-        container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
-      } 
-    } else if (container.offsetWidth <= 2 * viewModel.style.borderWidth) {
-      container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
-    }
-    
-    if (isBranch) {
-      if (_nodeLabel.container.offsetHeight > viewModel.style.branchPadding ) {
-        _content.style.top = "${_nodeLabel.container.offsetHeight}px";
-      } else {
-        _nodeLabel.container.style.height = "${viewModel.style.branchPadding}px";
-      }
-      final thisNode = this as BranchNode;
-      thisNode.children.forEach((child) => child._rectifyAppearance());
-    }
-  }
+  void repaintContent();
 
 }
-
