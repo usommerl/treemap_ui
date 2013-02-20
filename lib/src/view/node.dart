@@ -49,11 +49,13 @@ abstract class Node implements Attachable {
   
   Future<BranchNode> get parent => _parent == null ? 
       _parentCompleter.future : 
-      _parentCompleter.complete(_parent); 
+      new Future.immediate(_parent); 
   
   void setParent(BranchNode parent) {
+    if (_parent == null) {
+      _parentCompleter.complete(parent);            
+    }
     _parent = parent;
-    _parentCompleter.complete(_parent);
   }
 
   void _rectifyAppearance() {
@@ -65,27 +67,27 @@ abstract class Node implements Attachable {
       
       if (parent.children.any((other) => this._isPositionedBelow(other))) {
         container.classes.add("${viewModel.style._classNames[NO_TOP_BORDER]}");
-        if (container.offsetHeight <= viewModel.style.borderWidth) {
+        if (container.offsetHeight <= viewModel.style._borderWidth) {
           container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
         }
-      } else if (container.offsetHeight <= 2 * viewModel.style.borderWidth) {
+      } else if (container.offsetHeight <= 2 * viewModel.style._borderWidth) {
         container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
       }    
       
       if (parent.children.any((other) => this._isPositionedRightOf(other))) {
         container.classes.add("${viewModel.style._classNames[NO_LEFT_BORDER]}");
-        if (container.offsetWidth <= viewModel.style.borderWidth) {
+        if (container.offsetWidth <= viewModel.style._borderWidth) {
           container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
         } 
-      } else if (container.offsetWidth <= 2 * viewModel.style.borderWidth) {
+      } else if (container.offsetWidth <= 2 * viewModel.style._borderWidth) {
         container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
       }
       
       if (isBranch) {
-        if (_nodeLabel.container.offsetHeight > viewModel.style.branchPadding ) {
+        if (_nodeLabel.container.offsetHeight > viewModel.style._branchPadding ) {
           _content.style.top = "${_nodeLabel.container.offsetHeight}px";
         } else {
-          _nodeLabel.container.style.height = "${viewModel.style.branchPadding}px";
+          _nodeLabel.container.style.height = "${viewModel.style._branchPadding}px";
         }
         final thisNode = this as BranchNode;
         thisNode.children.forEach((child) => child._rectifyAppearance());
@@ -112,5 +114,4 @@ abstract class Node implements Attachable {
   DataModel get dataModel;
 
   void repaintContent();
-
 }

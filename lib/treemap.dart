@@ -11,26 +11,25 @@ export 'src/layout/treemap_layout.dart';
 
 class Treemap{
 
+   final TreemapStyle _style = new TreemapStyle();
    LayoutAlgorithm _layoutAlgorithm;
    DataModel _dataModel;
-   TreemapStyle _style;
+   StyleElement _currentActiveStyle;
    DivElement _htmlRoot;
    StreamSubscription<num> _sizeUpdateSubscription;
    bool isNavigatable = true;
    bool showTooltips = true;
    bool automaticUpdates = true;
    
-   Treemap(DivElement this._htmlRoot, DataModel this._dataModel, 
-           {LayoutAlgorithm algorithm, TreemapStyle this._style}) {
+   Treemap(DivElement this._htmlRoot, DataModel this._dataModel, {LayoutAlgorithm algorithm}) {
      if (algorithm == null) {
        _layoutAlgorithm = new Squarified();
      } else {
        _layoutAlgorithm = algorithm;
      }
-     if (_style == null) {
-       _style = new TreemapStyle();
-     }
      _registerSizeUpdateSubscription();
+     _registerStyleUpdateSubscription();
+     _setTreemapStyle();
      repaint();
    }
    
@@ -47,7 +46,32 @@ class Treemap{
      if (_sizeUpdateSubscription != null) {
        _sizeUpdateSubscription.cancel();
      }
-     _sizeUpdateSubscription = _dataModel.onSizeChange.listen((_) { if (automaticUpdates) { repaint(); } });
+     _sizeUpdateSubscription = _dataModel.onSizeChange.listen((_) { 
+       if (automaticUpdates) { 
+         repaint(); 
+       } 
+     });
+   }
+   
+   void _registerStyleUpdateSubscription() {
+     _style.onStyleChange.listen((_) { 
+         _setTreemapStyle();
+         repaint();
+     });
+   }
+   
+   void _setTreemapStyle() {
+     final StyleElement style = _style.inlineStyle;
+     if (_currentActiveStyle != null) {
+       document.head.children.remove(_currentActiveStyle);
+     }
+     final styleOrLinkElements = document.head.children.where((e) => e.runtimeType == StyleElement || e.runtimeType == LinkElement);
+     if (styleOrLinkElements.isEmpty) {
+       document.head.append(style);
+     } else {
+       styleOrLinkElements.first.insertAdjacentElement('beforeBegin', style);
+     }
+     _currentActiveStyle = style;
    }
    
    DataModel get model => _dataModel;
@@ -68,4 +92,6 @@ class Treemap{
        repaint(); 
      }
    }
+   
+   TreemapStyle get style => _style;
 }

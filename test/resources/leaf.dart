@@ -3,13 +3,14 @@ part of treemap_test_resources;
 class Leaf extends AbstractLeaf {
   
   int _someProperty = 0;
+  
   List<Color> colors = [Color.LIGHT_GRAY, Color.CRIMSON, Color.GOLD, Color.KHAKI, 
                         Color.LIGHT_STEEL_BLUE, Color.MEDIUM_VIOLET_RED, 
                         Color.ROSY_BROWN, Color.YELLOW_GREEN];
 
   Leaf(num size) : super(size); 
   
-  Element provideNodeLabel() => new Element.html("<span>${_someProperty}</span>");
+  Element provideNodeLabel() => new Element.html("<span class='myLabel'>${_someProperty}</span>");
   
   Element provideTooltip() {
     Element element = new Element.html("<div></div>");

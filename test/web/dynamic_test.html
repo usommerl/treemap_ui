@@ -3,7 +3,32 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <style></style>
+    <style>
+    .controlsLabel, .randomLabel {
+      display: inline-block;
+    }
+    .controlsLabel{
+      margin-left: 5px;
+      width: 46%;
+    }
+    .randomLabel {
+      width: 70%;
+    }
+    .divider {
+      border-top: 1px solid LightGray;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+    #controlsContainer {
+      width: 360px;
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 10px;
+    }
+    #controlsContainer * {
+     font-family: monospace;
+    }
+    </style>
   </head>
   <body>
     <script type="application/dart" src="dynamic_test.dart"></script>

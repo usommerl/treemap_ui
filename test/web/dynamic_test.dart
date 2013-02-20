@@ -4,168 +4,259 @@ import 'dart:async';
 import 'package:treemap/treemap.dart';
 import '../resources/test_resources.dart';
 
-const controllsContainerId = "controllsContainer";
-const treemapContainerId = "treemapContainer";
 const prefixDataModel = "dataModel";
-const initialSize = 525;
-const min = "10";
-const max = "1300";
-const step = "1";
 
-RangeInputElement widthSlider;
-RangeInputElement heightSlider;
-ButtonElement resetModelButton = new ButtonElement();
-Element treemapContainer;
+final NumberInputElement widthInput = new NumberInputElement();
+final NumberInputElement heightInput = new NumberInputElement();
+final NumberInputElement borderWidthInput = new NumberInputElement();
+final NumberInputElement branchPaddingInput = new NumberInputElement();
+final NumberInputElement repaintInput = new NumberInputElement();
+final NumberInputElement modelInput = new NumberInputElement();
+final ButtonElement resetModelButton = new ButtonElement();
+final ButtonElement repaintButton = new ButtonElement();
+final Element treemapContainer = new Element.html("<div id=treemapContainer style='width:${initialSize}px;height:${initialSize}px;float:left;'></div>");
+final Map<String, LayoutAlgorithm> algorithmMap = initAlgorithmMap();
+final Map<int, DataModel> modelMap = initModelMap();
+final Map<String, Color> colorMap = initColorMap();
+final CheckboxInputElement sizeUpdateCheckbox = new CheckboxInputElement();
+final NumberInputElement sizeUpdateInput = new NumberInputElement();
+final CheckboxInputElement propertyUpdateCheckbox = new CheckboxInputElement();
+final NumberInputElement propertyUpdateInput = new NumberInputElement();
 SelectElement algorithmSelect;
-Map<String, LayoutAlgorithm> algorithmMap = initAlgorithmMap();
-SelectElement modelSelect;
-CheckboxInputElement randomSizeCheckbox = new CheckboxInputElement();
-CheckboxInputElement randomPropertyCheckbox = new CheckboxInputElement();
-Map<String, DataModel> modelMap = initModelMap();
+SelectElement borderColorSelect;
+SelectElement branchColorSelect;
+int initialSize;
 Timer sizeUpdateTimer = new Timer(0,(_){});
-NumberInputElement sizeUpdateInput = new NumberInputElement();
 Timer propertyUpdateTimer =  new Timer(0,(_){});
-NumberInputElement propertyUpdateInput = new NumberInputElement();
 Treemap treemap;
 
-List<LayoutAlgorithm> algorithms = TestResources.layoutAlgorithms;
-
 main() {
-  prepareDocument("dynamic test");
-  modelSelect.value = "dataModel2";
-
-  widthSlider.onChange.listen((e) {
-    var size = widthSlider.valueAsNumber;
-    treemapContainer.style.width = "${size}px";
-  });
-  heightSlider.onChange.listen((e) {
-    var size = heightSlider.valueAsNumber;
-    treemapContainer.style.height = "${size}px";
-  });
-  algorithmSelect.onChange.listen((e) {
-    treemap.layoutAlgorithm = selectedAlgorithm();
-  });
-  modelSelect.onChange.listen((e) {
-    treemap.model = selectedModel();
-  });
-  randomSizeCheckbox.onChange.listen((e) {
-    sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeFunction);
-  });
-  randomPropertyCheckbox.onChange.listen((e) {
-    propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyFunction);
-  });
-  sizeUpdateInput.onChange.listen((e) {
-    sizeUpdateTimer.cancel();
-    sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeFunction);
-  });
-  propertyUpdateInput.onChange.listen((e) {
-    propertyUpdateTimer.cancel();
-    propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyFunction);
-  });
-  resetModelButton.onClick.listen((e) {
-    final index = int.parse(modelSelect.value.substring(prefixDataModel.length));
-    final tmp = TestResources.testDataModels.elementAt(index);
-    final model = tmp.isBranch ? tmp as Branch : tmp as Leaf;
-    final copy = model.copy();
-    modelMap["${prefixDataModel}${index}"] = copy;
-    treemap.model = selectedModel();
-  });
+  document.title = "dynamic test";
+  initialSize = window.innerHeight - 16;
+  initUiElements();
+  registerListeners();
   
-  treemap = new Treemap(treemapContainer, selectedModel(), algorithm : selectedAlgorithm());    
+  modelInput.valueAsNumber = 3;
+  treemap = new Treemap(treemapContainer, selectedModel, algorithm : selectedAlgorithm);
+  borderColorSelect.value = treemap.style.borderColor.toString();
+  branchColorSelect.value = treemap.style.branchColor.toString();
+  borderWidthInput.valueAsNumber = treemap.style.borderWidth;
+  branchPaddingInput.valueAsNumber = treemap.style.branchPadding;
 }
 
-void prepareDocument(String documentTitle) {
-  document.title = documentTitle;
-  final controllsContainer = new Element.html("<div id=${controllsContainerId}></div>");
-  treemapContainer = new Element.html("<div id=${treemapContainerId} style='width:${initialSize}px;height:${initialSize}px;'></div>");
-  widthSlider = new RangeInputElement();
-  widthSlider
-     ..min = min
-     ..max = max
-     ..value = initialSize.toString()
-     ..step = step;
-  heightSlider = new RangeInputElement();
-  heightSlider
-     ..min = min
-     ..max = max
-     ..value = initialSize.toString()
-     ..step = step;
+void initUiElements() {
+  widthInput..min = "25"..max = "950"..step = "25"..valueAsNumber = initialSize;
+  heightInput..min = "25"..max = "650"..step = "25"..valueAsNumber = initialSize;
   resetModelButton.text = "reset";
   resetModelButton.title = "Resets the selected model";
-  final sizeControls = new DivElement();
-  sizeControls..append(widthSlider)..append(heightSlider);
-  final dynamicSizeLabel = new Element.html("<span> random size updates every </span>");
-  randomSizeCheckbox.style.verticalAlign = "middle";
-  randomSizeCheckbox.checked = false;
-  final sizeUpdateLabel = new Element.html("<span> ms</span>");
-  sizeUpdateInput..min = "100"..max = "10000"..step = "100"..valueAsNumber = 200;
-  final dynamicSizeControls = new DivElement();
-  dynamicSizeControls..append(randomSizeCheckbox)..append(dynamicSizeLabel)..append(sizeUpdateInput)..append(sizeUpdateLabel);
-  final dynamicPropertyLabel = new Element.html("<span> random property updates every </span>");
-  randomPropertyCheckbox.style.verticalAlign = "middle";
-  randomPropertyCheckbox.checked = false;
-  final propertyUpdateLabel = new Element.html("<span> ms</span>");
-  propertyUpdateInput..min = "1"..max = "10000"..step = "10"..valueAsNumber = 50;
-  final dynamicPropertyControls = new DivElement();
-  dynamicPropertyControls..append(randomPropertyCheckbox)..append(dynamicPropertyLabel)..append(propertyUpdateInput)..append(propertyUpdateLabel);
+  final widthControls = new DivElement();
+  final widthLabel = new Element.html("<span class='controlsLabel'>treemap width:</span>");
+  widthControls..append(widthLabel)..append(widthInput)..append(new Element.html("<span>px</span>"));
+  final heightControls = new DivElement();
+  final heightLabel = new Element.html("<span class='controlsLabel'>treemap height:</span>");
+  heightControls..append(heightLabel)..append(heightInput)..append(new Element.html("<span>px</span>"));
+  final borderWidthControls = new DivElement();
+  borderWidthInput..min = "0"..max = "100"..step = "1";
+  final borderWidthLabel = new Element.html("<span class='controlsLabel'>border width:</span>");
+  borderWidthControls..append(borderWidthLabel)..append(borderWidthInput)..append(new Element.html("<span>px</span>"));
+  final branchPaddingControls = new DivElement();
+  branchPaddingInput..min = "0"..max = "100"..step = "1";
+  final branchPaddingLabel = new Element.html("<span class='controlsLabel'>branch padding:</span>");
+  branchPaddingControls..append(branchPaddingLabel)..append(branchPaddingInput)..append(new Element.html("<span>px</span>"));
+  final dynamicSizeLabel = new Element.html("<span class='randomLabel'>random leaf size updates every</span>");
+  sizeUpdateCheckbox.style.verticalAlign = "middle";
+  sizeUpdateCheckbox.checked = false;
+  final sizeUpdateLabel = new Element.html("<span>ms</span>");
+  sizeUpdateInput..min = "100"..max = "10000"..step = "100"..valueAsNumber = 100;
+  final sizeUpdateControls = new DivElement();
+  sizeUpdateControls..append(sizeUpdateCheckbox)..append(dynamicSizeLabel)..append(sizeUpdateInput)..append(sizeUpdateLabel);
+  final propertyUpdateLabel = new Element.html("<span class='randomLabel'>random property updates every</span>");
+  propertyUpdateCheckbox.style.verticalAlign = "middle";
+  propertyUpdateCheckbox.checked = false;
+  propertyUpdateInput..min = "0"..max = "10000"..step = "10"..valueAsNumber = 50;
+  final propertyUpdateControls = new DivElement();
+  propertyUpdateControls..append(propertyUpdateCheckbox)..append(propertyUpdateLabel)..append(propertyUpdateInput)..append(new Element.html("<span>ms</span>"));
+  final algorithmControls = new DivElement();
+  final algorithmLabel = new Element.html("<span class='controlsLabel'>layout algorithm:</span>");
   var options = algorithmMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
   algorithmSelect = new Element.html("<select>$options</select>");
-  options = modelMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
-  modelSelect = new Element.html("<select>$options</select>");
-  controllsContainer
-    ..append(algorithmSelect)
-    ..append(modelSelect)
-    ..append(resetModelButton)
-    ..append(dynamicSizeControls)
-    ..append(dynamicPropertyControls)
-    ..append(sizeControls);
+  algorithmControls..append(algorithmLabel)..append(algorithmSelect);
+  final modelControls = new DivElement();
+  final modelLabel = new Element.html("<span class='controlsLabel'>data model:</span>");
+  modelInput..min = "0"..max ="${TestResources.testDataModels.length-1}"..step = "1";
+  modelInput.style..width = "48px"..marginLeft = "2px";
+  modelControls..append(modelLabel)..append(modelInput)..append(resetModelButton);
+  final borderColorLabel = new Element.html("<span class='controlsLabel'>border-color:</span>");
+  options = colorMap.keys.map((k) => "<option style='background-color:${k};'>$k</option>").reduce("", (acc,e) => "$acc$e");
+  borderColorSelect = new Element.html("<select>$options</select>");
+  final borderColorControls = new DivElement();
+  borderColorControls..append(borderColorLabel)..append(borderColorSelect);
+  final branchColorLabel = new Element.html("<span class='controlsLabel'>branch-color:</span>");
+  branchColorSelect = new Element.html("<select>$options</select>");
+  final branchColorControls = new DivElement();
+  branchColorControls..append(branchColorLabel)..append(branchColorSelect);
+  final repaintControls = new DivElement();
+  repaintInput..min = "1"..max = "10000"..step = "1"..valueAsNumber = 20;
+  repaintButton.text = "repaint";
+  repaintButton.style.width = "90px";
+  final repaintLabel = new Element.html("<span class='controlsLabel'>&nbsp;</span>");
+  repaintControls..append(repaintLabel)..append(repaintInput)..append(new Element.html("<span> x </span>"))..append(repaintButton);
+  final controlsContainer = new Element.html("<div id=controlsContainer></div>");
+  controlsContainer
+    ..append(algorithmControls)
+    ..append(modelControls)
+    ..append(widthControls)
+    ..append(heightControls)
+    ..append(borderWidthControls)
+    ..append(branchPaddingControls)
+    ..append(borderColorControls)
+    ..append(branchColorControls)
+    ..append(new Element.html("<div class='divider'></div>"))
+    ..append(sizeUpdateControls)
+    ..append(propertyUpdateControls)
+    ..append(new Element.html("<div class='divider'></div>"))
+    ..append(repaintControls);
   document.body
-    ..append(controllsContainer)
-    ..append(treemapContainer);
+    ..append(controlsContainer)
+    ..append(treemapContainer);  
 }
 
-LayoutAlgorithm selectedAlgorithm() {
-  return algorithmMap[algorithmSelect.value];
+void registerListeners() {
+  widthInput.onChange.listen((e) {
+    if(widthInput.validity.valid) {
+      treemapContainer.style.width = "${widthInput.value}px";      
+    }
+  });
+  heightInput.onChange.listen((e) {
+    if (heightInput.validity.valid) {
+      treemapContainer.style.height = "${heightInput.value}px";
+    }
+  });
+  borderWidthInput.onChange.listen((e) {
+    if (borderWidthInput.validity.valid) {
+      treemap.style.borderWidth = borderWidthInput.valueAsNumber.toInt();
+    }
+  });
+  branchPaddingInput.onChange.listen((e) {
+    if (branchPaddingInput.validity.valid) {
+      treemap.style.branchPadding = branchPaddingInput.valueAsNumber.toInt();
+    }
+  });
+  algorithmSelect.onChange.listen((e) {
+    treemap.layoutAlgorithm = selectedAlgorithm;
+  });
+  modelInput.onChange.listen((e) {
+    if(modelInput.validity.valid) {
+      treemap.model = selectedModel;
+    } 
+  });
+  borderColorSelect.onChange.listen((e) {
+    treemap.style.borderColor = selectedColor(borderColorSelect);
+  });
+  branchColorSelect.onChange.listen((e) {
+    treemap.style.branchColor = selectedColor(branchColorSelect);
+  });
+  sizeUpdateCheckbox.onChange.listen((e) {
+    sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeCallback);
+  });
+  propertyUpdateCheckbox.onChange.listen((e) {
+    propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyCallback);
+  });
+  sizeUpdateInput.onChange.listen((e) {
+    if (sizeUpdateInput.validity.valid) {
+      sizeUpdateTimer.cancel();
+      sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeCallback);
+    }  
+  });
+  propertyUpdateInput.onChange.listen((e) {
+    if (propertyUpdateInput.validity.valid) {
+      propertyUpdateTimer.cancel();
+      propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyCallback);
+    }
+  });
+  resetModelButton.onClick.listen((e) {
+    if(modelInput.validity.valid) {
+      final index = modelInput.valueAsNumber.toInt();
+      final tmp = TestResources.testDataModels.elementAt(index);
+      final model = tmp.isBranch ? tmp as Branch : tmp as Leaf;
+      final copy = model.copy();
+      modelMap[index] = copy;
+      treemap.model = selectedModel;
+    }
+  });
+  repaintButton.onClick.listen((e) {
+    if (repaintInput.validity.valid) {
+      final abort = repaintInput.valueAsNumber.toInt();
+      repaintButton.disabled = true;
+      repaintInput.disabled = true;
+      propertyUpdateCheckbox.disabled = true;
+      sizeUpdateCheckbox.disabled = true;
+      for(var i = 0; i < abort; i++) {
+        treemap.repaint();
+      }
+      repaintButton.disabled = false;
+      repaintInput.disabled = false;
+      propertyUpdateCheckbox.disabled = false;
+      sizeUpdateCheckbox.disabled = false;
+    }
+  });
+  repaintButton.onMouseOver.listen((e) { 
+    if (repaintInput.validity.valid) {
+      final value = repaintInput.valueAsNumber.toInt();
+      if (value > 1) {
+        repaintButton.title = "Repaints the treemap ${repaintInput.valueAsNumber.toInt()} times";        
+      } else {
+        repaintButton.title = "Repaints the treemap ${repaintInput.valueAsNumber.toInt()} time";        
+      }
+    } else {
+      repaintButton.title = "Value in number input element not valid!";
+    }
+  });
 }
 
-DataModel selectedModel() {
-  return modelMap[modelSelect.value];
-}
+LayoutAlgorithm get selectedAlgorithm => algorithmMap[algorithmSelect.value];
 
-Map<String, DataModel> initModelMap() {
+DataModel get selectedModel => modelMap[modelInput.valueAsNumber.toInt()];
+
+Color selectedColor(SelectElement select) => colorMap[select.value];
+
+Map<int, DataModel> initModelMap() {
   var i = 0;
-  var map = new Map();
+  final map = new Map<int, DataModel>();
   TestResources.testDataModels.forEach((model) {
-    map["${prefixDataModel}${i++}"] = model.copy();
+    map[i++] = model.copy();
+  });
+  return map;
+}
+
+Map<String, Color> initColorMap() {
+  final map = new Map<String, Color>();
+  TestResources.namedColors.forEach((color) {
+    map[color.toString()] = color;
   });
   return map;
 }
 
 Map<String, LayoutAlgorithm> initAlgorithmMap() {
-  var map = new Map();
+  final map = new Map<String, LayoutAlgorithm>();
   TestResources.layoutAlgorithms.forEach((alg) {
     map["${alg.runtimeType.toString().toLowerCase()}"] = alg;
   });
   return map;
 }
 
-final randomSizeFunction = (Timer timer) {
-  final Random r = new Random();
-  if (randomSizeCheckbox.checked) {
-    final leafes = leafesOnly(selectedModel());
-    final leaf = leafes.elementAt(r.nextInt(leafes.length));
-    leaf.size = r.nextInt(1000);      
-  } else {
-    timer.cancel();
-  }
-};
+final randomSizeCallback = (Timer timer) =>
+  timerCallback(timer, sizeUpdateCheckbox, (l,r) => l.size = r.nextInt(1000));
+  
+final randomPropertyCallback = (Timer timer) =>
+  timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000));
 
-final randomPropertyFunction = (Timer timer) {
+final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(Leaf l, Random r)) {
   final Random r = new Random();
-  if (randomPropertyCheckbox.checked) {
-    final leafes = leafesOnly(selectedModel());
+  if (checkbox.checked) {
+    final leafes = leafesOnly(selectedModel);
     final leaf = leafes.elementAt(r.nextInt(leafes.length));
-    leaf.someProperty = r.nextInt(1000); 
+    f(leaf, r);
   } else {
     timer.cancel();
   }
