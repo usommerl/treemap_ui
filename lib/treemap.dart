@@ -15,51 +15,51 @@ class Treemap{
    LayoutAlgorithm _layoutAlgorithm;
    DataModel _dataModel;
    StyleElement _currentActiveStyle;
-   DivElement _htmlRoot;
-   StreamSubscription<num> _sizeUpdateSubscription;
+   DivElement _componentRoot;
+   StreamSubscription<num> _modelChangeSubscription;
    bool isNavigatable = true;
    bool showTooltips = true;
    bool automaticUpdates = true;
-   
-   Treemap(DivElement this._htmlRoot, DataModel this._dataModel, {LayoutAlgorithm algorithm}) {
+
+   Treemap(DivElement this._componentRoot, DataModel this._dataModel, {LayoutAlgorithm algorithm}) {
      if (algorithm == null) {
        _layoutAlgorithm = new Squarified();
      } else {
        _layoutAlgorithm = algorithm;
      }
-     _registerSizeUpdateSubscription();
+     _registerModelChangeSubscription();
      _registerStyleUpdateSubscription();
      _setTreemapStyle();
      repaint();
    }
-   
+
    void repaint() {
-     _htmlRoot.children.clear();
-     final viewModel = new ViewModel(this, _htmlRoot, _style);
+     _componentRoot.children.clear();
+     final viewModel = new ViewModel(this, _componentRoot, _style);
      final rootNode = new Node.forRoot(model, viewModel);
      if (rootNode.isBranch) {
        layoutAlgorithm.layout(rootNode);
      }
    }
-   
-   void _registerSizeUpdateSubscription() {
-     if (_sizeUpdateSubscription != null) {
-       _sizeUpdateSubscription.cancel();
+
+   void _registerModelChangeSubscription() {
+     if (_modelChangeSubscription != null) {
+       _modelChangeSubscription.cancel();
      }
-     _sizeUpdateSubscription = _dataModel.onSizeChange.listen((_) { 
-       if (automaticUpdates) { 
-         repaint(); 
-       } 
+     _modelChangeSubscription = _dataModel.onModelChange.listen((_) {
+       if (automaticUpdates) {
+         repaint();
+       }
      });
    }
-   
+
    void _registerStyleUpdateSubscription() {
-     _style.onStyleChange.listen((_) { 
+     _style.onStyleChange.listen((_) {
          _setTreemapStyle();
          repaint();
      });
    }
-   
+
    void _setTreemapStyle() {
      final StyleElement style = _style.inlineStyle;
      if (_currentActiveStyle != null) {
@@ -73,25 +73,25 @@ class Treemap{
      }
      _currentActiveStyle = style;
    }
-   
+
    DataModel get model => _dataModel;
-   
+
    set model(DataModel model) {
      _dataModel = model;
-     _registerSizeUpdateSubscription();
-     if (automaticUpdates) { 
-       repaint(); 
+     _registerModelChangeSubscription();
+     if (automaticUpdates) {
+       repaint();
      }
    }
-   
+
    LayoutAlgorithm get layoutAlgorithm => _layoutAlgorithm;
-   
+
    set layoutAlgorithm(LayoutAlgorithm algorithm) {
      _layoutAlgorithm = algorithm;
-     if (automaticUpdates) { 
-       repaint(); 
+     if (automaticUpdates) {
+       repaint();
      }
    }
-   
+
    TreemapStyle get style => _style;
 }

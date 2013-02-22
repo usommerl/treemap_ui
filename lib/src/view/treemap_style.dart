@@ -21,7 +21,7 @@ class TreemapStyle {
      String this._borderStyle   : "solid"
     }
   ){
-   onStyleChange = _styleChangeController.stream; 
+   onStyleChange = _styleChangeController.stream;
   }
 
   Map<String,String> _initClassNames() {
@@ -129,37 +129,37 @@ class TreemapStyle {
 """;
     return new Element.html(inlineStyleHtml);
   }
-  
+
   Color get branchColor => _branchColor;
-  
+
   set branchColor(Color color) {
     _branchColor = color;
     _styleChangeController.add(null);
   }
-  
+
   int get branchPadding => _branchPadding;
-  
+
   set branchPadding(int branchPadding) {
     _branchPadding = branchPadding;
     _styleChangeController.add(null);
   }
-  
+
   Color get borderColor => _borderColor;
-  
+
   set borderColor(Color borderColor) {
     _borderColor = borderColor;
     _styleChangeController.add(null);
   }
-  
+
   int get borderWidth => _borderWidth;
-  
+
   set borderWidth(int borderWidth) {
     _borderWidth = borderWidth;
     _styleChangeController.add(null);
   }
-  
+
   String get borderStyle => _borderStyle;
-  
+
   set borderStyle(String borderStyle) {
     _borderStyle = borderStyle;
     _styleChangeController.add(null);

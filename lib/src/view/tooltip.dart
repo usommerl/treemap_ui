@@ -1,13 +1,13 @@
 part of treemap_view;
 
 class Tooltip implements Attachable {
-  
+
   final DivElement container = new DivElement();
   static const String VISIBLE = 'visible';
-  Timer _delayTimer = new Timer(0,(timer){});
+  Timer _delayTimer = Timer.run((){});
   final Node node;
-  
-  Tooltip(Node this.node) {  
+
+  Tooltip(Node this.node) {
     container.classes.add("${node.viewModel.style._classNames[runtimeType.toString()]}");
     repaintContent();
     node.parent.then((BranchNode parent) {
@@ -15,16 +15,16 @@ class Tooltip implements Attachable {
         _establishDomHierarchyAndListeners(node.container, parent._content);
       } else {
         _establishDomHierarchyAndListeners(node._nodeLabel.container, node.container);
-      }      
+      }
     });
   }
-  
+
   void _establishDomHierarchyAndListeners(Element hoverElement, Element tooltipDomParent) {
     tooltipDomParent.append(container);
     hoverElement.onMouseMove.listen((MouseEvent event){
       container.classes.remove("${Tooltip.VISIBLE}");
       _delayTimer.cancel();
-      _delayTimer = new Timer(1000,(timer){
+      _delayTimer = new Timer(const Duration(milliseconds: 1000),(timer){
         if (node.viewModel.tooltipsEnabled) {
           final y = event.offsetY+hoverElement.offsetTop;
           final x = event.offsetX+hoverElement.offsetLeft;
@@ -50,10 +50,10 @@ class Tooltip implements Attachable {
       _delayTimer.cancel();
     });
   }
-  
+
   void repaintContent() {
     container.children.clear();
     container.append(node.dataModel.provideTooltip());
   }
-  
+
 }

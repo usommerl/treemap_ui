@@ -1,6 +1,6 @@
 part of treemap_view;
 
-abstract class Attachable {  
+abstract class Attachable {
   Element get container;
 }
 

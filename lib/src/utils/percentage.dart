@@ -7,7 +7,7 @@ class Percentage {
   static const Percentage ZERO = const Percentage._internal(0);
 
   const Percentage._internal(this._percentage);
-  
+
   factory Percentage.from(num amount, num basicValue) {
     assert(amount >= 0);
     assert(basicValue >= amount);

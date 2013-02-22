@@ -1,17 +1,17 @@
 part of treemap_model;
 
 abstract class DataModel {
-  
-  final StreamController<num> _sizeChangeController = new StreamController.broadcast();
-  Stream<num> onSizeChange;
-  final StreamController _propertyChangeController = new StreamController.broadcast();
-  Stream onPropertyChange;
+
+  final StreamController<num> _modelChangeController = new StreamController.broadcast();
+  Stream<num> _onModelChange;
+  final StreamController _visualContentChangeController = new StreamController.broadcast();
+  Stream _onVisualContentChange;
   AbstractBranch _root;
   AbstractBranch _parent;
-  
+
   DataModel() {
-    onSizeChange = _sizeChangeController.stream;
-    onPropertyChange = _propertyChangeController.stream;
+    _onModelChange = _modelChangeController.stream;
+    _onVisualContentChange = _visualContentChangeController.stream;
   }
 
   AbstractBranch get parent => _parent;
@@ -27,19 +27,23 @@ abstract class DataModel {
   bool get isLeaf;
 
   num get size;
-  
-  Element provideNodeLabel();
-  
-  Element provideTooltip();  
 
-  void _propagateSizeChange() {
-    _sizeChangeController.add(size);
+  Stream<int> get onModelChange => _onModelChange;
+
+  Stream get onPropertyChange => _onVisualContentChange;
+
+  Element provideNodeLabel();
+
+  Element provideTooltip();
+
+  void _propagateModelChange() {
+    _modelChangeController.add(size);
     if (parent != null) {
-      parent._propagateSizeChange();
+      parent._propagateModelChange();
     }
   }
 
   void updateView() {
-    _propertyChangeController.add(null);
+    _visualContentChangeController.add(null);
   }
 }

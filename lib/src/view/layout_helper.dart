@@ -1,7 +1,7 @@
 part of treemap_view;
 
 class LayoutHelper implements Attachable {
-  
+
   final DivElement container = new DivElement();
   final BranchNode _parent;
   final Orientation orientation;

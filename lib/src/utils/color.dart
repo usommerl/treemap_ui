@@ -1,16 +1,16 @@
 part of treemap_utils;
 
 class Color {
-  
+
   String _value;
-  
+
   Color.rgb(List<int> values) {
     if (values == null || values.length != 3 || values.any((v) => v < 0 || v > 255)) {
       throw new ArgumentError("Not a valid RGB color definition");
     }
     _value = "rgb(${values.join(",")})";
   }
-  
+
   Color.hex(String hex) {
     if (hex == null) {
       throw new ArgumentError("Not a valid HEX color definition");
@@ -26,7 +26,7 @@ class Color {
   }
 
   String toString() => _value;
-  
+
   static const Color ALICE_BLUE = const NamedColor("aliceblue");
   static const Color ANTIQUE_WHITE = const NamedColor("AntiqueWhite");
   static const Color AQUA = const NamedColor("Aqua");
@@ -177,12 +177,12 @@ class Color {
 }
 
 class NamedColor implements Color {
-  
+
   final String _value;
-  
+
   const NamedColor(String this._value);
-  
+
   String toString() => _value;
-  
+
 }
 

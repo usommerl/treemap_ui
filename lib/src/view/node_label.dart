@@ -19,7 +19,7 @@ class NodeLabel implements Attachable{
     container.children.clear();
     container.append(_node.dataModel.provideNodeLabel());
   }
-  
+
   Element get container => _container;
-  
+
 }

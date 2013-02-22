@@ -27,7 +27,7 @@ SelectElement borderColorSelect;
 SelectElement branchColorSelect;
 int initialSize;
 Timer sizeUpdateTimer = new Timer(0,(_){});
-Timer propertyUpdateTimer =  new Timer(0,(_){});
+Timer propertyUpdateTimer = new Timer(0,(_){});
 Treemap treemap;
 
 main() {
@@ -35,7 +35,7 @@ main() {
   initialSize = window.innerHeight - 16;
   initUiElements();
   registerListeners();
-  
+
   modelInput.valueAsNumber = 3;
   treemap = new Treemap(treemapContainer, selectedModel, algorithm : selectedAlgorithm);
   borderColorSelect.value = treemap.style.borderColor.toString();
@@ -86,12 +86,12 @@ void initUiElements() {
   modelInput..min = "0"..max ="${TestResources.testDataModels.length-1}"..step = "1";
   modelInput.style..width = "48px"..marginLeft = "2px";
   modelControls..append(modelLabel)..append(modelInput)..append(resetModelButton);
-  final borderColorLabel = new Element.html("<span class='controlsLabel'>border-color:</span>");
+  final borderColorLabel = new Element.html("<span class='controlsLabel'>border color:</span>");
   options = colorMap.keys.map((k) => "<option style='background-color:${k};'>$k</option>").reduce("", (acc,e) => "$acc$e");
   borderColorSelect = new Element.html("<select>$options</select>");
   final borderColorControls = new DivElement();
   borderColorControls..append(borderColorLabel)..append(borderColorSelect);
-  final branchColorLabel = new Element.html("<span class='controlsLabel'>branch-color:</span>");
+  final branchColorLabel = new Element.html("<span class='controlsLabel'>branch color:</span>");
   branchColorSelect = new Element.html("<select>$options</select>");
   final branchColorControls = new DivElement();
   branchColorControls..append(branchColorLabel)..append(branchColorSelect);
@@ -118,13 +118,13 @@ void initUiElements() {
     ..append(repaintControls);
   document.body
     ..append(controlsContainer)
-    ..append(treemapContainer);  
+    ..append(treemapContainer);
 }
 
 void registerListeners() {
   widthInput.onChange.listen((e) {
     if(widthInput.validity.valid) {
-      treemapContainer.style.width = "${widthInput.value}px";      
+      treemapContainer.style.width = "${widthInput.value}px";
     }
   });
   heightInput.onChange.listen((e) {
@@ -148,7 +148,7 @@ void registerListeners() {
   modelInput.onChange.listen((e) {
     if(modelInput.validity.valid) {
       treemap.model = selectedModel;
-    } 
+    }
   });
   borderColorSelect.onChange.listen((e) {
     treemap.style.borderColor = selectedColor(borderColorSelect);
@@ -157,21 +157,21 @@ void registerListeners() {
     treemap.style.branchColor = selectedColor(branchColorSelect);
   });
   sizeUpdateCheckbox.onChange.listen((e) {
-    sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeCallback);
+    sizeUpdateTimer = new Timer.repeating(new Duration(milliseconds: sizeUpdateInput.valueAsNumber.toInt()),randomSizeCallback);
   });
   propertyUpdateCheckbox.onChange.listen((e) {
-    propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyCallback);
+    propertyUpdateTimer = new Timer.repeating(new Duration(milliseconds: propertyUpdateInput.valueAsNumber.toInt()),randomPropertyCallback);
   });
   sizeUpdateInput.onChange.listen((e) {
     if (sizeUpdateInput.validity.valid) {
       sizeUpdateTimer.cancel();
-      sizeUpdateTimer = new Timer.repeating(sizeUpdateInput.valueAsNumber.toInt(),randomSizeCallback);
-    }  
+      sizeUpdateTimer = new Timer.repeating(new Duration(milliseconds: sizeUpdateInput.valueAsNumber.toInt()),randomSizeCallback);
+    }
   });
   propertyUpdateInput.onChange.listen((e) {
     if (propertyUpdateInput.validity.valid) {
       propertyUpdateTimer.cancel();
-      propertyUpdateTimer = new Timer.repeating(propertyUpdateInput.valueAsNumber.toInt(),randomPropertyCallback);
+      propertyUpdateTimer = new Timer.repeating(new Duration(milliseconds: propertyUpdateInput.valueAsNumber.toInt()),randomPropertyCallback);
     }
   });
   resetModelButton.onClick.listen((e) {
@@ -200,13 +200,13 @@ void registerListeners() {
       sizeUpdateCheckbox.disabled = false;
     }
   });
-  repaintButton.onMouseOver.listen((e) { 
+  repaintButton.onMouseOver.listen((e) {
     if (repaintInput.validity.valid) {
       final value = repaintInput.valueAsNumber.toInt();
       if (value > 1) {
-        repaintButton.title = "Repaints the treemap ${repaintInput.valueAsNumber.toInt()} times";        
+        repaintButton.title = "Repaints the treemap ${repaintInput.valueAsNumber.toInt()} times";
       } else {
-        repaintButton.title = "Repaints the treemap ${repaintInput.valueAsNumber.toInt()} time";        
+        repaintButton.title = "Repaints the treemap ${repaintInput.valueAsNumber.toInt()} time";
       }
     } else {
       repaintButton.title = "Value in number input element not valid!";
@@ -247,7 +247,7 @@ Map<String, LayoutAlgorithm> initAlgorithmMap() {
 
 final randomSizeCallback = (Timer timer) =>
   timerCallback(timer, sizeUpdateCheckbox, (l,r) => l.size = r.nextInt(1000));
-  
+
 final randomPropertyCallback = (Timer timer) =>
   timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000));
 

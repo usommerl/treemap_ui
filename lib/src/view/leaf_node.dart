@@ -1,11 +1,11 @@
 part of treemap_view;
 
 class LeafNode extends Node {
-  
+
   LeafNode(dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
     _content = container;
-    _content.append(_nodeLabel.container);  
+    _content.append(_nodeLabel.container);
     container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
   }
 
@@ -16,5 +16,5 @@ class LeafNode extends Node {
     _tooltip.repaintContent();
     container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
   }
-  
+
 }
