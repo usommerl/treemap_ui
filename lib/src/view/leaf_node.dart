@@ -12,9 +12,7 @@ class LeafNode extends Node {
   AbstractLeaf get dataModel => this._dataModel;
 
   void repaintContent() {
-    _nodeLabel.repaintContent();
-    _tooltip.repaintContent();
+    super.repaintContent();
     container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
   }
-
 }

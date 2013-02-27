@@ -16,6 +16,7 @@ class Treemap{
    DataModel _dataModel;
    StyleElement _currentActiveStyle;
    DivElement _componentRoot;
+   Node _rootNode;
    StreamSubscription<num> _modelChangeSubscription;
    bool isNavigatable = true;
    bool showTooltips = true;
@@ -34,11 +35,14 @@ class Treemap{
    }
 
    void repaint() {
-     _componentRoot.children.clear();
+     if (_rootNode != null) {
+       _rootNode.cancelSubscriptions();
+       _componentRoot.children.clear();
+     }
      final viewModel = new ViewModel(this, _componentRoot, _style);
-     final rootNode = new Node.forRoot(model, viewModel);
-     if (rootNode.isBranch) {
-       layoutAlgorithm.layout(rootNode);
+     _rootNode = new Node.forRoot(model, viewModel);
+     if (_rootNode.isBranch) {
+       layoutAlgorithm.layout(_rootNode);
      }
    }
 

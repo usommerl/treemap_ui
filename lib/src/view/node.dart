@@ -7,12 +7,13 @@ abstract class Node implements Attachable {
   static const String COLLAPSED_WIDTH = 'collapsedWidth';
   static const String COLLAPSED_HEIGHT = 'collapsedHeight';
 
-  final Element container = new DivElement();
   final Orientation orientation;
   final Percentage width, height;
-  final DataModel _dataModel;
   final ViewModel viewModel;
   final Completer<BranchNode> _parentCompleter = new Completer();
+  final DataModel _dataModel;
+  final Element container = new DivElement();
+  StreamSubscription _modelSubscription;
   BranchNode _parent;
   DivElement _content;
   NodeLabel _nodeLabel;
@@ -26,7 +27,7 @@ abstract class Node implements Attachable {
     _nodeLabel = new NodeLabel(this);
     _tooltip = new Tooltip(this);
     _rectifyAppearance();
-    _dataModel.onPropertyChange.listen((_) {
+    _modelSubscription = dataModel.onPropertyChange.listen((_) {
       if (viewModel.treemap.automaticUpdates) {
         repaintContent();
       }
@@ -113,5 +114,13 @@ abstract class Node implements Attachable {
 
   DataModel get dataModel;
 
-  void repaintContent();
+  void repaintContent() {
+    _nodeLabel.repaintContent();
+    _tooltip.repaintContent();
+  }
+  
+  void cancelSubscriptions() {
+    _modelSubscription.cancel();
+    _tooltip.cancelSubscriptions();
+  }
 }

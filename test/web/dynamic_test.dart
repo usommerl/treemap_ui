@@ -187,17 +187,13 @@ void registerListeners() {
   repaintButton.onClick.listen((e) {
     if (repaintInput.validity.valid) {
       final abort = repaintInput.valueAsNumber.toInt();
-      repaintButton.disabled = true;
-      repaintInput.disabled = true;
-      propertyUpdateCheckbox.disabled = true;
-      sizeUpdateCheckbox.disabled = true;
       for(var i = 0; i < abort; i++) {
-        treemap.repaint();
+        // Delay of execution is crucial! Otherwise the recording 
+        // of timeline data with chrome-dev-tools will fail.  
+        new Timer(const Duration(milliseconds: 100), (){
+          treemap.repaint();          
+        });
       }
-      repaintButton.disabled = false;
-      repaintInput.disabled = false;
-      propertyUpdateCheckbox.disabled = false;
-      sizeUpdateCheckbox.disabled = false;
     }
   });
   repaintButton.onMouseOver.listen((e) {

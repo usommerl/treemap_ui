@@ -8,6 +8,7 @@ class BranchNode extends Node {
 
   final List<Node> children = [];
   final List<LayoutHelper> layoutHelpers = [];
+  List<StreamSubscription> _subscriptions;
 
   BranchNode(dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
@@ -18,7 +19,7 @@ class BranchNode extends Node {
       _content.classes.add("${viewModel.style._classNames[CONTENT]}");
       container.append(_nodeLabel.container);
       container.append(_content);
-      _registerListeners();
+      _subscriptions = _registerSubscriptions();
     }
 
   void add(Node child) {
@@ -40,29 +41,33 @@ class BranchNode extends Node {
 
   bool get isViewRoot => viewModel.currentViewRoot == this;
 
-  void _registerListeners() {
-    _nodeLabel.container.onMouseOver.listen((MouseEvent event) {
-      if (viewModel.treemap.isNavigatable) {
-        _nodeLabel.container.style.cursor = "pointer";
-      } else {
-        _nodeLabel.container.style.cursor = "auto";
-      }
-    });
-    _nodeLabel.container.onMouseDown.listen((MouseEvent event) {
-      if (viewModel.treemap.isNavigatable) {
-        if (viewModel.currentViewRoot == this) {
-          if (!isModelRoot) {
-            _recreateInitialHtmlHierarchy(this);
-            _setAsViewRoot(_parent);
+  List<StreamSubscription> _registerSubscriptions() {
+    final List<StreamSubscription> subscriptions = [];
+    subscriptions.addAll([
+        _nodeLabel.container.onMouseOver.listen((MouseEvent event) {
+          if (viewModel.treemap.isNavigatable) {
+            _nodeLabel.container.style.cursor = "pointer";
+          } else {
+            _nodeLabel.container.style.cursor = "auto";
           }
-        } else {
-          if (_parent.isViewRoot && !_parent.isModelRoot) {
-            _recreateInitialHtmlHierarchy(_parent);
+        }),
+        _nodeLabel.container.onMouseDown.listen((MouseEvent event) {
+          if (viewModel.treemap.isNavigatable) {
+            if (viewModel.currentViewRoot == this) {
+              if (!isModelRoot) {
+                _recreateInitialHtmlHierarchy(this);
+                _setAsViewRoot(_parent);
+              }
+            } else {
+              if (_parent.isViewRoot && !_parent.isModelRoot) {
+                _recreateInitialHtmlHierarchy(_parent);
+              }
+              _setAsViewRoot(this);
+            }
           }
-          _setAsViewRoot(this);
-        }
-      }
-    });
+        })
+      ]);
+    return subscriptions;
   }
 
   void _setAsViewRoot(BranchNode node) {
@@ -87,9 +92,10 @@ class BranchNode extends Node {
       viewModel.cachedNextSibling.insertAdjacentElement('beforeBegin', node.container);
     }
   }
-
-  void repaintContent() {
-    _nodeLabel.repaintContent();
-    _tooltip.repaintContent();
+  
+  void cancelSubscriptions() {
+    super.cancelSubscriptions();
+    _subscriptions.forEach((s) => s.cancel());
+    children.forEach((c) => c.cancelSubscriptions());
   }
 }
