@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 import 'dart:async';
-import 'package:treemap/treemap.dart';
 import '../resources/test_resources.dart';
 
 const prefixDataModel = "dataModel";

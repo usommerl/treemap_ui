@@ -1,5 +1,4 @@
 import 'dart:html';
-import 'package:treemap/treemap.dart';
 import '../resources/test_resources.dart';
 
 const treeMapClass = "treemapContainer";

@@ -1,5 +1,6 @@
 library treemap_test_resources;
 import 'package:treemap/treemap.dart';
+export 'package:treemap/treemap.dart';
 import 'dart:html';
 
 part 'leaf.dart';

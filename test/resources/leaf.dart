@@ -25,6 +25,8 @@ class Leaf extends AbstractLeaf {
     _someProperty = value;
     updateView();
   }
+  
+  get someProperty => _someProperty;
 
   Color provideBackgroundColor() => colors.elementAt(_someProperty % colors.length);
 

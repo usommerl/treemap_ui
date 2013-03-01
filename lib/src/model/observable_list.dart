@@ -16,9 +16,6 @@ class ObservableList<E> implements List<E> {
     _onUpdate = _onUpdateController.stream;
   }
 
-  factory ObservableList([int length = 0]) =>
-    new ObservableList._internal(new List<E>(length));
-
   factory ObservableList.from(Iterable other) =>
     new ObservableList._internal(new List<E>.from(other));
 
@@ -97,7 +94,7 @@ class ObservableList<E> implements List<E> {
   void removeAll(Iterable elements) => elements.forEach((e) => remove(e));
     
   void retainAll(Iterable elements) {
-    final others = _list.where((e) => !elements.contains(e));
+    final others = _list.where((e) => !elements.contains(e)).toList();
     removeAll(others);
   }
 
@@ -176,7 +173,7 @@ class ObservableList<E> implements List<E> {
 
   E firstMatching(bool test(E value), { E orElse() }) => _list.firstMatching(test, orElse : orElse);
 
-  E lastMatching(bool test(E value), {E orElse()}) => _list.lastMatching(test, orElse : orElse);
+  E lastMatching(bool test(E value), { E orElse() }) => _list.lastMatching(test, orElse : orElse);
 
   E singleMatching(bool test(E value)) => _list.singleMatching(test);
 

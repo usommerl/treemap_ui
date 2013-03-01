@@ -2,7 +2,7 @@ part of treemap_test_resources;
 
 class Branch extends AbstractBranch {
 
-  Branch(List<DataModel> children) : super(children);
+  Branch([List<DataModel> children]) : super(children);
 
   Element provideNodeLabel() {
     Element element = new Element.html("<span></span>");
