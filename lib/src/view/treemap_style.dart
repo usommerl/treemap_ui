@@ -2,9 +2,9 @@ part of treemap_view;
 
 class TreemapStyle {
 
-  static int _instantiationCounter = 1;
+  static int _instanceCounter = 1;
   final StreamController _styleChangeController = new StreamController.broadcast();
-  final String _stylePrefix = "tm${_instantiationCounter++}-";
+  String _prefix;
   Color _branchColor;
   Color _borderColor;
   int _borderWidth;
@@ -22,29 +22,30 @@ class TreemapStyle {
     }
   ){
    onStyleChange = _styleChangeController.stream;
+   _prefix = "tm${_instanceCounter++}-";
   }
 
-  Map<String,String> _initClassNames() {
+  Map<String,String> _initClassNames(String prefix) {
     final map = new Map<String,String>();
-    map["${LeafNode}"] = "${_stylePrefix}leaf";
-    map["${BranchNode}"] = "${_stylePrefix}branch";
-    map["${LayoutHelper}"] = "${_stylePrefix}layoutHelper";
-    map["${Tooltip}"] = "${_stylePrefix}tooltip";
-    map["${NodeLabel}"] = "${_stylePrefix}label";
-    map[BranchNode.CONTENT] = "${_stylePrefix}${BranchNode.CONTENT}";
-    map[BranchNode.MODEL_ROOT] = "${_stylePrefix}${BranchNode.MODEL_ROOT}";
-    map[BranchNode.VIEW_ROOT] = "${_stylePrefix}${BranchNode.VIEW_ROOT}";
-    map[Node.NO_LEFT_BORDER] = "${_stylePrefix}${Node.NO_LEFT_BORDER}";
-    map[Node.NO_TOP_BORDER] = "${_stylePrefix}${Node.NO_TOP_BORDER}";
-    map[Node.COLLAPSED_WIDTH] = "${_stylePrefix}${Node.COLLAPSED_WIDTH}";
-    map[Node.COLLAPSED_HEIGHT] = "${_stylePrefix}${Node.COLLAPSED_HEIGHT}";
-    map[Orientation.VERTICAL.toString()] = "${_stylePrefix}${Orientation.VERTICAL.toString()}";
-    map[Orientation.HORIZONTAL.toString()] = "${_stylePrefix}${Orientation.HORIZONTAL.toString()}";
+    map["${LeafNode}"] = "${prefix}leaf";
+    map["${BranchNode}"] = "${prefix}branch";
+    map["${LayoutHelper}"] = "${prefix}layoutHelper";
+    map["${Tooltip}"] = "${prefix}tooltip";
+    map["${NodeLabel}"] = "${prefix}label";
+    map[BranchNode.CONTENT] = "${prefix}${BranchNode.CONTENT}";
+    map[BranchNode.MODEL_ROOT] = "${prefix}${BranchNode.MODEL_ROOT}";
+    map[BranchNode.VIEW_ROOT] = "${prefix}${BranchNode.VIEW_ROOT}";
+    map[Node.NO_LEFT_BORDER] = "${prefix}${Node.NO_LEFT_BORDER}";
+    map[Node.NO_TOP_BORDER] = "${prefix}${Node.NO_TOP_BORDER}";
+    map[Node.COLLAPSED_WIDTH] = "${prefix}${Node.COLLAPSED_WIDTH}";
+    map[Node.COLLAPSED_HEIGHT] = "${prefix}${Node.COLLAPSED_HEIGHT}";
+    map[Orientation.VERTICAL.toString()] = "${prefix}${Orientation.VERTICAL.toString()}";
+    map[Orientation.HORIZONTAL.toString()] = "${prefix}${Orientation.HORIZONTAL.toString()}";
     return map;
   }
 
   StyleElement get inlineStyle {
-    this._classNames = _initClassNames();
+    this._classNames = _initClassNames(prefix);
     final String inlineStyleHtml =
 """
 <style type="text/css">
@@ -84,6 +85,9 @@ class TreemapStyle {
   right: 0px;
   bottom: 0px;
   left: 0px;
+}
+.${_classNames[BranchNode.MODEL_ROOT]} > .${_classNames["${NodeLabel}"]} {
+  display: none;
 }
 .${_classNames["${LeafNode}"]} *:first-child {
   cursor: default;
@@ -162,6 +166,13 @@ class TreemapStyle {
 
   set borderStyle(String borderStyle) {
     _borderStyle = borderStyle;
+    _styleChangeController.add(null);
+  }
+  
+  String get prefix => _prefix;
+  
+  set prefix(String prefix) {
+    _prefix = prefix;
     _styleChangeController.add(null);
   }
 }

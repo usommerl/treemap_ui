@@ -44,7 +44,6 @@ abstract class Node implements Attachable {
     final rootNode = new Node(dataModel, viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
     rootNode.viewModel.treemapHtmlRoot.append(rootNode.container);
     rootNode.viewModel.currentViewRoot = rootNode;
-    rootNode._nodeLabel.container.style.display = "none";
     return rootNode;
   }
 
