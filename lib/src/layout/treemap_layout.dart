@@ -1,4 +1,4 @@
-library treemap_layout;
+library treemap.layout;
 
 import 'dart:math';
 import 'dart:collection';

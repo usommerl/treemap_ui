@@ -1,4 +1,4 @@
-part of treemap_layout;
+part of treemap.layout;
 
 /**
  * Base class for all concrete layout algorithm implementations.

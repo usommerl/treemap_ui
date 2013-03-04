@@ -1,4 +1,4 @@
-library treemap_model;
+library treemap.model;
 
 import 'dart:html' show Element;
 import 'dart:async';

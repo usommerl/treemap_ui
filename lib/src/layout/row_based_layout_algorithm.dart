@@ -1,4 +1,4 @@
-part of treemap_layout;
+part of treemap.layout;
 
 abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
 

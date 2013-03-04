@@ -1,4 +1,4 @@
-part of treemap_model;
+part of treemap.model;
 
 class ObservableList<E> implements List<E> {
 

@@ -1,4 +1,4 @@
-library treemap_view;
+library treemap.view;
 
 import 'dart:html' hide Node;
 import 'dart:async';

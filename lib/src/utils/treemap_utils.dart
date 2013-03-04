@@ -1,4 +1,4 @@
-library treemap_utils;
+library treemap.utils;
 
 part 'percentage.dart';
 part 'orientation.dart';

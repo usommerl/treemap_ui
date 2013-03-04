@@ -1,4 +1,4 @@
-part of treemap_view;
+part of treemap.view;
 
 class Tooltip implements Attachable {
 

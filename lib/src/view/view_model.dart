@@ -1,4 +1,4 @@
-part of treemap_view;
+part of treemap.view;
 
 
 class ViewModel {
@@ -16,6 +16,4 @@ class ViewModel {
   }
 
   bool get tooltipsEnabled => treemap.showTooltips;
-
-
 }
