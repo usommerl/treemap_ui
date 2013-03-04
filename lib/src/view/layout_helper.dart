@@ -9,7 +9,7 @@ class LayoutHelper implements Attachable {
   final Percentage height;
 
   LayoutHelper._internal(this.width, this.height, this._parent, this.orientation) {
-    container.classes.add("${_parent.viewModel.style._classNames[runtimeType.toString()]}");
+    container.classes.add("${_parent.viewModel.styleNames[runtimeType.toString()]}");
     container.style..width = width.toString()
         ..height = height.toString();
     _parent.addHelper(this);

@@ -36,7 +36,7 @@ main() {
   registerListeners();
 
   modelInput.valueAsNumber = 3;
-  treemap = new Treemap(treemapContainer, selectedModel, algorithm : selectedAlgorithm);
+  treemap = new Treemap(treemapContainer, selectedModel, selectedAlgorithm);
   borderColorSelect.value = treemap.style.borderColor.toString();
   branchColorSelect.value = treemap.style.branchColor.toString();
   borderWidthInput.valueAsNumber = treemap.style.borderWidth;

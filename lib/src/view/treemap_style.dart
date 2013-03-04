@@ -34,13 +34,14 @@ class TreemapStyle {
     map["${NodeLabel}"] = "${prefix}label";
     map[BranchNode.CONTENT] = "${prefix}${BranchNode.CONTENT}";
     map[BranchNode.MODEL_ROOT] = "${prefix}${BranchNode.MODEL_ROOT}";
-    map[BranchNode.VIEW_ROOT] = "${prefix}${BranchNode.VIEW_ROOT}";
+    map[ViewModel.VIEW_ROOT] = "${prefix}${ViewModel.VIEW_ROOT}";
     map[Node.NO_LEFT_BORDER] = "${prefix}${Node.NO_LEFT_BORDER}";
     map[Node.NO_TOP_BORDER] = "${prefix}${Node.NO_TOP_BORDER}";
     map[Node.COLLAPSED_WIDTH] = "${prefix}${Node.COLLAPSED_WIDTH}";
     map[Node.COLLAPSED_HEIGHT] = "${prefix}${Node.COLLAPSED_HEIGHT}";
     map[Orientation.VERTICAL.toString()] = "${prefix}${Orientation.VERTICAL.toString()}";
     map[Orientation.HORIZONTAL.toString()] = "${prefix}${Orientation.HORIZONTAL.toString()}";
+    map[NAVIGATION_ELEMENT] = "${prefix}${NAVIGATION_ELEMENT}";
     return map;
   }
 
@@ -77,7 +78,7 @@ class TreemapStyle {
 }
 .${_classNames[BranchNode.MODEL_ROOT]},
 .${_classNames["${LayoutHelper}"]},
-.${_classNames[BranchNode.MODEL_ROOT]}.${_classNames[BranchNode.VIEW_ROOT]} {
+.${_classNames[BranchNode.MODEL_ROOT]}.${_classNames[ViewModel.VIEW_ROOT]} {
   border-width: 0px;
 }
 .${_classNames[BranchNode.MODEL_ROOT]} > .${_classNames[BranchNode.CONTENT]} {
@@ -120,7 +121,11 @@ class TreemapStyle {
 .${_classNames[Node.COLLAPSED_HEIGHT]}.${_classNames["${BranchNode}"]} {
   background-color: ${_branchColor};
 }
-.${_classNames[BranchNode.VIEW_ROOT]}{
+.${_classNames[ViewModel.VIEW_ROOT]}[style]{
+  width: 100% !important;
+  height: 100% !important;
+}
+.${_classNames[ViewModel.VIEW_ROOT]}{
   border-width: ${_borderWidth}px;
 }
 .${_classNames[Orientation.VERTICAL.toString()]}{
@@ -128,6 +133,9 @@ class TreemapStyle {
 }
 .${_classNames[Orientation.HORIZONTAL.toString()]}{
   float: left;
+}
+.${_classNames[NAVIGATION_ELEMENT]}{
+  cursor: pointer;
 }
 </style>
 """;

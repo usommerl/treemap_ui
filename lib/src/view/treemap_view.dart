@@ -16,3 +16,5 @@ part 'treemap_style.dart';
 part 'tooltip.dart';
 part 'node_label.dart';
 part 'attachable.dart';
+
+const String NAVIGATION_ELEMENT = "navigation-element";

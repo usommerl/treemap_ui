@@ -9,7 +9,7 @@ class Tooltip implements Attachable {
   final List<StreamSubscription> _subscriptions = [];
 
   Tooltip(Node this.node) {
-    container.classes.add("${node.viewModel.style._classNames[runtimeType.toString()]}");
+    container.classes.add("${node.viewModel.styleNames[runtimeType.toString()]}");
     repaintContent();
     node.parent.then((BranchNode parent) {
       if (node.isLeaf) {

@@ -20,15 +20,15 @@ abstract class Node implements Attachable {
   Tooltip _tooltip;
 
   Node._internal(this._dataModel, this.viewModel, this.width, this.height, this.orientation) {
-    container.classes.add("${viewModel.style._classNames[runtimeType.toString()]}");
-    container.classes.add("${viewModel.style._classNames[orientation.toString()]}");
+    container.classes.add("${viewModel.styleNames[runtimeType.toString()]}");
+    container.classes.add("${viewModel.styleNames[orientation.toString()]}");
     container.style..width = width.toString()
                    ..height = height.toString();
     _nodeLabel = new NodeLabel(this);
     _tooltip = new Tooltip(this);
-    _rectifyAppearance();
+    rectifyAppearance();
     _modelSubscription = dataModel.onPropertyChange.listen((_) {
-      if (viewModel.treemap.automaticUpdates) {
+      if (viewModel.automaticUpdatesEnabled) {
         repaintContent();
       }
     });
@@ -42,8 +42,6 @@ abstract class Node implements Attachable {
   factory Node.forRoot(DataModel dataModel, ViewModel viewModel) {
     assert(dataModel.isRoot);
     final rootNode = new Node(dataModel, viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
-    rootNode.viewModel.treemapHtmlRoot.append(rootNode.container);
-    rootNode.viewModel.currentViewRoot = rootNode;
     return rootNode;
   }
 
@@ -58,39 +56,39 @@ abstract class Node implements Attachable {
     _parent = parent;
   }
 
-  void _rectifyAppearance() {
+  void rectifyAppearance() {
     parent.then((BranchNode parent) {
-      container.classes.remove("${viewModel.style._classNames[NO_TOP_BORDER]}");
-      container.classes.remove("${viewModel.style._classNames[NO_LEFT_BORDER]}");
-      container.classes.remove("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
-      container.classes.remove("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
+      container.classes.remove("${viewModel.styleNames[NO_TOP_BORDER]}");
+      container.classes.remove("${viewModel.styleNames[NO_LEFT_BORDER]}");
+      container.classes.remove("${viewModel.styleNames[COLLAPSED_WIDTH]}");
+      container.classes.remove("${viewModel.styleNames[COLLAPSED_HEIGHT]}");
 
       if (parent.children.any((other) => this._isPositionedBelow(other))) {
-        container.classes.add("${viewModel.style._classNames[NO_TOP_BORDER]}");
-        if (container.offsetHeight <= viewModel.style._borderWidth) {
-          container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
+        container.classes.add("${viewModel.styleNames[NO_TOP_BORDER]}");
+        if (container.offsetHeight <= viewModel.borderWidth) {
+          container.classes.add("${viewModel.styleNames[COLLAPSED_HEIGHT]}");
         }
-      } else if (container.offsetHeight <= 2 * viewModel.style._borderWidth) {
-        container.classes.add("${viewModel.style._classNames[COLLAPSED_HEIGHT]}");
+      } else if (container.offsetHeight <= 2 * viewModel.borderWidth) {
+        container.classes.add("${viewModel.styleNames[COLLAPSED_HEIGHT]}");
       }
 
       if (parent.children.any((other) => this._isPositionedRightOf(other))) {
-        container.classes.add("${viewModel.style._classNames[NO_LEFT_BORDER]}");
-        if (container.offsetWidth <= viewModel.style._borderWidth) {
-          container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
+        container.classes.add("${viewModel.styleNames[NO_LEFT_BORDER]}");
+        if (container.offsetWidth <= viewModel.borderWidth) {
+          container.classes.add("${viewModel.styleNames[COLLAPSED_WIDTH]}");
         }
-      } else if (container.offsetWidth <= 2 * viewModel.style._borderWidth) {
-        container.classes.add("${viewModel.style._classNames[COLLAPSED_WIDTH]}");
+      } else if (container.offsetWidth <= 2 * viewModel.borderWidth) {
+        container.classes.add("${viewModel.styleNames[COLLAPSED_WIDTH]}");
       }
 
       if (isBranch) {
-        if (_nodeLabel.container.offsetHeight > viewModel.style._branchPadding ) {
+        if (_nodeLabel.container.offsetHeight > viewModel.branchPadding ) {
           _content.style.top = "${_nodeLabel.container.offsetHeight}px";
         } else {
-          _nodeLabel.container.style.height = "${viewModel.style._branchPadding}px";
+          _nodeLabel.container.style.height = "${viewModel.branchPadding}px";
         }
         final thisNode = this as BranchNode;
-        thisNode.children.forEach((child) => child._rectifyAppearance());
+        thisNode.children.forEach((child) => child.rectifyAppearance());
       }
     });
   }
@@ -104,8 +102,6 @@ abstract class Node implements Attachable {
   bool get isLeaf => dataModel.isLeaf;
 
   bool get isBranch => dataModel.isBranch;
-
-  bool get isModelRoot => dataModel.isRoot;
 
   int get clientWidth => _content.clientWidth;
 

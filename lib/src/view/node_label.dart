@@ -11,7 +11,7 @@ class NodeLabel implements Attachable{
     } else {
       _container = new DivElement();
     }
-    container.classes.add("${_node.viewModel.style._classNames[runtimeType.toString()]}");
+    container.classes.add("${_node.viewModel.styleNames[runtimeType.toString()]}");
     repaintContent();
   }
 

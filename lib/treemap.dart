@@ -12,22 +12,19 @@ export 'src/layout/treemap_layout.dart';
 class Treemap{
 
    final TreemapStyle _style = new TreemapStyle();
+   final DivElement componentRoot;
    LayoutAlgorithm _layoutAlgorithm;
    DataModel _dataModel;
    StyleElement _currentActiveStyle;
-   DivElement _componentRoot;
    Node _rootNode;
    StreamSubscription<num> _modelChangeSubscription;
-   bool isNavigatable = true;
+   bool isTraversable = true;
    bool showTooltips = true;
-   bool automaticUpdates = true;
+   bool automaticRepaintsEnabled = true;
 
-   Treemap(DivElement this._componentRoot, DataModel this._dataModel, {LayoutAlgorithm algorithm}) {
-     if (algorithm == null) {
-       _layoutAlgorithm = new Squarified();
-     } else {
-       _layoutAlgorithm = algorithm;
-     }
+   Treemap(DivElement this.componentRoot, DataModel this._dataModel, LayoutAlgorithm this._layoutAlgorithm) {
+//    assert(componentRoot.clientHeight > 0);
+//    assert(componentRoot.children.length == 0);
      _registerModelChangeSubscription();
      _registerStyleUpdateSubscription();
      _setTreemapStyle();
@@ -35,47 +32,20 @@ class Treemap{
    }
 
    void repaint() {
+     ViewModel viewModel;
      if (_rootNode != null) {
        _rootNode.cancelSubscriptions();
-       _componentRoot.children.clear();
+       viewModel = _rootNode.viewModel;
+     } else {
+       viewModel = new ViewModel(this);
      }
-     final viewModel = new ViewModel(this, _componentRoot, _style);
      _rootNode = new Node.forRoot(model, viewModel);
+     componentRoot.children.clear();
+     componentRoot.append(_rootNode.container);
      if (_rootNode.isBranch) {
        layoutAlgorithm.layout(_rootNode);
      }
-   }
-
-   void _registerModelChangeSubscription() {
-     if (_modelChangeSubscription != null) {
-       _modelChangeSubscription.cancel();
-     }
-     _modelChangeSubscription = _dataModel.onModelChange.listen((_) {
-       if (automaticUpdates) {
-         repaint();
-       }
-     });
-   }
-
-   void _registerStyleUpdateSubscription() {
-     _style.onStyleChange.listen((_) {
-         _setTreemapStyle();
-         repaint();
-     });
-   }
-
-   void _setTreemapStyle() {
-     final StyleElement style = _style.inlineStyle;
-     if (_currentActiveStyle != null) {
-       document.head.children.remove(_currentActiveStyle);
-     }
-     final styleOrLinkElements = document.head.children.where((e) => e.runtimeType == StyleElement || e.runtimeType == LinkElement);
-     if (styleOrLinkElements.isEmpty) {
-       document.head.append(style);
-     } else {
-       styleOrLinkElements.first.insertAdjacentElement('beforeBegin', style);
-     }
-     _currentActiveStyle = style;
+     viewModel.resetViewRoot(_rootNode);
    }
 
    DataModel get model => _dataModel;
@@ -83,7 +53,7 @@ class Treemap{
    set model(DataModel model) {
      _dataModel = model;
      _registerModelChangeSubscription();
-     if (automaticUpdates) {
+     if (automaticRepaintsEnabled) {
        repaint();
      }
    }
@@ -92,10 +62,42 @@ class Treemap{
 
    set layoutAlgorithm(LayoutAlgorithm algorithm) {
      _layoutAlgorithm = algorithm;
-     if (automaticUpdates) {
+     if (automaticRepaintsEnabled) {
        repaint();
      }
    }
 
    TreemapStyle get style => _style;
+   
+   void _registerModelChangeSubscription() {
+     if (_modelChangeSubscription != null) {
+       _modelChangeSubscription.cancel();
+     }
+     _modelChangeSubscription = _dataModel.onModelChange.listen((_) {
+       if (automaticRepaintsEnabled) {
+         repaint();
+       }
+     });
+   }
+
+   void _registerStyleUpdateSubscription() {
+     style.onStyleChange.listen((_) {
+         _setTreemapStyle();
+         repaint();
+     });
+   }
+
+   void _setTreemapStyle() {
+     final StyleElement sty = style.inlineStyle;
+     if (_currentActiveStyle != null) {
+       document.head.children.remove(_currentActiveStyle);
+     }
+     final styleOrLinkElements = document.head.children.where((e) => e.runtimeType == StyleElement || e.runtimeType == LinkElement);
+     if (styleOrLinkElements.isEmpty) {
+       document.head.append(sty);
+     } else {
+       styleOrLinkElements.first.insertAdjacentElement('beforeBegin', sty);
+     }
+     _currentActiveStyle = sty;
+   }
 }
