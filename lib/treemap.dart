@@ -20,7 +20,7 @@ class Treemap{
    StreamSubscription<num> _modelChangeSubscription;
    bool isTraversable = true;
    bool showTooltips = true;
-   bool automaticRepaintsEnabled = true;
+   bool automaticRepaints = true;
 
    Treemap(DivElement this.componentRoot, DataModel this._dataModel, LayoutAlgorithm this._layoutAlgorithm) {
 //    assert(componentRoot.clientHeight > 0);
@@ -53,7 +53,7 @@ class Treemap{
    set model(DataModel model) {
      _dataModel = model;
      _registerModelChangeSubscription();
-     if (automaticRepaintsEnabled) {
+     if (automaticRepaints) {
        repaint();
      }
    }
@@ -62,7 +62,7 @@ class Treemap{
 
    set layoutAlgorithm(LayoutAlgorithm algorithm) {
      _layoutAlgorithm = algorithm;
-     if (automaticRepaintsEnabled) {
+     if (automaticRepaints) {
        repaint();
      }
    }
@@ -74,7 +74,7 @@ class Treemap{
        _modelChangeSubscription.cancel();
      }
      _modelChangeSubscription = _dataModel.onModelChange.listen((_) {
-       if (automaticRepaintsEnabled) {
+       if (automaticRepaints) {
          repaint();
        }
      });

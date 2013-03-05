@@ -17,7 +17,7 @@ class ViewModel {
 
   int get branchPadding => _treemap.style.branchPadding;
   
-  bool get automaticUpdatesEnabled => _treemap.automaticRepaintsEnabled;
+  bool get automaticUpdatesEnabled => _treemap.automaticRepaints;
 
   bool get tooltipsEnabled => _treemap.showTooltips;
   
