@@ -6,6 +6,7 @@ class ViewModel {
   
   final Treemap _treemap;
   Node _viewRoot;
+  Node _rootNode;
   Element _cachedHtmlParent;
   Element _cachedNextSibling;
   
@@ -25,17 +26,15 @@ class ViewModel {
   
   void branchClicked(BranchNode node) {
     if (_treemap.isTraversable) {
-      if (_viewRoot == node) {
-        if (!node.dataModel.isRoot) {
+      if (node == _viewRoot && node != _rootNode ) {
           _recreatePristineHtmlHierarchy(node);
           node.parent.then((parent) {
             _setAsViewRoot(parent);
             node.rectifyAppearance();
           });
-        }
-      } else {
+      } else if (node != _viewRoot) {
         node.parent.then((parent){
-          if (parent == _viewRoot && !parent.dataModel.isRoot) {
+          if (parent == _viewRoot && parent != _rootNode) {
             _recreatePristineHtmlHierarchy(parent);
           }
           _setAsViewRoot(node);
@@ -46,13 +45,14 @@ class ViewModel {
   }
   
   void resetViewRoot(Node rootNode) {
+    _rootNode = rootNode;
     if (_viewRoot == null || identical(_viewRoot.dataModel, rootNode.dataModel)) {
-      _viewRoot = rootNode;
+      _viewRoot = _rootNode;
     } else {
-      final newViewRootInstance = _findAllSubBranches(rootNode).firstMatching((b) => 
+      final newViewRootInstance = _findAllSubBranches(_rootNode).firstMatching((b) => 
           identical(_viewRoot.dataModel, b.dataModel), orElse: (){return null;});
       if (newViewRootInstance == null) {
-        _viewRoot = rootNode;
+        _viewRoot = _rootNode;
       } else {
         branchClicked(newViewRootInstance);
       }      

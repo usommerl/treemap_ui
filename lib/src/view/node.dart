@@ -13,13 +13,17 @@ abstract class Node implements Attachable {
   final Completer<BranchNode> _parentCompleter = new Completer();
   final DataModel _dataModel;
   final Element container = new DivElement();
+  final bool _isLeaf;
   StreamSubscription _modelSubscription;
   BranchNode _parent;
   DivElement _content;
   NodeLabel _nodeLabel;
   Tooltip _tooltip;
 
-  Node._internal(this._dataModel, this.viewModel, this.width, this.height, this.orientation) {
+  Node._internal(DataModel dataModel, this.viewModel, this.width, this.height, this.orientation) 
+            : _isLeaf = dataModel.isLeaf,
+              _dataModel = dataModel
+  {
     container.classes.add("${viewModel.styleNames[runtimeType.toString()]}");
     container.classes.add("${viewModel.styleNames[orientation.toString()]}");
     container.style..width = width.toString()
@@ -51,9 +55,11 @@ abstract class Node implements Attachable {
 
   void setParent(BranchNode parent) {
     if (_parent == null) {
+      _parent = parent;
       _parentCompleter.complete(parent);
+    } else {
+      throw new RuntimeError("Parent already set. You can set the parent only once.");
     }
-    _parent = parent;
   }
 
   void rectifyAppearance() {
@@ -99,9 +105,9 @@ abstract class Node implements Attachable {
   bool _isPositionedRightOf(Node other) =>
     this.container.offsetLeft > other.container.offsetLeft;
 
-  bool get isLeaf => dataModel.isLeaf;
+  bool get isLeaf => _isLeaf;
 
-  bool get isBranch => dataModel.isBranch;
+  bool get isBranch => !isLeaf;
 
   int get clientWidth => _content.clientWidth;
 
