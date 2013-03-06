@@ -20,7 +20,7 @@ main() {
     final copy3 = leaf3.copy();
     copy3.someProperty = 11;
     final model = (TestResources.dataModel3 as Branch).copy();
-    treemap = new Treemap(componentRoot, model);
+    treemap = new Treemap(componentRoot, model, TestResources.layoutAlgorithms.last);
 
     new Timer(const Duration(milliseconds: 500), () {
       new Timer(const Duration(milliseconds: 500), () => model.children.add(leaf1));
