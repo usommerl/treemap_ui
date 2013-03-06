@@ -10,15 +10,16 @@ main() {
     final leaf1 = new Leaf(100);
     final leaf2 = new Leaf(200);
     final leaf3 = new Leaf(700);
-    leaf1.someProperty = 3;
-    leaf2.someProperty = 4;
-    leaf3.someProperty = 5;
+    var i = 0;
+    leaf1.someProperty = Leaf.grayscale.length + i++;
+    leaf2.someProperty = Leaf.grayscale.length + i++;
+    leaf3.someProperty = Leaf.grayscale.length + i++;
     final copy1 = leaf1.copy();
-    copy1.someProperty = 6;
+    copy1.someProperty = Leaf.grayscale.length + i++;
     final copy2 = leaf2.copy();
-    copy2.someProperty = 7;
+    copy2.someProperty = Leaf.grayscale.length + i++;
     final copy3 = leaf3.copy();
-    copy3.someProperty = 11;
+    copy3.someProperty = Leaf.grayscale.length + i++;
     final model = (TestResources.dataModel3 as Branch).copy();
     treemap = new Treemap(componentRoot, model, TestResources.layoutAlgorithms.last);
 

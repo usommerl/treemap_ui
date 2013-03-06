@@ -275,7 +275,7 @@ final randomSizeCallback = (Timer timer) =>
   timerCallback(timer, sizeUpdateCheckbox, (l,r) => l.size = r.nextInt(1000));
 
 final randomPropertyCallback = (Timer timer) =>
-  timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000));
+  timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000) + Leaf.grayscale.length);
 
 final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(Leaf l, Random r)) {
   final Random r = new Random();

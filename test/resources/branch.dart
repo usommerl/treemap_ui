@@ -2,7 +2,14 @@ part of treemap_test_resources;
 
 class Branch extends AbstractBranch {
 
-  Branch([List<DataModel> children]) : super(children);
+  Branch([List<DataModel> children]) : super(children) {
+    var counter = 0;
+    this.children.forEach((child) {
+      if (child.isLeaf) {
+        (child as Leaf).someProperty = counter++;
+      }
+    });
+  }
 
   Element provideNodeLabel() {
     Element element = new Element.html("<span></span>");
