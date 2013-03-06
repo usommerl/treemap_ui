@@ -59,14 +59,18 @@ class ViewModel {
     }
   }
   
-  List<BranchNode> _findAllSubBranches(BranchNode root) {
-    return root.children.reduce([],(prev,child) {
-      if (child.isBranch) {
-        prev.add(child);
-        prev.addAll(_findAllSubBranches(child));
-      }
-      return prev;
-    });
+  List<BranchNode> _findAllSubBranches(Node root) {
+    if (root.isLeaf) {
+      return [];
+    } else {
+      return (root as BranchNode).children.reduce([],(prev,child) {
+        if (child.isBranch) {
+          prev.add(child);
+          prev.addAll(_findAllSubBranches(child));
+        }
+        return prev;
+      });      
+    }
   }
   
   void _setAsViewRoot(BranchNode node) {
