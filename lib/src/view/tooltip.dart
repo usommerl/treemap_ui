@@ -5,17 +5,17 @@ class Tooltip implements Attachable {
   DivElement container = new DivElement();
   static const String VISIBLE = 'visible';
   Timer _delayTimer = new Timer(const Duration(milliseconds: 0),(){});
-  final Node node;
+  final Node _node;
   final List<StreamSubscription> _subscriptions = [];
 
-  Tooltip(Node this.node) {
-    container.classes.add("${node.viewModel.styleNames[runtimeType.toString()]}");
+  Tooltip(Node this._node) {
+    container.classes.add("${_node.viewModel.styleNames[runtimeType.toString()]}");
     repaintContent();
-    node.parent.then((BranchNode parent) {
-      if (node.isLeaf) {
-        _establishDomHierarchyAndSubscriptions(node.container, parent._content);
+    _node.parent.then((BranchNode parent) {
+      if (_node.isLeaf) {
+        _establishDomHierarchyAndSubscriptions(_node.container, parent._content);
       } else {
-        _establishDomHierarchyAndSubscriptions(node._nodeLabel.container, node.container);
+        _establishDomHierarchyAndSubscriptions(_node._nodeLabel.container, _node.container);
       }
     });
   }
@@ -27,7 +27,7 @@ class Tooltip implements Attachable {
         container.classes.remove("${Tooltip.VISIBLE}");
         _delayTimer.cancel();
         _delayTimer = new Timer(const Duration(milliseconds: 1000),(timer){
-          if (node.viewModel.tooltipsEnabled) {
+          if (_node.viewModel.tooltipsEnabled) {
             final y = event.offsetY+hoverElement.offsetTop;
             final x = event.offsetX+hoverElement.offsetLeft;
             int adjX, adjY = 0;
@@ -56,7 +56,10 @@ class Tooltip implements Attachable {
 
   void repaintContent() {
     container.children.clear();
-    container.append(node.dataModel.provideTooltip());
+    final tooltipContent = _node.dataModel.provideTooltip();
+    if (tooltipContent != null) {
+      container.append(tooltipContent);      
+    }
   }
   
   void cancelSubscriptions() {

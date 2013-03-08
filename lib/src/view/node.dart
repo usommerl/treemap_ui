@@ -31,7 +31,7 @@ abstract class Node implements Attachable {
     _nodeLabel = new NodeLabel(this);
     _tooltip = new Tooltip(this);
     rectifyAppearance();
-    _modelSubscription = dataModel.onPropertyChange.listen((_) {
+    _modelSubscription = dataModel.onNodeContentChange.listen((_) {
       if (viewModel.automaticUpdatesEnabled) {
         repaintContent();
       }

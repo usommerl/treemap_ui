@@ -20,7 +20,7 @@ abstract class AbstractLeaf extends DataModel {
 
   void _validateSizeArgument(num size) {
     if (size == null || size < 0) {
-      throw new ArgumentError("Size has to be a positive value");
+      throw new ArgumentError("Size has to be a non-negative value");
     }
   }
 

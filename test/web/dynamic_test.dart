@@ -26,6 +26,7 @@ final CheckboxInputElement propertyUpdateCheckbox = new CheckboxInputElement();
 final NumberInputElement propertyUpdateInput = new NumberInputElement();
 SelectElement algorithmSelect;
 SelectElement borderColorSelect;
+SelectElement borderStyleSelect;
 SelectElement branchColorSelect;
 int initialSize;
 Timer sizeUpdateTimer = new Timer(0,(_){});
@@ -41,6 +42,7 @@ main() {
   modelInput.valueAsNumber = 3;
   treemap = new Treemap(treemapContainer, selectedModel, selectedAlgorithm);
   borderColorSelect.value = treemap.style.borderColor.toString();
+  borderStyleSelect.value = treemap.style.borderStyle;
   branchColorSelect.value = treemap.style.branchColor.toString();
   borderWidthInput.valueAsNumber = treemap.style.borderWidth;
   branchPaddingInput.valueAsNumber = treemap.style.branchPadding;
@@ -103,6 +105,11 @@ void initUiElements() {
   modelInput..min = "0"..max ="${TestResources.testDataModels.length-1}"..step = "1";
   modelInput.style..width = "48px"..marginLeft = "2px";
   modelControls..append(modelLabel)..append(modelInput)..append(resetModelButton);
+  final borderStyleLabel = new Element.html("<span class='controlsLabel'>border style:</span>");
+  options = TestResources.validBorderStyles.map((e) => "<option>$e</option>").reduce("", (acc,e) => "$acc$e");
+  borderStyleSelect = new Element.html("<select>$options</select>");
+  final borderStyleControls = new DivElement();
+  borderStyleControls..append(borderStyleLabel)..append(borderStyleSelect);
   final borderColorLabel = new Element.html("<span class='controlsLabel'>border color:</span>");
   options = colorMap.keys.map((k) => "<option style='background-color:${k};'>$k</option>").reduce("", (acc,e) => "$acc$e");
   borderColorSelect = new Element.html("<select>$options</select>");
@@ -124,8 +131,9 @@ void initUiElements() {
     ..append(modelControls)
     ..append(widthControls)
     ..append(heightControls)
-    ..append(borderWidthControls)
     ..append(branchPaddingControls)
+    ..append(borderWidthControls)
+    ..append(borderStyleControls)
     ..append(borderColorControls)
     ..append(branchColorControls)
     ..append(new Element.html("<div class='divider'></div>"))
@@ -182,6 +190,9 @@ void registerListeners() {
   });
   borderColorSelect.onChange.listen((e) {
     treemap.style.borderColor = selectedColor(borderColorSelect);
+  });
+  borderStyleSelect.onChange.listen((e) {
+    treemap.style.borderStyle = borderStyleSelect.value;
   });
   branchColorSelect.onChange.listen((e) {
     treemap.style.branchColor = selectedColor(branchColorSelect);

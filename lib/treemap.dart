@@ -11,6 +11,7 @@ export 'src/layout/treemap_layout.dart';
 
 class Treemap{
 
+   static final ArgumentError nullError = new ArgumentError("Please pass a valid reference. NULL is not supported!");
    final TreemapStyle _style = new TreemapStyle();
    final DivElement componentRoot;
    LayoutAlgorithm _layoutAlgorithm;
@@ -23,8 +24,10 @@ class Treemap{
    bool automaticRepaints = true;
 
    Treemap(DivElement this.componentRoot, DataModel this._dataModel, LayoutAlgorithm this._layoutAlgorithm) {
-//    assert(componentRoot.clientHeight > 0);
-//    assert(componentRoot.children.length == 0);
+     if (componentRoot == null || _dataModel == null || _layoutAlgorithm == null) {
+       throw nullError;
+     }
+     _validateComponentRoot(componentRoot);
      _registerModelChangeSubscription();
      _registerStyleUpdateSubscription();
      _setTreemapStyle();
@@ -51,6 +54,9 @@ class Treemap{
    DataModel get model => _dataModel;
 
    set model(DataModel model) {
+     if (model == null) {
+       throw nullError;
+     }
      _dataModel = model;
      _registerModelChangeSubscription();
      if (automaticRepaints) {
@@ -61,6 +67,9 @@ class Treemap{
    LayoutAlgorithm get layoutAlgorithm => _layoutAlgorithm;
 
    set layoutAlgorithm(LayoutAlgorithm algorithm) {
+     if (algorithm == null) {
+       throw nullError;
+     }
      _layoutAlgorithm = algorithm;
      if (automaticRepaints) {
        repaint();
@@ -99,5 +108,14 @@ class Treemap{
        styleOrLinkElements.first.insertAdjacentElement('beforeBegin', sty);
      }
      _currentActiveStyle = sty;
+   }
+   
+   void _validateComponentRoot(DivElement element) {
+     if (element.clientHeight <= 0) {
+       throw new ArgumentError("The <div> element has to have a height greater than zero and must be attached to the document");
+     }
+     if (element.children.length > 0) {
+       throw new ArgumentError("Do not add any extra elements to the <div> element");
+     }
    }
 }

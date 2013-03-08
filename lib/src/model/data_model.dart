@@ -4,14 +4,14 @@ abstract class DataModel {
 
   final StreamController<num> _modelChangeController = new StreamController.broadcast();
   Stream<num> _onModelChange;
-  final StreamController _visualContentChangeController = new StreamController.broadcast();
-  Stream _onVisualContentChange;
+  final StreamController _nodeContentChangeController = new StreamController.broadcast();
+  Stream _onNodeContentChange;
   AbstractBranch _root;
   AbstractBranch _parent;
 
   DataModel() {
     _onModelChange = _modelChangeController.stream;
-    _onVisualContentChange = _visualContentChangeController.stream;
+    _onNodeContentChange = _nodeContentChangeController.stream;
   }
 
   AbstractBranch get parent => _parent;
@@ -30,7 +30,7 @@ abstract class DataModel {
 
   Stream<int> get onModelChange => _onModelChange;
 
-  Stream get onPropertyChange => _onVisualContentChange;
+  Stream get onNodeContentChange => _onNodeContentChange;
 
   Element provideNodeLabel();
 
@@ -43,7 +43,7 @@ abstract class DataModel {
     }
   }
 
-  void updateView() {
-    _visualContentChangeController.add(null);
+  void repaintNode() {
+    _nodeContentChangeController.add(null);
   }
 }

@@ -3,6 +3,9 @@ part of treemap.view;
 class TreemapStyle {
 
   static int _instanceCounter = 1;
+  static final _validBorderStyles = ["none","hidden","dotted","dashed","solid","double", 
+                                     "groove", "ridge", "inset", "outset", "inherit"];
+  
   final StreamController _styleChangeController = new StreamController.broadcast();
   String _prefix;
   Color _branchColor;
@@ -145,6 +148,9 @@ class TreemapStyle {
   Color get branchColor => _branchColor;
 
   set branchColor(Color color) {
+    if (color == null) {
+      throw Treemap.nullError;
+    }
     _branchColor = color;
     _styleChangeController.add(null);
   }
@@ -152,6 +158,9 @@ class TreemapStyle {
   int get branchPadding => _branchPadding;
 
   set branchPadding(int branchPadding) {
+    if (branchPadding == null || branchPadding < 0) {
+      throw new ArgumentError("branchPadding has to be a positive value");
+    }
     _branchPadding = branchPadding;
     _styleChangeController.add(null);
   }
@@ -159,6 +168,9 @@ class TreemapStyle {
   Color get borderColor => _borderColor;
 
   set borderColor(Color borderColor) {
+    if (borderColor == null) {
+      throw Treemap.nullError;
+    }
     _borderColor = borderColor;
     _styleChangeController.add(null);
   }
@@ -166,6 +178,9 @@ class TreemapStyle {
   int get borderWidth => _borderWidth;
 
   set borderWidth(int borderWidth) {
+    if (borderWidth == null || borderWidth < 0) {
+      throw new ArgumentError("borderWidth has to be a positive value");
+    }
     _borderWidth = borderWidth;
     _styleChangeController.add(null);
   }
@@ -173,6 +188,9 @@ class TreemapStyle {
   String get borderStyle => _borderStyle;
 
   set borderStyle(String borderStyle) {
+    if (borderStyle == null || !_validBorderStyles.contains(borderStyle)) {
+      throw new ArgumentError("Please pass a valid CSS border-style");
+    }
     _borderStyle = borderStyle;
     _styleChangeController.add(null);
   }
@@ -180,6 +198,9 @@ class TreemapStyle {
   String get prefix => _prefix;
   
   set prefix(String prefix) {
+    if (prefix == null) {
+      throw Treemap.nullError;
+    }
     _prefix = prefix;
     _styleChangeController.add(null);
   }

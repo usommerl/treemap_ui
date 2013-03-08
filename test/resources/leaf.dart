@@ -36,7 +36,7 @@ class Leaf extends AbstractLeaf {
 
   set someProperty(int value) {
     _someProperty = value;
-    updateView();
+    repaintNode();
   }
   
   int get someProperty => _someProperty;
