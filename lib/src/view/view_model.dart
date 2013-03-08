@@ -27,11 +27,11 @@ class ViewModel {
   void branchClicked(BranchNode node) {
     if (_treemap.isTraversable) {
       if (node == _viewRoot && node != _rootNode ) {
-          _recreatePristineHtmlHierarchy(node);
-          node.parent.then((parent) {
-            _setAsViewRoot(parent);
-            node.rectifyAppearance();
-          });
+        _recreatePristineHtmlHierarchy(node);
+        node.parent.then((parent) {
+          _setAsViewRoot(parent);
+          node.rectifyAppearance();
+        });
       } else if (node != _viewRoot) {
         node.parent.then((parent){
           if (parent == _viewRoot && parent != _rootNode) {
@@ -44,19 +44,9 @@ class ViewModel {
     }
   }
   
-  void resetViewRoot(Node rootNode) {
+  void setViewRoot(Node rootNode) {
     _rootNode = rootNode;
-    if (_viewRoot == null || identical(_viewRoot.dataModel, rootNode.dataModel)) {
-      _viewRoot = _rootNode;
-    } else {
-      final newViewRootInstance = _findAllSubBranches(_rootNode).firstMatching((b) => 
-          identical(_viewRoot.dataModel, b.dataModel), orElse: (){return null;});
-      if (newViewRootInstance == null) {
-        _viewRoot = _rootNode;
-      } else {
-        branchClicked(newViewRootInstance);
-      }      
-    }
+    _viewRoot = _rootNode;
   }
   
   List<BranchNode> _findAllSubBranches(Node root) {

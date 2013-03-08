@@ -45,7 +45,7 @@ class Treemap{
      if (_rootNode.isBranch) {
        layoutAlgorithm.layout(_rootNode);
      }
-     viewModel.resetViewRoot(_rootNode);
+     viewModel.setViewRoot(_rootNode);
    }
 
    DataModel get model => _dataModel;
