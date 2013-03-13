@@ -29,11 +29,8 @@ class ObservableList<E> implements List<E> {
     _list.add(value);
     _onAddController.add(value);
   }
-
-  void addLast(E value) {
-    _list.addLast(value);
-    _onAddController.add(value);
-  }
+  
+  void addLast(E value) => throw new UnsupportedError("");
 
   void addAll(Iterable<E> iterable) => iterable.forEach((value) => add(value));
 
@@ -119,6 +116,8 @@ class ObservableList<E> implements List<E> {
       removeAt(0);
     }
   }
+  
+  Map<int, E> asMap() => _list.asMap();
 
   Iterator<E> get iterator => _list.iterator;
 
@@ -151,7 +150,7 @@ class ObservableList<E> implements List<E> {
 
   bool any(bool f(E element)) => _list.any(f);
 
-  List<E> toList() => _list.toList();
+  List<E> toList({ bool growable: true }) => _list.toList(growable: growable);
 
   Set<E> toSet() => _list.toSet();
 

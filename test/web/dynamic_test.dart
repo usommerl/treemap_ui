@@ -29,8 +29,8 @@ SelectElement borderColorSelect;
 SelectElement borderStyleSelect;
 SelectElement branchColorSelect;
 int initialSize;
-Timer sizeUpdateTimer = new Timer(0,(_){});
-Timer propertyUpdateTimer = new Timer(0,(_){});
+Timer sizeUpdateTimer = new Timer(const Duration(seconds: 0),(){});
+Timer propertyUpdateTimer = new Timer(const Duration(seconds: 0),(){});
 Treemap treemap;
 
 main() {
@@ -81,7 +81,7 @@ void initUiElements() {
   final showTooltipsLabel = new Element.html("<span>tooltips</span>");
   showTooltipsCheckbox.style.verticalAlign = "middle";
   final showTooltipsControls = new DivElement();
-  showTooltipsControls..append(showTooltipsCheckbox)..append(showTooltipsLabel); 
+  showTooltipsControls..append(showTooltipsCheckbox)..append(showTooltipsLabel);
   final dynamicSizeLabel = new Element.html("<span class='randomLabel'>random leaf size updates every</span>");
   sizeUpdateCheckbox.style.verticalAlign = "middle";
   sizeUpdateCheckbox.checked = false;
@@ -229,10 +229,10 @@ void registerListeners() {
     if (repaintInput.validity.valid) {
       final abort = repaintInput.valueAsNumber.toInt();
       for(var i = 0; i < abort; i++) {
-        // Delay of execution is crucial! Otherwise the recording 
-        // of timeline data with chrome-dev-tools will fail.  
+        // Delay of execution is crucial! Otherwise the recording
+        // of timeline data with chrome-dev-tools will fail.
         new Timer(const Duration(milliseconds: 100), (){
-          treemap.repaint();          
+          treemap.repaint();
         });
       }
     }

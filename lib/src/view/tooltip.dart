@@ -26,7 +26,7 @@ class Tooltip implements Attachable {
       hoverElement.onMouseMove.listen((MouseEvent event){
         container.classes.remove("${Tooltip.VISIBLE}");
         _delayTimer.cancel();
-        _delayTimer = new Timer(const Duration(milliseconds: 1000),(timer){
+        _delayTimer = new Timer(const Duration(milliseconds: 1000),(){
           if (_node.viewModel.tooltipsEnabled) {
             final y = event.offsetY+hoverElement.offsetTop;
             final x = event.offsetX+hoverElement.offsetLeft;
@@ -58,10 +58,10 @@ class Tooltip implements Attachable {
     container.children.clear();
     final tooltipContent = _node.dataModel.provideTooltip();
     if (tooltipContent != null) {
-      container.append(tooltipContent);      
+      container.append(tooltipContent);
     }
   }
-  
+
   void cancelSubscriptions() {
     _delayTimer.cancel();
     _subscriptions.forEach((s) => s.cancel());

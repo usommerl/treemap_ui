@@ -57,7 +57,7 @@ class TestResources {
                                           Color.STEEL_BLUE, Color.TAN, Color.TEAL, Color.THISTLE, Color.TOMATO,
                                           Color.TURQUOISE, Color.VIOLET, Color.WHEAT, Color.WHITE, Color.WHITE_SMOKE,
                                           Color.YELLOW, Color.YELLOW_GREEN];
-  
-  static final validBorderStyles = ["none","hidden","dotted","dashed","solid","double", 
+
+  static final validBorderStyles = ["none","hidden","dotted","dashed","solid","double",
                                     "groove", "ridge", "inset", "outset", "inherit"];
 }

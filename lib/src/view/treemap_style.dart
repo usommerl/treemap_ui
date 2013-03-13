@@ -3,9 +3,9 @@ part of treemap.view;
 class TreemapStyle {
 
   static int _instanceCounter = 1;
-  static final _validBorderStyles = ["none","hidden","dotted","dashed","solid","double", 
+  static final _validBorderStyles = ["none","hidden","dotted","dashed","solid","double",
                                      "groove", "ridge", "inset", "outset", "inherit"];
-  
+
   final StreamController _styleChangeController = new StreamController.broadcast();
   String _prefix;
   Color _branchColor;
@@ -194,9 +194,9 @@ class TreemapStyle {
     _borderStyle = borderStyle;
     _styleChangeController.add(null);
   }
-  
+
   String get prefix => _prefix;
-  
+
   set prefix(String prefix) {
     if (prefix == null) {
       throw Treemap.nullError;

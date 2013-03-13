@@ -3,27 +3,27 @@ part of treemap.view;
 class ViewModel {
 
   static const String VIEW_ROOT = "viewRoot";
-  
+
   final Treemap _treemap;
   Node _viewRoot;
   Node _rootNode;
   Element _cachedHtmlParent;
   Element _cachedNextSibling;
-  
+
   ViewModel(this._treemap);
-  
+
   Map<String,String> get styleNames => _treemap.style._classNames;
-  
+
   int get borderWidth => _treemap.style.borderWidth;
 
   int get branchPadding => _treemap.style.branchPadding;
-  
+
   bool get automaticUpdatesEnabled => _treemap.automaticRepaints;
 
   bool get tooltipsEnabled => _treemap.showTooltips;
-  
+
   bool get componentTraversable => _treemap.isTraversable;
-  
+
   void branchClicked(BranchNode node) {
     if (_treemap.isTraversable) {
       if (node == _viewRoot && node != _rootNode ) {
@@ -43,12 +43,12 @@ class ViewModel {
       }
     }
   }
-  
+
   void setViewRoot(Node rootNode) {
     _rootNode = rootNode;
     _viewRoot = _rootNode;
   }
-  
+
   List<BranchNode> _findAllSubBranches(Node root) {
     if (root.isLeaf) {
       return [];
@@ -59,10 +59,10 @@ class ViewModel {
           prev.addAll(_findAllSubBranches(child));
         }
         return prev;
-      });      
+      });
     }
   }
-  
+
   void _setAsViewRoot(BranchNode node) {
     _cachedHtmlParent = node.container.parent;
     _cachedNextSibling = node.container.nextElementSibling;

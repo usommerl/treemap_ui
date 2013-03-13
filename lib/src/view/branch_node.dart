@@ -54,7 +54,7 @@ class BranchNode extends Node {
       ]);
     return subscriptions;
   }
-  
+
   void cancelSubscriptions() {
     super.cancelSubscriptions();
     _subscriptions.forEach((s) => s.cancel());

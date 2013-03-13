@@ -20,7 +20,7 @@ abstract class Node implements Attachable {
   NodeLabel _nodeLabel;
   Tooltip _tooltip;
 
-  Node._internal(DataModel dataModel, this.viewModel, this.width, this.height, this.orientation) 
+  Node._internal(DataModel dataModel, this.viewModel, this.width, this.height, this.orientation)
             : _isLeaf = dataModel.isLeaf,
               _dataModel = dataModel
   {
@@ -119,7 +119,7 @@ abstract class Node implements Attachable {
     _nodeLabel.repaintContent();
     _tooltip.repaintContent();
   }
-  
+
   void cancelSubscriptions() {
     _modelSubscription.cancel();
     _tooltip.cancelSubscriptions();

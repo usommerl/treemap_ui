@@ -4,8 +4,8 @@ abstract class AbstractBranch extends DataModel {
 
   final ObservableList<DataModel> children;
 
-  AbstractBranch([Iterable<DataModel> children]) 
-          : children = children == null ? 
+  AbstractBranch([Iterable<DataModel> children])
+          : children = children == null ?
                 new ObservableList.from([]) :
                 new ObservableList.from(children) {
     this.children.forEach((child) => child._parent = this);
@@ -23,7 +23,7 @@ abstract class AbstractBranch extends DataModel {
       _propagateModelChange();
     });
   }
-  
+
   num get size => children.reduce(0, (prev,elem) => prev + elem.size);
 
   bool get isLeaf => false;

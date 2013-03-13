@@ -77,7 +77,7 @@ class Treemap{
    }
 
    TreemapStyle get style => _style;
-   
+
    void _registerModelChangeSubscription() {
      if (_modelChangeSubscription != null) {
        _modelChangeSubscription.cancel();
@@ -109,7 +109,7 @@ class Treemap{
      }
      _currentActiveStyle = sty;
    }
-   
+
    void _validateComponentRoot(DivElement element) {
      if (element.clientHeight <= 0) {
        throw new ArgumentError("The <div> element has to have a height greater than zero and must be attached to the document");
