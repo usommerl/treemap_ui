@@ -15,7 +15,7 @@ class LayoutHelper implements Attachable {
     _parent.addHelper(this);
   }
 
-  factory LayoutHelper.rowStrip(Percentage size, BranchNode parent, Orientation orientation) {
+  factory LayoutHelper.expand(Percentage size, BranchNode parent, Orientation orientation) {
     LayoutHelper row;
     if (orientation.isHorizontal) {
       row = new LayoutHelper._internal(Percentage.ONE_HUNDRED, size, parent, orientation);
@@ -27,7 +27,7 @@ class LayoutHelper implements Attachable {
     return row;
   }
 
-  factory LayoutHelper.rowSquarified(Percentage width, Percentage height, BranchNode parent, Orientation orientation) {
+  factory LayoutHelper.alwaysFloatLeft(Percentage width, Percentage height, BranchNode parent, Orientation orientation) {
     var row = new LayoutHelper._internal(width, height, parent, orientation);
     row.container.style.float = "left";
     return row;
@@ -37,5 +37,11 @@ class LayoutHelper implements Attachable {
     container.append(child.container);
     _parent.register(child);
   }
+  
+  void addHelper(LayoutHelper helper) {
+    container.append(helper.container);
+  }
+  
+  BranchNode get parent => _parent;
 
 }

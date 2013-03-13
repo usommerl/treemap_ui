@@ -10,8 +10,7 @@ import 'src/layout/treemap_layout.dart';
 export 'src/layout/treemap_layout.dart';
 
 class Treemap{
-
-   static final ArgumentError nullError = new ArgumentError("Please pass a valid reference. NULL is not supported!");
+  
    final TreemapStyle _style = new TreemapStyle();
    final DivElement componentRoot;
    LayoutAlgorithm _layoutAlgorithm;

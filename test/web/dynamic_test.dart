@@ -25,6 +25,7 @@ final NumberInputElement sizeUpdateInput = new NumberInputElement();
 final CheckboxInputElement propertyUpdateCheckbox = new CheckboxInputElement();
 final NumberInputElement propertyUpdateInput = new NumberInputElement();
 SelectElement algorithmSelect;
+SelectElement orientationSelect;
 SelectElement borderColorSelect;
 SelectElement borderStyleSelect;
 SelectElement branchColorSelect;
@@ -277,7 +278,7 @@ Map<String, Color> initColorMap() {
 Map<String, LayoutAlgorithm> initAlgorithmMap() {
   final map = new Map<String, LayoutAlgorithm>();
   TestResources.layoutAlgorithms.forEach((alg) {
-    map["${alg.runtimeType.toString().toLowerCase()}"] = alg;
+    map["${alg.runtimeType.toString()}"] = alg;
   });
   return map;
 }

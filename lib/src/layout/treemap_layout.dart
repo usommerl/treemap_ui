@@ -11,3 +11,4 @@ part 'row_based_layout_algorithm.dart';
 part 'strip.dart';
 part 'slice_and_dice.dart';
 part 'squarified.dart';
+part 'split.dart';

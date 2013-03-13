@@ -14,11 +14,11 @@ main() {
     algorithms.forEach((algorithm) {
       final algorithmName = algorithm.runtimeType.toString();
       final description = new Element.html("<div class='${descriptionClass}'>${algorithmName} Algorithm</div>");
-      document.body.children.addLast(description);
+      document.body.children.add(description);
       for(var i = 0; i < models.length; i++) {
         final String testId = "${algorithmName}${i}";
         final treemapContainer = new Element.html("<div id='${testId}' class='${treeMapClass}'></div>");
-        document.body.children.addLast(treemapContainer);
+        document.body.children.add(treemapContainer);
         new Treemap(treemapContainer, models[i], algorithm);
       }
     });

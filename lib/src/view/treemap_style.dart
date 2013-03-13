@@ -149,7 +149,7 @@ class TreemapStyle {
 
   set branchColor(Color color) {
     if (color == null) {
-      throw Treemap.nullError;
+      throw nullError;
     }
     _branchColor = color;
     _styleChangeController.add(null);
@@ -169,7 +169,7 @@ class TreemapStyle {
 
   set borderColor(Color borderColor) {
     if (borderColor == null) {
-      throw Treemap.nullError;
+      throw nullError;
     }
     _borderColor = borderColor;
     _styleChangeController.add(null);
@@ -199,7 +199,7 @@ class TreemapStyle {
 
   set prefix(String prefix) {
     if (prefix == null) {
-      throw Treemap.nullError;
+      throw nullError;
     }
     _prefix = prefix;
     _styleChangeController.add(null);

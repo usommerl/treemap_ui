@@ -35,7 +35,7 @@ class Strip extends RowBasedLayoutAlgorithms {
   void _layoutRow(BranchNode parent, List<DataModel> rowModels, Orientation orientation) {
     final sumModelSizes = rowModels.reduce(0, (acc,model) => acc + model.size);
     final dimensionRow = new Percentage.from(sumModelSizes, rowModels.first.parent.size);
-    LayoutHelper row = new LayoutHelper.rowStrip(dimensionRow, parent, orientation);
+    LayoutHelper row = new LayoutHelper.expand(dimensionRow, parent, orientation);
     rowModels.forEach((model) {
       final node = _createNodeForRow(model, parent.viewModel, new Percentage.from(model.size, sumModelSizes), orientation);
       row.add(node);
