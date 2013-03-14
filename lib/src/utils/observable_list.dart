@@ -1,36 +1,29 @@
-part of treemap.model;
+part of treemap.utils;
 
 class ObservableList<E> implements List<E> {
 
   final StreamController<E> _onAddController = new StreamController<E>.broadcast();
   final StreamController<E> _onRemoveController = new StreamController<E>.broadcast();
   final StreamController<ListUpdateEvent<E>> _onUpdateController = new StreamController<ListUpdateEvent<E>>.broadcast();
-  Stream<E> _onAdd;
-  Stream<E> _onRemove;
-  Stream<ListUpdateEvent<E>> _onUpdate;
   final List<E> _list;
 
-  ObservableList._internal(List<E> this._list) {
-    _onAdd = _onAddController.stream;
-    _onRemove = _onRemoveController.stream;
-    _onUpdate = _onUpdateController.stream;
-  }
+  ObservableList._internal(List<E> this._list);
 
   factory ObservableList.from(Iterable other) =>
     new ObservableList._internal(new List<E>.from(other));
 
-  Stream<E> get onAdd => _onAdd;
+  Stream<E> get onAdd => _onAddController.stream;
 
-  Stream<E> get onRemove => _onRemove;
+  Stream<E> get onRemove => _onRemoveController.stream;
   
-  Stream<ListUpdateEvent<E>> get onUpdate => _onUpdate;
+  Stream<ListUpdateEvent<E>> get onUpdate => _onUpdateController.stream;
 
   void add(E value) {
     _list.add(value);
     _onAddController.add(value);
   }
   
-  void addLast(E value) => throw new UnsupportedError("");
+  void addLast(E value) => throw new UnsupportedError("Method is deprecated");
 
   void addAll(Iterable<E> iterable) => iterable.forEach((value) => add(value));
 

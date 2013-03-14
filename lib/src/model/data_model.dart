@@ -2,17 +2,13 @@ part of treemap.model;
 
 abstract class DataModel {
 
-  final StreamController<num> _modelChangeController = new StreamController.broadcast();
-  Stream<num> _onModelChange;
-  final StreamController _nodeContentChangeController = new StreamController.broadcast();
-  Stream _onNodeContentChange;
+  final StreamController _structuralChangeController = new StreamController.broadcast();
+  
+  final StreamController _contentChangeController = new StreamController.broadcast();
+  
   AbstractBranch _root;
+  
   AbstractBranch _parent;
-
-  DataModel() {
-    _onModelChange = _modelChangeController.stream;
-    _onNodeContentChange = _nodeContentChangeController.stream;
-  }
 
   AbstractBranch get parent => _parent;
 
@@ -28,22 +24,22 @@ abstract class DataModel {
 
   num get size;
 
-  Stream<int> get onModelChange => _onModelChange;
+  Stream get onStructuralChange => _structuralChangeController.stream;
 
-  Stream get onNodeContentChange => _onNodeContentChange;
+  Stream get onContentChange => _contentChangeController.stream;
 
   Element provideNodeLabel();
 
   Element provideTooltip();
 
   void _propagateModelChange() {
-    _modelChangeController.add(size);
+    _structuralChangeController.add(null);
     if (parent != null) {
       parent._propagateModelChange();
     }
   }
 
   void repaintNode() {
-    _nodeContentChangeController.add(null);
+    _contentChangeController.add(null);
   }
 }

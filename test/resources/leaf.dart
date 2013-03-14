@@ -30,7 +30,7 @@ class Leaf extends AbstractLeaf {
     element.style..backgroundColor = "white"
         ..fontSize = "0.8em"
         ..padding = "1px 5px 1px 5px";
-    element.text = "${_someProperty} [size: ${size}]";
+    element.text = "Leaf [size: ${size}]";
     return element;
   }
 

@@ -5,11 +5,11 @@ part of treemap.layout;
  * 'Tree Visualization with Tree-Maps: 2-d Space-filling Approach' by Ben Shneiderman.
  * ACM Transactions on Graphics, 11(1), pp. 92-99, 1992.
  **/
-class SliceAndDice extends LayoutAlgorithm {
+class SliceAndDice implements LayoutAlgorithm {
 
   int _remainderVerticalOrientation;
 
-  SliceAndDice({Orientation initialOrientation}){
+  SliceAndDice([Orientation initialOrientation]){
     if (initialOrientation == null) {
       initialOrientation = Orientation.VERTICAL;
     }

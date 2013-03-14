@@ -6,7 +6,7 @@ class TreemapStyle {
   static final _validBorderStyles = ["none","hidden","dotted","dashed","solid","double",
                                      "groove", "ridge", "inset", "outset", "inherit"];
 
-  final StreamController _styleChangeController = new StreamController.broadcast();
+  final StreamController _onChangeController = new StreamController.broadcast();
   String _prefix;
   Color _branchColor;
   Color _borderColor;
@@ -14,7 +14,6 @@ class TreemapStyle {
   int _branchPadding;
   String _borderStyle;
   Map<String,String> _classNames;
-  Stream onStyleChange;
 
   TreemapStyle(
     {Color this._branchColor    : Color.GRAY,
@@ -24,7 +23,6 @@ class TreemapStyle {
      String this._borderStyle   : "solid"
     }
   ){
-   onStyleChange = _styleChangeController.stream;
    _prefix = "tm${_instanceCounter++}-";
   }
 
@@ -32,7 +30,7 @@ class TreemapStyle {
     final map = new Map<String,String>();
     map["${LeafNode}"] = "${prefix}leaf";
     map["${BranchNode}"] = "${prefix}branch";
-    map["${LayoutHelper}"] = "${prefix}layoutHelper";
+    map["${LayoutAid}"] = "${prefix}layoutAid";
     map["${Tooltip}"] = "${prefix}tooltip";
     map["${NodeLabel}"] = "${prefix}label";
     map[BranchNode.CONTENT] = "${prefix}${BranchNode.CONTENT}";
@@ -55,7 +53,7 @@ class TreemapStyle {
 <style type="text/css">
 .${_classNames["${LeafNode}"]},
 .${_classNames["${BranchNode}"]},
-.${_classNames["${LayoutHelper}"]},
+.${_classNames["${LayoutAid}"]},
 .${_classNames[BranchNode.CONTENT]} {
   margin: 0px;
   padding: 0px;
@@ -80,7 +78,7 @@ class TreemapStyle {
   left: ${_branchPadding}px;
 }
 .${_classNames[BranchNode.MODEL_ROOT]},
-.${_classNames["${LayoutHelper}"]},
+.${_classNames["${LayoutAid}"]},
 .${_classNames[BranchNode.MODEL_ROOT]}.${_classNames[ViewModel.VIEW_ROOT]} {
   border-width: 0px;
 }
@@ -146,13 +144,15 @@ class TreemapStyle {
   }
 
   Color get branchColor => _branchColor;
+  
+  Stream get onChange => _onChangeController.stream;
 
   set branchColor(Color color) {
     if (color == null) {
       throw nullError;
     }
     _branchColor = color;
-    _styleChangeController.add(null);
+    _onChangeController.add(null);
   }
 
   int get branchPadding => _branchPadding;
@@ -162,7 +162,7 @@ class TreemapStyle {
       throw new ArgumentError("branchPadding has to be a positive value");
     }
     _branchPadding = branchPadding;
-    _styleChangeController.add(null);
+    _onChangeController.add(null);
   }
 
   Color get borderColor => _borderColor;
@@ -172,7 +172,7 @@ class TreemapStyle {
       throw nullError;
     }
     _borderColor = borderColor;
-    _styleChangeController.add(null);
+    _onChangeController.add(null);
   }
 
   int get borderWidth => _borderWidth;
@@ -182,7 +182,7 @@ class TreemapStyle {
       throw new ArgumentError("borderWidth has to be a positive value");
     }
     _borderWidth = borderWidth;
-    _styleChangeController.add(null);
+    _onChangeController.add(null);
   }
 
   String get borderStyle => _borderStyle;
@@ -192,7 +192,7 @@ class TreemapStyle {
       throw new ArgumentError("Please pass a valid CSS border-style");
     }
     _borderStyle = borderStyle;
-    _styleChangeController.add(null);
+    _onChangeController.add(null);
   }
 
   String get prefix => _prefix;
@@ -202,6 +202,6 @@ class TreemapStyle {
       throw nullError;
     }
     _prefix = prefix;
-    _styleChangeController.add(null);
+    _onChangeController.add(null);
   }
 }

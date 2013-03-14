@@ -6,7 +6,7 @@ class BranchNode extends Node {
   static const String MODEL_ROOT = 'model-root';
 
   final List<Node> children = [];
-  final List<LayoutHelper> layoutHelpers = [];
+  final List<LayoutAid> layoutAids = [];
   List<StreamSubscription> _subscriptions;
 
   BranchNode(dataModel, viewModel, width, height, orientation) :
@@ -31,9 +31,10 @@ class BranchNode extends Node {
     children.add(child);
   }
 
-  void addHelper(LayoutHelper helper) {
-    _content.append(helper.container);
-    layoutHelpers.add(helper);
+  void addAid(LayoutAid aid) {
+    layoutAids.add(aid);
+    _content.append(aid.container);
+    _subscriptions.add(aid.onChildAdd.listen((node) => register(node)));
   }
 
   AbstractBranch get dataModel => this._dataModel;

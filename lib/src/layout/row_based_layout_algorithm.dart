@@ -9,12 +9,12 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
       _availableHeightPercentage(node).percentageValue(node.clientHeight);
 
   Percentage _availableWidthPercentage(BranchNode node) {
-    final verticalRows = node.layoutHelpers.where((row) => row.orientation.isVertical);
+    final verticalRows = node.layoutAids.where((row) => row.orientation.isVertical);
     return Percentage.ONE_HUNDRED - verticalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.width);
   }
 
   Percentage _availableHeightPercentage (BranchNode node) {
-    final horizontalRows = node.layoutHelpers.where((row) => row.orientation.isHorizontal);
+    final horizontalRows = node.layoutAids.where((row) => row.orientation.isHorizontal);
     return Percentage.ONE_HUNDRED - horizontalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.height);
   }
 

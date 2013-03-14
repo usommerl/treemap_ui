@@ -11,7 +11,7 @@ export 'src/layout/treemap_layout.dart';
 
 class Treemap{
   
-   final TreemapStyle _style = new TreemapStyle();
+   TreemapStyle _style;
    final DivElement componentRoot;
    LayoutAlgorithm _layoutAlgorithm;
    DataModel _dataModel;
@@ -22,9 +22,13 @@ class Treemap{
    bool showTooltips = true;
    bool automaticRepaints = true;
 
-   Treemap(DivElement this.componentRoot, DataModel this._dataModel, LayoutAlgorithm this._layoutAlgorithm) {
+   Treemap(DivElement this.componentRoot, DataModel this._dataModel, 
+           LayoutAlgorithm this._layoutAlgorithm, [TreemapStyle this._style]) {
      if (componentRoot == null || _dataModel == null || _layoutAlgorithm == null) {
        throw nullError;
+     }
+     if (_style == null) {
+       _style = new TreemapStyle();
      }
      _validateComponentRoot(componentRoot);
      _registerModelChangeSubscription();
@@ -81,7 +85,7 @@ class Treemap{
      if (_modelChangeSubscription != null) {
        _modelChangeSubscription.cancel();
      }
-     _modelChangeSubscription = _dataModel.onModelChange.listen((_) {
+     _modelChangeSubscription = _dataModel.onStructuralChange.listen((_) {
        if (automaticRepaints) {
          repaint();
        }
@@ -89,7 +93,7 @@ class Treemap{
    }
 
    void _registerStyleUpdateSubscription() {
-     style.onStyleChange.listen((_) {
+     style.onChange.listen((_) {
          _setTreemapStyle();
          repaint();
      });
