@@ -35,6 +35,9 @@ class TreemapStyle {
     map["${NodeLabel}"] = "${prefix}label";
     map[BranchNode.CONTENT] = "${prefix}${BranchNode.CONTENT}";
     map[BranchNode.MODEL_ROOT] = "${prefix}${BranchNode.MODEL_ROOT}";
+    map[BranchNode.NAVI_LEFT] = "${prefix}${BranchNode.NAVI_LEFT}";
+    map[BranchNode.NAVI_RIGHT] = "${prefix}${BranchNode.NAVI_RIGHT}";
+    map[BranchNode.NAVI_BOTTOM] = "${prefix}${BranchNode.NAVI_BOTTOM}";
     map[ViewModel.VIEW_ROOT] = "${prefix}${ViewModel.VIEW_ROOT}";
     map[Node.NO_LEFT_BORDER] = "${prefix}${Node.NO_LEFT_BORDER}";
     map[Node.NO_TOP_BORDER] = "${prefix}${Node.NO_TOP_BORDER}";
@@ -54,7 +57,10 @@ class TreemapStyle {
 .${_classNames["${LeafNode}"]},
 .${_classNames["${BranchNode}"]},
 .${_classNames["${LayoutAid}"]},
-.${_classNames[BranchNode.CONTENT]} {
+.${_classNames[BranchNode.CONTENT]},
+.${_classNames[BranchNode.NAVI_LEFT]},
+.${_classNames[BranchNode.NAVI_RIGHT]},
+.${_classNames[BranchNode.NAVI_BOTTOM]} {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
@@ -70,12 +76,39 @@ class TreemapStyle {
 .${_classNames["${BranchNode}"]}  {
   background-color: ${_branchColor};
 }
-.${_classNames[BranchNode.CONTENT]} {
+.${_classNames[BranchNode.CONTENT]},
+.${_classNames[BranchNode.NAVI_LEFT]},
+.${_classNames[BranchNode.NAVI_RIGHT]},
+.${_classNames[BranchNode.NAVI_BOTTOM]}{
   position: absolute;
+}
+.${_classNames[BranchNode.NAVI_LEFT]},
+.${_classNames[BranchNode.NAVI_RIGHT]},
+.${_classNames[BranchNode.NAVI_BOTTOM]}{
+  z-index: 0;
+}
+.${_classNames[BranchNode.CONTENT]} {
   top: ${_branchPadding}px;
   right: ${_branchPadding}px;
   bottom: ${_branchPadding}px;
   left: ${_branchPadding}px;
+  z-index: 1;
+}
+.${_classNames[BranchNode.NAVI_LEFT]} {
+  width: ${_branchPadding}px;
+  bottom: 0px;
+  left: 0px;
+}
+.${_classNames[BranchNode.NAVI_RIGHT]} {
+  width: ${_branchPadding}px;
+  bottom: 0px;
+  right: 0px;
+}
+.${_classNames[BranchNode.NAVI_BOTTOM]} {
+  height: ${_branchPadding}px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
 }
 .${_classNames[BranchNode.MODEL_ROOT]},
 .${_classNames["${LayoutAid}"]},
@@ -96,7 +129,7 @@ class TreemapStyle {
 }
 .${_classNames["${Tooltip}"]} {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   display: none;
 }
 .${_classNames["${Tooltip}"]}.${Tooltip.VISIBLE} {

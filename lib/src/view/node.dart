@@ -88,13 +88,18 @@ abstract class Node implements Attachable {
       }
 
       if (isBranch) {
+        String topPosition;
         if (_nodeLabel.container.offsetHeight > viewModel.branchPadding ) {
-          _content.style.top = "${_nodeLabel.container.offsetHeight}px";
+          topPosition = "${_nodeLabel.container.offsetHeight}px";
+          _content.style.top = topPosition;
+          
         } else {
+          topPosition = "${viewModel.branchPadding}px";
           _nodeLabel.container.style.height = "${viewModel.branchPadding}px";
         }
-        final thisNode = this as BranchNode;
-        thisNode.children.forEach((child) => child.rectifyAppearance());
+        (this as BranchNode)._naviLeft.style.top = topPosition;
+        (this as BranchNode)._naviRight.style.top = topPosition;
+        (this as BranchNode).children.forEach((child) => child.rectifyAppearance());
       }
     });
   }

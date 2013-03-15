@@ -51,7 +51,7 @@ class Split implements LayoutAlgorithm {
       Queue<DataModel> l2 = new Queue.from(l);
       num currWeightDelta = _weightDelta(l1,l2);
       num prevWeightDelta = _weightDelta(l1,l2);
-      while (currWeightDelta <= prevWeightDelta) {
+      while (currWeightDelta <= prevWeightDelta && !l2.isEmpty) {
         l1.add(l2.removeFirst());
         prevWeightDelta = currWeightDelta;
         currWeightDelta = _weightDelta(l1,l2);

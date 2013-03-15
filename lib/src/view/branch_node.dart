@@ -4,9 +4,15 @@ class BranchNode extends Node {
 
   static const String CONTENT = 'branch-content';
   static const String MODEL_ROOT = 'model-root';
+  static const String NAVI_LEFT = "navi-left";
+  static const String NAVI_RIGHT = "navi-right";
+  static const String NAVI_BOTTOM = "navi-bottom";
 
   final List<Node> children = [];
   final List<LayoutAid> layoutAids = [];
+  final DivElement _naviLeft = new DivElement();
+  final DivElement _naviRight = new DivElement();
+  final DivElement _naviBottom = new DivElement();
   List<StreamSubscription> _subscriptions;
 
   BranchNode(dataModel, viewModel, width, height, orientation) :
@@ -16,9 +22,15 @@ class BranchNode extends Node {
       }
       _content = new DivElement();
       _content.classes.add("${viewModel.styleNames[CONTENT]}");
+      _naviLeft.classes.add("${viewModel.styleNames[NAVI_LEFT]}");
+      _naviRight.classes.add("${viewModel.styleNames[NAVI_RIGHT]}");
+      _naviBottom.classes.add("${viewModel.styleNames[NAVI_BOTTOM]}");
       container.append(_nodeLabel.container);
+      container.append(_naviLeft);
+      container.append(_naviRight);
+      container.append(_naviBottom);
       container.append(_content);
-      _subscriptions = _registerSubscriptions();
+      _subscriptions = _registerSubscriptions([_nodeLabel.container, _naviLeft, _naviRight, _naviBottom]);
     }
 
   void add(Node child) {
@@ -39,20 +51,22 @@ class BranchNode extends Node {
 
   AbstractBranch get dataModel => this._dataModel;
 
-  List<StreamSubscription> _registerSubscriptions() {
+  Iterable<StreamSubscription> _registerSubscriptions(Iterable<Element> l) {
     final List<StreamSubscription> subscriptions = [];
-    subscriptions.addAll([
-        _nodeLabel.container.onMouseOver.listen((MouseEvent event) {
+    l.forEach((e) {
+      subscriptions.addAll([
+        e.onMouseOver.listen((MouseEvent event) {
           if (viewModel.componentTraversable) {
-            _nodeLabel.container.classes.add(viewModel.styleNames[NAVIGATION_ELEMENT]);
+            e.classes.add(viewModel.styleNames[NAVIGATION_ELEMENT]);
           } else {
-            _nodeLabel.container.classes.remove(viewModel.styleNames[NAVIGATION_ELEMENT]);
+            e.classes.remove(viewModel.styleNames[NAVIGATION_ELEMENT]);
           }
         }),
-        _nodeLabel.container.onMouseDown.listen((MouseEvent event) {
+        e.onMouseDown.listen((MouseEvent event) {
           viewModel.branchClicked(this);
         })
       ]);
+    });
     return subscriptions;
   }
 
