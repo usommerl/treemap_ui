@@ -20,7 +20,7 @@ main() {
     copy2.someProperty = Leaf.grayscale.length + i++;
     final copy3 = leaf3.copy();
     copy3.someProperty = Leaf.grayscale.length + i++;
-    final model = (TestResources.dataModel3 as Branch).copy();
+    final model = (TestResources.dataModel5 as Branch).copy();
     treemap = new Treemap(componentRoot, model, TestResources.layoutAlgorithms.last);
 
     new Timer(const Duration(milliseconds: 500), () {

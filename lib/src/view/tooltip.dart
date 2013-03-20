@@ -33,19 +33,19 @@ class Tooltip implements Attachable {
           _delayTimer.cancel();
           _delayTimer = new Timer(const Duration(milliseconds: 1000),(){
             if (_node.viewModel.tooltipsEnabled) {
-              final y = event.offsetY+hoverElement.offsetTop;
-              final x = event.offsetX+hoverElement.offsetLeft;
+              final y = event.offset.y+hoverElement.offset.top;
+              final x = event.offset.x+hoverElement.offset.left;
               int adjX, adjY = 0;
               container.classes.add("${Tooltip.VISIBLE}");
-              if (x < tooltipDomParent.clientWidth - x) {
+              if (x < tooltipDomParent.client.width - x) {
                 adjX = x;
               } else {
-                adjX = x - container.offsetWidth;
+                adjX = x - container.offset.width;
               }
-              if (y < tooltipDomParent.clientHeight - y) {
+              if (y < tooltipDomParent.client.height - y) {
                 adjY = y+18;
               } else {
-                adjY = y - container.offsetHeight-5;
+                adjY = y - container.offset.height-5;
               }
               container.style..left = "${adjX}px"
                              ..top = "${adjY}px";
