@@ -30,23 +30,27 @@ class BranchNode extends Node {
       container.append(_naviRight);
       container.append(_naviBottom);
       container.append(_content);
+      _tooltip = new Tooltip(this);
       _subscriptions = _registerSubscriptions([_nodeLabel.container, _naviLeft, _naviRight, _naviBottom]);
     }
 
   void add(Node child) {
+    _register(child);
     _content.append(child.container);
-    register(child);
   }
 
-  void register(Node child) {
+  void _register(Node child) {
     child.setParent(this);
     children.add(child);
+    if (child.isLeaf) {
+      (child as LeafNode).tooltip = _tooltip;      
+    }
   }
 
   void addAid(LayoutAid aid) {
     layoutAids.add(aid);
     _content.append(aid.container);
-    _subscriptions.add(aid.onChildAdd.listen((node) => register(node)));
+    _subscriptions.add(aid.onChildAdd.listen((node) => _register(node)));
   }
 
   AbstractBranch get dataModel => this._dataModel;
@@ -73,6 +77,7 @@ class BranchNode extends Node {
   void cancelSubscriptions() {
     super.cancelSubscriptions();
     _subscriptions.forEach((s) => s.cancel());
+    _tooltip.cancelSubscriptions();
     children.forEach((c) => c.cancelSubscriptions());
   }
 }

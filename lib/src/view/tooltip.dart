@@ -5,52 +5,23 @@ class Tooltip implements Attachable {
   DivElement container = new DivElement();
   static const String VISIBLE = 'visible';
   Timer _delayTimer = new Timer(const Duration(milliseconds: 0),(){});
-  final Node _node;
-  List<StreamSubscription> _subscriptions = [];
+  final BranchNode _branchNode;
+  final List<StreamSubscription> _subscriptions = [];
 
-  Tooltip(Node this._node) {
-    container.classes.add("${_node.viewModel.styleNames[runtimeType.toString()]}");
-    repaintContent();
-    _node.parent.then((BranchNode parent) {
-      if (_node.isLeaf) {
-        parent._content.append(container);
-        _subscriptions = _registerSubscriptions([_node.container], parent._content);
-      } else {
-        final node = _node as BranchNode;
-        node.container.append(container);
-        final hoverElements = [node._nodeLabel.container, node._naviLeft, node._naviRight, node._naviBottom];
-        _subscriptions = _registerSubscriptions(hoverElements, _node.container);
-      }
-    });
+  Tooltip(BranchNode this._branchNode) {
+    container.classes.add("${_branchNode.viewModel.styleNames[runtimeType.toString()]}");
+    _branchNode.container.append(container);
+    final hoverElements = [_branchNode._nodeLabel.container, _branchNode._naviLeft, _branchNode._naviRight, _branchNode._naviBottom];
+    registerSubscriptions(hoverElements, _branchNode.dataModel);
   }
 
-  Iterable<StreamSubscription> _registerSubscriptions(Iterable<Element> hoverElements, Element tooltipDomParent) {
-    final List<StreamSubscription> subscriptions = [];
+  void registerSubscriptions(Iterable<Element> hoverElements, DataModel dataModel) {
     hoverElements.forEach((hoverElement) {
-      subscriptions.addAll([
+      _subscriptions.addAll([
         hoverElement.onMouseMove.listen((MouseEvent event){
           container.classes.remove("${Tooltip.VISIBLE}");
           _delayTimer.cancel();
-          _delayTimer = new Timer(const Duration(milliseconds: 1000),(){
-            if (_node.viewModel.tooltipsEnabled) {
-              final y = event.offset.y+hoverElement.offset.top;
-              final x = event.offset.x+hoverElement.offset.left;
-              int adjX, adjY = 0;
-              container.classes.add("${Tooltip.VISIBLE}");
-              if (x < tooltipDomParent.client.width - x) {
-                adjX = x;
-              } else {
-                adjX = x - container.offset.width;
-              }
-              if (y < tooltipDomParent.client.height - y) {
-                adjY = y+18;
-              } else {
-                adjY = y - container.offset.height-5;
-              }
-              container.style..left = "${adjX}px"
-                             ..top = "${adjY}px";
-            }
-          });
+          _delayTimer = _createTimer(event, hoverElement, dataModel);
         }),
         hoverElement.onMouseOut.listen((MouseEvent event){
           container.classes.remove("${Tooltip.VISIBLE}");
@@ -58,20 +29,46 @@ class Tooltip implements Attachable {
         })
       ]);
     });
-    return subscriptions;
-  }
-
-  void repaintContent() {
-    container.children.clear();
-    final tooltipContent = _node.dataModel.provideTooltip();
-    if (tooltipContent != null) {
-      container.append(tooltipContent);
-    }
   }
 
   void cancelSubscriptions() {
     _delayTimer.cancel();
     _subscriptions.forEach((s) => s.cancel());
+  }
+  
+  Timer _createTimer(MouseEvent event, Element hoverElement, DataModel dataModel) {
+    return new Timer(const Duration(milliseconds: 1000),(){
+      if (_branchNode.viewModel.tooltipsEnabled) {
+        final y = dataModel.isLeaf && !dataModel.parent.isRoot ? 
+            event.offset.y + _branchNode.viewModel.branchPadding + hoverElement.offset.top :
+            event.offset.y + hoverElement.offset.top;
+        final x = dataModel.isLeaf && !dataModel.parent.isRoot ? 
+            event.offset.x + _branchNode.viewModel.branchPadding + hoverElement.offset.left :
+            event.offset.x + hoverElement.offset.left;
+        int adjX, adjY = 0;
+        _repaintContent(dataModel);
+        container.classes.add("${Tooltip.VISIBLE}");
+        if (x < _branchNode.container.client.width - x) {
+          adjX = x;
+        } else {
+          adjX = x - container.offset.width;
+        }
+        if (y < _branchNode.container.client.height - y) {
+          adjY = y+18;
+        } else {
+          adjY = y - container.offset.height-5;
+        }
+        container.style..left = "${adjX}px"..top = "${adjY}px";
+      }
+    });
+  }
+
+  void _repaintContent(DataModel dataModel) {
+    container.children.clear();
+    final tooltipContent = dataModel.provideTooltip();
+    if (tooltipContent != null) {
+      container.append(tooltipContent);
+    }
   }
 
 }

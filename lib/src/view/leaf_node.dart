@@ -15,4 +15,9 @@ class LeafNode extends Node {
     super.repaintContent();
     container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
   }
+  
+  set tooltip(Tooltip tooltip) {
+    _tooltip = tooltip;
+    _tooltip.registerSubscriptions([container], dataModel);
+  }
 }

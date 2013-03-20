@@ -29,7 +29,6 @@ abstract class Node implements Attachable {
     container.style..width = width.toString()
                    ..height = height.toString();
     _nodeLabel = new NodeLabel(this);
-    _tooltip = new Tooltip(this);
     rectifyAppearance();
     _modelSubscription = dataModel.onContentChange.listen((_) {
       if (viewModel.automaticUpdatesEnabled) {
@@ -120,11 +119,9 @@ abstract class Node implements Attachable {
 
   void repaintContent() {
     _nodeLabel.repaintContent();
-    _tooltip.repaintContent();
   }
 
   void cancelSubscriptions() {
     _modelSubscription.cancel();
-    _tooltip.cancelSubscriptions();
   }
 }
