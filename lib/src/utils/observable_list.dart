@@ -45,11 +45,11 @@ class ObservableList<E> implements List<E> {
     return value;
   }
 
-  List<E> getRange(int start, int length) => new ObservableList<E>.from(_list.getRange(start, length));
+  List<E> sublist(int start, [int length]) => new ObservableList<E>.from(_list.sublist(start, length));
   
   void setRange(int start, int length, List<E> from, [int startFrom]) {
-    final oldValues = getRange(start, length);
-    final newValues = from.getRange(startFrom, length);
+    final oldValues = sublist(start, length);
+    final newValues = from.sublist(startFrom, length);
     _list.setRange(start, length, from, startFrom);
     for (var i = 0; i < length; i++) {
       _onUpdateController.add(new ListUpdateEvent(oldValues[i], newValues[i]));
@@ -57,7 +57,7 @@ class ObservableList<E> implements List<E> {
   }
   
   void removeRange(int start, int length) {
-    final elements = getRange(start,length);
+    final elements = sublist(start,length);
     _list.removeRange(start, length);
     elements.forEach((e) => _onRemoveController.add(e));
   }
@@ -82,13 +82,14 @@ class ObservableList<E> implements List<E> {
   }
   
   void removeAll(Iterable elements) => elements.forEach((e) => remove(e));
+  
     
   void retainAll(Iterable elements) {
     final others = _list.where((e) => !elements.contains(e)).toList();
     removeAll(others);
   }
 
-  void removeMatching(bool test(E element)) {
+  void removeWhere(bool test(E element)) {
     _list.forEach((e) {
       if (test(e)) {
         remove(e);
@@ -96,7 +97,7 @@ class ObservableList<E> implements List<E> {
     });
   }
 
-  void retainMatching(bool test(E element)) {
+  void retainWhere(bool test(E element)) {
     _list.forEach((e) {
       if (!test(e)) {
         remove(e);
@@ -147,10 +148,6 @@ class ObservableList<E> implements List<E> {
 
   Set<E> toSet() => _list.toSet();
 
-  E min([int compare(E a, E b)]) => _list.min(compare);
-
-  E max([int compare(E a, E b)]) => _list.max(compare);
-
   Iterable<E> take(int n) => new ObservableList<E>.from(_list.take(n));
 
   Iterable<E> takeWhile(bool test(E value)) => new ObservableList<E>.from(_list.takeWhile(test));
@@ -163,11 +160,11 @@ class ObservableList<E> implements List<E> {
 
   void forEach(void f(E element)) => _list.forEach(f);
 
-  E firstMatching(bool test(E value), { E orElse() }) => _list.firstMatching(test, orElse : orElse);
+  E firstMatching(bool test(E value), { E orElse() }) => _list.firstWhere(test, orElse : orElse);
 
-  E lastMatching(bool test(E value), { E orElse() }) => _list.lastMatching(test, orElse : orElse);
+  E lastMatching(bool test(E value), { E orElse() }) => _list.lastWhere(test, orElse : orElse);
 
-  E singleMatching(bool test(E value)) => _list.singleMatching(test);
+  E singleMatching(bool test(E value)) => _list.singleWhere(test);
 
   E elementAt(int index) => _list.elementAt(index);
 

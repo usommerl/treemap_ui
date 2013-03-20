@@ -199,21 +199,21 @@ void registerListeners() {
     treemap.style.branchColor = selectedColor(branchColorSelect);
   });
   sizeUpdateCheckbox.onChange.listen((e) {
-    sizeUpdateTimer = new Timer.repeating(new Duration(milliseconds: sizeUpdateInput.valueAsNumber.toInt()),randomSizeCallback);
+    sizeUpdateTimer = new Timer.periodic(new Duration(milliseconds: sizeUpdateInput.valueAsNumber.toInt()),randomSizeCallback);
   });
   propertyUpdateCheckbox.onChange.listen((e) {
-    propertyUpdateTimer = new Timer.repeating(new Duration(milliseconds: propertyUpdateInput.valueAsNumber.toInt()),randomPropertyCallback);
+    propertyUpdateTimer = new Timer.periodic(new Duration(milliseconds: propertyUpdateInput.valueAsNumber.toInt()),randomPropertyCallback);
   });
   sizeUpdateInput.onChange.listen((e) {
     if (sizeUpdateInput.validity.valid) {
       sizeUpdateTimer.cancel();
-      sizeUpdateTimer = new Timer.repeating(new Duration(milliseconds: sizeUpdateInput.valueAsNumber.toInt()),randomSizeCallback);
+      sizeUpdateTimer = new Timer.periodic(new Duration(milliseconds: sizeUpdateInput.valueAsNumber.toInt()),randomSizeCallback);
     }
   });
   propertyUpdateInput.onChange.listen((e) {
     if (propertyUpdateInput.validity.valid) {
       propertyUpdateTimer.cancel();
-      propertyUpdateTimer = new Timer.repeating(new Duration(milliseconds: propertyUpdateInput.valueAsNumber.toInt()),randomPropertyCallback);
+      propertyUpdateTimer = new Timer.periodic(new Duration(milliseconds: propertyUpdateInput.valueAsNumber.toInt()),randomPropertyCallback);
     }
   });
   resetModelButton.onClick.listen((e) {
