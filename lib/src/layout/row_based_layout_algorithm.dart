@@ -3,10 +3,10 @@ part of treemap_ui_layout;
 abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
 
   num _availableWidth(BranchNode node) =>
-      _availableWidthPercentage(node).percentageValue(node.clientWidth);
+      _availableWidthPercentage(node).percentageValue(node.client.width);
 
   num _availableHeight(BranchNode node) =>
-      _availableHeightPercentage(node).percentageValue(node.clientHeight);
+      _availableHeightPercentage(node).percentageValue(node.client.height);
 
   Percentage _availableWidthPercentage(BranchNode node) {
     final verticalRows = node.layoutAids.where((row) => row.orientation.isVertical);

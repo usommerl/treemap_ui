@@ -23,8 +23,6 @@ class ObservableList<E> implements List<E> {
     _onAddController.add(value);
   }
   
-  void addLast(E value) => throw new UnsupportedError("Method is deprecated");
-
   void addAll(Iterable<E> iterable) => iterable.forEach((value) => add(value));
 
   void sort([int compare(E a, E b)]) => _list.sort(compare);
@@ -60,6 +58,11 @@ class ObservableList<E> implements List<E> {
     final elements = sublist(start,length);
     _list.removeRange(start, length);
     elements.forEach((e) => _onRemoveController.add(e));
+  }
+  
+  void insert(int index, E element) {
+    _list.insert(index, element);
+    _onAddController.add(element);
   }
   
   void insertRange(int start, int length, [E fill]) => throw new UnsupportedError("");
@@ -160,11 +163,11 @@ class ObservableList<E> implements List<E> {
 
   void forEach(void f(E element)) => _list.forEach(f);
 
-  E firstMatching(bool test(E value), { E orElse() }) => _list.firstWhere(test, orElse : orElse);
+  E firstWhere(bool test(E value), { E orElse() }) => _list.firstWhere(test, orElse : orElse);
 
-  E lastMatching(bool test(E value), { E orElse() }) => _list.lastWhere(test, orElse : orElse);
+  E lastWhere(bool test(E value), { E orElse() }) => _list.lastWhere(test, orElse : orElse);
 
-  E singleMatching(bool test(E value)) => _list.singleWhere(test);
+  E singleWhere(bool test(E value)) => _list.singleWhere(test);
 
   E elementAt(int index) => _list.elementAt(index);
 

@@ -71,26 +71,26 @@ abstract class Node implements Attachable {
 
       if (parent.children.any((other) => this._isPositionedBelow(other))) {
         container.classes.add("${viewModel.styleNames[NO_TOP_BORDER]}");
-        if (container.offsetHeight <= viewModel.borderWidth) {
+        if (container.offset.height <= viewModel.borderWidth) {
           container.classes.add("${viewModel.styleNames[COLLAPSED_HEIGHT]}");
         }
-      } else if (container.offsetHeight <= 2 * viewModel.borderWidth) {
+      } else if (container.offset.height <= 2 * viewModel.borderWidth) {
         container.classes.add("${viewModel.styleNames[COLLAPSED_HEIGHT]}");
       }
 
       if (parent.children.any((other) => this._isPositionedRightOf(other))) {
         container.classes.add("${viewModel.styleNames[NO_LEFT_BORDER]}");
-        if (container.offsetWidth <= viewModel.borderWidth) {
+        if (container.offset.width <= viewModel.borderWidth) {
           container.classes.add("${viewModel.styleNames[COLLAPSED_WIDTH]}");
         }
-      } else if (container.offsetWidth <= 2 * viewModel.borderWidth) {
+      } else if (container.offset.width <= 2 * viewModel.borderWidth) {
         container.classes.add("${viewModel.styleNames[COLLAPSED_WIDTH]}");
       }
 
       if (isBranch) {
         String topPosition;
-        if (_nodeLabel.container.offsetHeight > viewModel.branchPadding ) {
-          topPosition = "${_nodeLabel.container.offsetHeight}px";
+        if (_nodeLabel.container.offset.height > viewModel.branchPadding ) {
+          topPosition = "${_nodeLabel.container.offset.height}px";
           _content.style.top = topPosition;
           
         } else {
@@ -105,18 +105,16 @@ abstract class Node implements Attachable {
   }
 
   bool _isPositionedBelow(Node other) =>
-    this.container.offsetTop > other.container.offsetTop;
+    this.container.offset.top > other.container.offset.top;
 
   bool _isPositionedRightOf(Node other) =>
-    this.container.offsetLeft > other.container.offsetLeft;
+    this.container.offset.left > other.container.offset.left;
 
   bool get isLeaf => _isLeaf;
 
   bool get isBranch => !isLeaf;
-
-  int get clientWidth => _content.clientWidth;
-
-  int get clientHeight => _content.clientHeight;
+  
+  Rect get client => _content.client;
 
   DataModel get dataModel;
 
