@@ -1,4 +1,4 @@
-part of treemap.utils;
+part of treemap_ui_utils;
 
 class ObservableList<E> implements List<E> {
 

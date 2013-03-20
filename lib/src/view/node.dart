@@ -1,4 +1,4 @@
-part of treemap.view;
+part of treemap_ui_view;
 
 abstract class Node implements Attachable {
 

@@ -1,4 +1,4 @@
-library treemap.utils;
+library treemap_ui_utils;
 import 'dart:async';
 
 part 'percentage.dart';

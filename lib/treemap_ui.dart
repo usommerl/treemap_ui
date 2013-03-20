@@ -1,13 +1,13 @@
-library treemap;
+library treemap_ui;
 
 import 'dart:html' hide Node;
 import 'dart:async';
-import 'src/model/treemap_model.dart';
-export 'src/model/treemap_model.dart';
-import 'src/view/treemap_view.dart';
-export 'src/view/treemap_view.dart' show TreemapStyle, Orientation, Color;
-import 'src/layout/treemap_layout.dart';
-export 'src/layout/treemap_layout.dart';
+import 'src/model/treemap_ui_model.dart';
+export 'src/model/treemap_ui_model.dart';
+import 'src/view/treemap_ui_view.dart';
+export 'src/view/treemap_ui_view.dart' show TreemapStyle, Orientation, Color;
+import 'src/layout/treemap_ui_layout.dart';
+export 'src/layout/treemap_ui_layout.dart';
 
 class Treemap{
   
@@ -114,7 +114,7 @@ class Treemap{
    }
 
    void _validateComponentRoot(DivElement element) {
-     if (element.clientHeight <= 0) {
+     if (element.client.height <= 0) {
        throw new ArgumentError("The <div> element has to have a height greater than zero and must be attached to the document");
      }
      if (element.children.length > 0) {

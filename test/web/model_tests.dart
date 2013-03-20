@@ -1,6 +1,6 @@
 import '../../packages/unittest/unittest.dart';
 import '../../packages/unittest/html_config.dart';
-import '../../lib/src/model/treemap_model.dart';
+import '../../lib/src/model/treemap_ui_model.dart';
 import '../resources/test_resources.dart';
 
 main() {
@@ -25,10 +25,6 @@ main() {
     test('${new Leaf(1).runtimeType}(size,...) (size < 0 => exception)', () {
       expect(() => new Leaf(-1),
           throwsA(new isInstanceOf<ArgumentError>()));
-    });
-    test('${new Branch([]).runtimeType}(children,...) (children == null => exception)', () {
-      expect(() => new Branch(null),
-          throwsA(new isInstanceOf<AssertionError>()));
     });
     test('x.depth', () {
       expect(leaf1.depth, equals(2));

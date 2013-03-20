@@ -1,11 +1,11 @@
-library treemap.view;
+library treemap_ui_view;
 
 import 'dart:html' hide Node;
 import 'dart:async';
-import '../../treemap.dart' show Treemap;
-import '../model/treemap_model.dart';
-import '../utils/treemap_utils.dart';
-export '../utils/treemap_utils.dart' show Orientation, Color;
+import '../../treemap_ui.dart' show Treemap;
+import '../model/treemap_ui_model.dart';
+import '../utils/treemap_ui_utils.dart';
+export '../utils/treemap_ui_utils.dart' show Orientation, Color;
 
 part 'node.dart';
 part 'leaf_node.dart';

@@ -1,4 +1,4 @@
-part of treemap.model;
+part of treemap_ui_model;
 
 abstract class AbstractLeaf extends DataModel {
 
