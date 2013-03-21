@@ -30,7 +30,7 @@ class TreemapStyle {
     final map = new Map<String,String>();
     map["${LeafNode}"] = "${prefix}leaf";
     map["${BranchNode}"] = "${prefix}branch";
-    map["${LayoutAid}"] = "${prefix}layoutAid";
+    map["${InvisibleLayoutAid}"] = "${prefix}layoutAid";
     map["${Tooltip}"] = "${prefix}tooltip";
     map["${NodeLabel}"] = "${prefix}label";
     map[BranchNode.CONTENT] = "${prefix}${BranchNode.CONTENT}";
@@ -56,7 +56,7 @@ class TreemapStyle {
 <style type="text/css">
 .${_classNames["${LeafNode}"]},
 .${_classNames["${BranchNode}"]},
-.${_classNames["${LayoutAid}"]},
+.${_classNames["${InvisibleLayoutAid}"]},
 .${_classNames[BranchNode.CONTENT]},
 .${_classNames[BranchNode.NAVI_LEFT]},
 .${_classNames[BranchNode.NAVI_RIGHT]},
@@ -111,7 +111,7 @@ class TreemapStyle {
   right: 0px;
 }
 .${_classNames[BranchNode.MODEL_ROOT]},
-.${_classNames["${LayoutAid}"]},
+.${_classNames["${InvisibleLayoutAid}"]},
 .${_classNames[BranchNode.MODEL_ROOT]}.${_classNames[ViewModel.VIEW_ROOT]} {
   border-width: 0px;
 }

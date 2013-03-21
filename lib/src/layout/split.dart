@@ -10,8 +10,7 @@ class Split implements LayoutAlgorithm {
   
   void layout(BranchNode parent) {
     final partitions = _partition(parent.dataModel.children);
-    final layoutAid = new LayoutAid.expand(Percentage.ONE_HUNDRED, parent, Orientation.VERTICAL);
-    _layoutPartitions(partitions, layoutAid);
+    _layoutPartitions(partitions, parent);
   }
   
   void _layoutPartitions(List<List<DataModel>> partitions, LayoutAid parentAid) {
@@ -19,7 +18,7 @@ class Split implements LayoutAlgorithm {
       return;
     } else if (partitions.length == 1) {
       DataModel model = partitions.first.first;
-      Node node = new Node(model, parentAid.parentNode.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
+      Node node = new Node(model, parentAid.aidRoot.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
       parentAid.add(node);
       if (node.isBranch) {
         layout(node);
@@ -32,12 +31,14 @@ class Split implements LayoutAlgorithm {
       final percentageL1 = new Percentage.from(weightL1, weightL1 + weightL2);
       final percentageL2 = Percentage.ONE_HUNDRED - percentageL1;
       final orientation = _determineOrientation(parentAid);
-      final helperL1 = new LayoutAid.expand(percentageL1, parentAid.parentNode, orientation);
-      final helperL2 = new LayoutAid.expand(percentageL2, parentAid.parentNode, orientation);
-      parentAid.addAid(helperL1);
-      parentAid.addAid(helperL2);
-      _layoutPartitions(_partition(l1),helperL1);
-      _layoutPartitions(_partition(l2), helperL2);
+      final aidL1 = new InvisibleLayoutAid.expand(percentageL1, parentAid.aidRoot, orientation);
+      final aidL2 = new InvisibleLayoutAid.expand(percentageL2, parentAid.aidRoot, orientation);
+      if (parentAid != parentAid.aidRoot) {
+        parentAid.addAid(aidL1);
+        parentAid.addAid(aidL2);        
+      }
+      _layoutPartitions(_partition(l1), aidL1);
+      _layoutPartitions(_partition(l2), aidL2);
     }
   }
   
@@ -67,7 +68,7 @@ class Split implements LayoutAlgorithm {
       (_weight(l1) - _weight(l2)).abs();
   
   Orientation _determineOrientation(LayoutAid parent) =>
-      parent.container.clientWidth > parent.container.clientHeight ?
+      parent.container.client.width > parent.container.client.height ?
           Orientation.VERTICAL :
           Orientation.HORIZONTAL;
 }

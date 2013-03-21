@@ -1,6 +1,6 @@
 part of treemap_ui_view;
 
-class BranchNode extends Node {
+class BranchNode extends Node implements LayoutAid {
 
   static const String CONTENT = 'branch-content';
   static const String MODEL_ROOT = 'model-root';
@@ -9,7 +9,7 @@ class BranchNode extends Node {
   static const String NAVI_BOTTOM = "navi-bottom";
 
   final List<Node> children = [];
-  final List<LayoutAid> layoutAids = [];
+  final List<InvisibleLayoutAid> layoutAids = [];
   final DivElement _naviLeft = new DivElement();
   final DivElement _naviRight = new DivElement();
   final DivElement _naviBottom = new DivElement();
@@ -47,13 +47,15 @@ class BranchNode extends Node {
     }
   }
 
-  void addAid(LayoutAid aid) {
+  void addAid(InvisibleLayoutAid aid) {
     layoutAids.add(aid);
     _content.append(aid.container);
     _subscriptions.add(aid.onChildAdd.listen((node) => _register(node)));
   }
 
   AbstractBranch get dataModel => this._dataModel;
+  
+  BranchNode get aidRoot => this;
 
   Iterable<StreamSubscription> _registerSubscriptions(Iterable<Element> l) {
     final List<StreamSubscription> subscriptions = [];
