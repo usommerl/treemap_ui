@@ -1,6 +1,6 @@
 part of treemap_ui_view;
 
-class BranchNode extends Node implements LayoutAid {
+class BranchNode extends Node implements NodeContainer {
 
   static const String CONTENT = 'branch-content';
   static const String MODEL_ROOT = 'model-root';
@@ -9,7 +9,7 @@ class BranchNode extends Node implements LayoutAid {
   static const String NAVI_BOTTOM = "navi-bottom";
 
   final List<Node> children = [];
-  final List<InvisibleLayoutAid> layoutAids = [];
+  final List<LayoutAid> layoutAids = [];
   final DivElement _naviLeft = new DivElement();
   final DivElement _naviRight = new DivElement();
   final DivElement _naviBottom = new DivElement();
@@ -42,20 +42,17 @@ class BranchNode extends Node implements LayoutAid {
   void _register(Node child) {
     child.setParent(this);
     children.add(child);
-    if (child.isLeaf) {
-      (child as LeafNode).tooltip = _tooltip;      
-    }
   }
 
-  void addAid(InvisibleLayoutAid aid) {
-    layoutAids.add(aid);
-    _content.append(aid.container);
-    _subscriptions.add(aid.onChildAdd.listen((node) => _register(node)));
+  void addLayoutAid(LayoutAid layoutAid) {
+    layoutAids.add(layoutAid);
+    _content.append(layoutAid.container);
+    _subscriptions.add(layoutAid.onChildAdd.listen((node) => _register(node)));
   }
 
-  AbstractBranch get dataModel => this._dataModel;
+  AbstractBranch get dataModel => _dataModel;
   
-  BranchNode get aidRoot => this;
+  BranchNode get nodeContainerRoot => this;
 
   Iterable<StreamSubscription> _registerSubscriptions(Iterable<Element> l) {
     final List<StreamSubscription> subscriptions = [];
@@ -82,4 +79,6 @@ class BranchNode extends Node implements LayoutAid {
     _tooltip.cancelSubscriptions();
     children.forEach((c) => c.cancelSubscriptions());
   }
+  
+  Tooltip get tooltip => _tooltip;
 }

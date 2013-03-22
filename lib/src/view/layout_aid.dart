@@ -1,45 +1,35 @@
 part of treemap_ui_view;
 
-abstract class LayoutAid extends Attachable{
-  
-  void add(Node child);
-  
-  void addAid(LayoutAid aid);
-  
-  BranchNode get aidRoot;
-
-}
-
-class InvisibleLayoutAid implements LayoutAid {
+class LayoutAid implements NodeContainer {
 
   final DivElement container = new DivElement();
-  final BranchNode _aidRoot;
+  final BranchNode _nodeContainerRoot;
   final Orientation orientation;
   final Percentage width;
   final Percentage height;
   final StreamController<Node> _onChildAddController = new StreamController();
 
-  InvisibleLayoutAid._internal(this.width, this.height, this._aidRoot, this.orientation) {
-    container.classes.add("${_aidRoot.viewModel.styleNames[runtimeType.toString()]}");
+  LayoutAid._internal(this.width, this.height, this._nodeContainerRoot, this.orientation) {
+    container.classes.add("${_nodeContainerRoot.viewModel.styleNames[runtimeType.toString()]}");
     container.style..width = width.toString()
         ..height = height.toString();
-    _aidRoot.addAid(this);
+    _nodeContainerRoot.addLayoutAid(this);
   }
 
-  factory InvisibleLayoutAid.expand(Percentage size, BranchNode parent, Orientation orientation) {
-    InvisibleLayoutAid row;
+  factory LayoutAid.expand(Percentage size, BranchNode parent, Orientation orientation) {
+    LayoutAid row;
     if (orientation.isHorizontal) {
-      row = new InvisibleLayoutAid._internal(Percentage.ONE_HUNDRED, size, parent, orientation);
+      row = new LayoutAid._internal(Percentage.ONE_HUNDRED, size, parent, orientation);
       row.container.style.float = "none";
     } else {
-      row = new InvisibleLayoutAid._internal(size, Percentage.ONE_HUNDRED, parent, orientation);
+      row = new LayoutAid._internal(size, Percentage.ONE_HUNDRED, parent, orientation);
       row.container.style.float = "left";
     }
     return row;
   }
 
-  factory InvisibleLayoutAid.alwaysFloatLeft(Percentage width, Percentage height, BranchNode parent, Orientation orientation) {
-    var row = new InvisibleLayoutAid._internal(width, height, parent, orientation);
+  factory LayoutAid.alwaysFloatLeft(Percentage width, Percentage height, BranchNode parent, Orientation orientation) {
+    var row = new LayoutAid._internal(width, height, parent, orientation);
     row.container.style.float = "left";
     return row;
   }
@@ -49,11 +39,11 @@ class InvisibleLayoutAid implements LayoutAid {
     _onChildAddController.add(child);
   }
   
-  void addAid(InvisibleLayoutAid aid) {
+  void addLayoutAid(LayoutAid aid) {
     container.append(aid.container);
   }
   
-  BranchNode get aidRoot => _aidRoot;
+  BranchNode get nodeContainerRoot => _nodeContainerRoot;
   
   Stream<Node> get onChildAdd => _onChildAddController.stream;
 

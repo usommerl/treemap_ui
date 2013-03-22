@@ -22,3 +22,13 @@ final ArgumentError nullError = new ArgumentError("Please pass a valid reference
 abstract class Attachable {
   Element get container;
 }
+
+abstract class NodeContainer extends Attachable{
+  
+  void add(Node child);
+  
+  void addLayoutAid(LayoutAid layoutAid);
+  
+  BranchNode get nodeContainerRoot;
+
+}

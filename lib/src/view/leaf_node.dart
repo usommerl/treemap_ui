@@ -7,17 +7,16 @@ class LeafNode extends Node {
     _content = container;
     _content.append(_nodeLabel.container);
     container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
+    parent.then((parent) {
+      _tooltip = parent.tooltip;
+      _tooltip.registerSubscriptions([container],this.dataModel);
+    });
   }
 
-  AbstractLeaf get dataModel => this._dataModel;
+  AbstractLeaf get dataModel => _dataModel;
 
   void repaintContent() {
     super.repaintContent();
     container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
-  }
-  
-  set tooltip(Tooltip tooltip) {
-    _tooltip = tooltip;
-    _tooltip.registerSubscriptions([container], dataModel);
   }
 }

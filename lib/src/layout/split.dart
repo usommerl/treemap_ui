@@ -13,13 +13,13 @@ class Split implements LayoutAlgorithm {
     _layoutPartitions(partitions, parent);
   }
   
-  void _layoutPartitions(List<List<DataModel>> partitions, LayoutAid parentAid) {
+  void _layoutPartitions(List<List<DataModel>> partitions, NodeContainer nodeContainer) {
     if (partitions.isEmpty) {
       return;
     } else if (partitions.length == 1) {
       DataModel model = partitions.first.first;
-      Node node = new Node(model, parentAid.aidRoot.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
-      parentAid.add(node);
+      Node node = new Node(model, nodeContainer.nodeContainerRoot.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
+      nodeContainer.add(node);
       if (node.isBranch) {
         layout(node);
       } 
@@ -30,12 +30,12 @@ class Split implements LayoutAlgorithm {
       final weightL2 = _weight(l2);
       final percentageL1 = new Percentage.from(weightL1, weightL1 + weightL2);
       final percentageL2 = Percentage.ONE_HUNDRED - percentageL1;
-      final orientation = _determineOrientation(parentAid);
-      final aidL1 = new InvisibleLayoutAid.expand(percentageL1, parentAid.aidRoot, orientation);
-      final aidL2 = new InvisibleLayoutAid.expand(percentageL2, parentAid.aidRoot, orientation);
-      if (parentAid != parentAid.aidRoot) {
-        parentAid.addAid(aidL1);
-        parentAid.addAid(aidL2);        
+      final orientation = _determineOrientation(nodeContainer);
+      final aidL1 = new LayoutAid.expand(percentageL1, nodeContainer.nodeContainerRoot, orientation);
+      final aidL2 = new LayoutAid.expand(percentageL2, nodeContainer.nodeContainerRoot, orientation);
+      if (nodeContainer != nodeContainer.nodeContainerRoot) {
+        nodeContainer.addLayoutAid(aidL1);
+        nodeContainer.addLayoutAid(aidL2);        
       }
       _layoutPartitions(_partition(l1), aidL1);
       _layoutPartitions(_partition(l2), aidL2);
@@ -67,7 +67,7 @@ class Split implements LayoutAlgorithm {
   num _weightDelta(Iterable<DataModel> l1, Iterable<DataModel> l2) =>
       (_weight(l1) - _weight(l2)).abs();
   
-  Orientation _determineOrientation(LayoutAid parent) =>
+  Orientation _determineOrientation(NodeContainer parent) =>
       parent.container.client.width > parent.container.client.height ?
           Orientation.VERTICAL :
           Orientation.HORIZONTAL;
