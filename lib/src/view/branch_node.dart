@@ -35,8 +35,8 @@ class BranchNode extends Node implements LayoutAid {
     }
 
   void add(Node child) {
-    _register(child);
     _content.append(child.container);
+    _register(child);
   }
 
   void _register(Node child) {
