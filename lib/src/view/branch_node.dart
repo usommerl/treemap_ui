@@ -53,6 +53,8 @@ class BranchNode extends Node implements NodeContainer {
   AbstractBranch get dataModel => _dataModel;
   
   BranchNode get nodeContainerRoot => this;
+  
+  Rect get client => _content.client;
 
   Iterable<StreamSubscription> _registerSubscriptions(Iterable<Element> l) {
     final List<StreamSubscription> subscriptions = [];

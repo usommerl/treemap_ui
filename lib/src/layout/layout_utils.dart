@@ -1,46 +1,25 @@
 part of treemap_ui_layout;
 
-abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
+abstract class LayoutUtils {
+  
+  num _availableWidth(NodeContainer nodeContainer);
 
-  num _availableWidth(BranchNode node) =>
-      _availableWidthPercentage(node).percentageValue(node.client.width);
-
-  num _availableHeight(BranchNode node) =>
-      _availableHeightPercentage(node).percentageValue(node.client.height);
-
-  Percentage _availableWidthPercentage(BranchNode node) {
-    final verticalRows = node.layoutAids.where((row) => row.orientation.isVertical);
-    return Percentage.ONE_HUNDRED - verticalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.width);
-  }
-
-  Percentage _availableHeightPercentage (BranchNode node) {
-    final horizontalRows = node.layoutAids.where((row) => row.orientation.isHorizontal);
-    return Percentage.ONE_HUNDRED - horizontalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.height);
-  }
-
-  /**
-   * Filters the [DataModel] of [node] for children, which have no corresponding
-   * [Node] instance connecteted to [node]
-   */
-  Iterable<DataModel> _notPlacedModels(BranchNode node) {
-    final placedModels = node.children.map((Node child) => child.dataModel);
-    return node.dataModel.children.where((DataModel child) => !placedModels.contains(child));
-  }
-
+  num _availableHeight(NodeContainer nodeContainer);
+  
   /** Calculates the aspect ratio for the provided [width] and [height] arguments. */
   num _aspectRatio(num width, num height) {
     return max(width/height, height/width);
   }
-
+  
   /**
    * Calculates the aspect ratios for every element of [models] as if all of them
    * were placed in the available area of [parent] along a row with the provided [orientation].
    */
-  List<num> _aspectRatios(BranchNode parent, Collection<DataModel> models, Orientation orientation) {
+  List<num> _aspectRatios(NodeContainer parent, Collection<DataModel> models, Orientation orientation) {
     if (models.isEmpty) {
       return [];
     } else {
-      assert(models.every((child) => parent.dataModel.children.contains(child)));
+      assert(models.every((child) => parent.nodeContainerRoot.dataModel.children.contains(child)));
       List<num> aspectRatios = new List();
       final shortEdge = orientation.isVertical ? _availableWidth(parent) : _availableHeight(parent);
       final longEdge = orientation.isVertical ? _availableHeight(parent) : _availableWidth(parent);
@@ -53,6 +32,16 @@ abstract class RowBasedLayoutAlgorithms extends LayoutAlgorithm {
       });
       return aspectRatios;
     }
+  }
+  
+  /**
+   * Filters the [DataModel] of the root [BranchNode] of [nodeContainer] for children, 
+   * which have no corresponding [Node] instance registered
+   */
+  Iterable<DataModel> _notPlacedModels(NodeContainer nodeContainer) {
+    final parentBranch = nodeContainer.nodeContainerRoot;
+    final placedModels = parentBranch.children.map((Node child) => child.dataModel);
+    return parentBranch.dataModel.children.where((DataModel child) => !placedModels.contains(child));
   }
 
   Node _createNodeForRow(DataModel dModel, ViewModel vModel, Percentage sizeNode, Orientation orientation) {

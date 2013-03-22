@@ -30,5 +30,7 @@ abstract class NodeContainer extends Attachable{
   void addLayoutAid(LayoutAid layoutAid);
   
   BranchNode get nodeContainerRoot;
+  
+  Rect get client;
 
 }

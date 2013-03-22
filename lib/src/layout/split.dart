@@ -31,12 +31,8 @@ class Split implements LayoutAlgorithm {
       final percentageL1 = new Percentage.from(weightL1, weightL1 + weightL2);
       final percentageL2 = Percentage.ONE_HUNDRED - percentageL1;
       final orientation = _determineOrientation(nodeContainer);
-      final aidL1 = new LayoutAid.expand(percentageL1, nodeContainer.nodeContainerRoot, orientation);
-      final aidL2 = new LayoutAid.expand(percentageL2, nodeContainer.nodeContainerRoot, orientation);
-      if (nodeContainer != nodeContainer.nodeContainerRoot) {
-        nodeContainer.addLayoutAid(aidL1);
-        nodeContainer.addLayoutAid(aidL2);        
-      }
+      final aidL1 = new LayoutAid.expand(percentageL1, nodeContainer, orientation);
+      final aidL2 = new LayoutAid.expand(percentageL2, nodeContainer, orientation);
       _layoutPartitions(_partition(l1), aidL1);
       _layoutPartitions(_partition(l2), aidL2);
     }

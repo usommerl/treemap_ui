@@ -3,20 +3,23 @@ part of treemap_ui_view;
 class LayoutAid implements NodeContainer {
 
   final DivElement container = new DivElement();
-  final BranchNode _nodeContainerRoot;
+  final NodeContainer _parent;
   final Orientation orientation;
   final Percentage width;
   final Percentage height;
   final StreamController<Node> _onChildAddController = new StreamController();
 
-  LayoutAid._internal(this.width, this.height, this._nodeContainerRoot, this.orientation) {
-    container.classes.add("${_nodeContainerRoot.viewModel.styleNames[runtimeType.toString()]}");
+  LayoutAid._internal(this.width, this.height, this._parent, this.orientation) {
+    container.classes.add("${nodeContainerRoot.viewModel.styleNames[runtimeType.toString()]}");
     container.style..width = width.toString()
         ..height = height.toString();
-    _nodeContainerRoot.addLayoutAid(this);
+    nodeContainerRoot.addLayoutAid(this);
+    if (_parent is LayoutAid) {
+      _parent.addLayoutAid(this);
+    }
   }
 
-  factory LayoutAid.expand(Percentage size, BranchNode parent, Orientation orientation) {
+  factory LayoutAid.expand(Percentage size, NodeContainer parent, Orientation orientation) {
     LayoutAid row;
     if (orientation.isHorizontal) {
       row = new LayoutAid._internal(Percentage.ONE_HUNDRED, size, parent, orientation);
@@ -28,7 +31,8 @@ class LayoutAid implements NodeContainer {
     return row;
   }
 
-  factory LayoutAid.alwaysFloatLeft(Percentage width, Percentage height, BranchNode parent, Orientation orientation) {
+  // TODO: First implementation of Squarified algorithm needs this. Remove?
+  factory LayoutAid.alwaysFloatLeft(Percentage width, Percentage height, NodeContainer parent, Orientation orientation) {
     var row = new LayoutAid._internal(width, height, parent, orientation);
     row.container.style.float = "left";
     return row;
@@ -43,7 +47,9 @@ class LayoutAid implements NodeContainer {
     container.append(aid.container);
   }
   
-  BranchNode get nodeContainerRoot => _nodeContainerRoot;
+  Rect get client => container.client;
+  
+  BranchNode get nodeContainerRoot => _parent.nodeContainerRoot;
   
   Stream<Node> get onChildAdd => _onChildAddController.stream;
 

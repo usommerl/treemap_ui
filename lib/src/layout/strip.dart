@@ -6,7 +6,7 @@ part of treemap_ui_layout;
  * by Benjamin B. Bederson, Martin Wattenberg and Ben Shneiderman.
  * ACM Transactions on Graphics, Vol. 21, No. 4, pp. 833-854, October 2002.
  **/
-class Strip extends RowBasedLayoutAlgorithms {
+class Strip extends LayoutAlgorithm with LayoutUtils, StripSquarified1Mixin {
 
   Orientation _stripOrientation;
 
@@ -59,4 +59,24 @@ class Strip extends RowBasedLayoutAlgorithms {
     return aspectRatios.isEmpty ?
         0 : aspectRatios.reduce(0, (accum, ratio) => accum + ratio) / aspectRatios.length;
   }
+}
+
+class StripSquarified1Mixin {
+  
+  num _availableWidth(BranchNode node) =>
+      _availableWidthPercentage(node).percentageValue(node.client.width);
+
+  num _availableHeight(BranchNode node) =>
+      _availableHeightPercentage(node).percentageValue(node.client.height);
+
+  Percentage _availableWidthPercentage(BranchNode node) {
+    final verticalRows = node.layoutAids.where((row) => row.orientation.isVertical);
+    return Percentage.ONE_HUNDRED - verticalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.width);
+  }
+
+  Percentage _availableHeightPercentage (BranchNode node) {
+    final horizontalRows = node.layoutAids.where((row) => row.orientation.isHorizontal);
+    return Percentage.ONE_HUNDRED - horizontalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.height);
+  }
+  
 }
