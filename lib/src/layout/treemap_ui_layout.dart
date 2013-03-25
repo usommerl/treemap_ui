@@ -11,5 +11,4 @@ part 'layout_utils.dart';
 part 'strip.dart';
 part 'slice_and_dice.dart';
 part 'squarified.dart';
-part 'squarified2.dart';
 part 'split.dart';
