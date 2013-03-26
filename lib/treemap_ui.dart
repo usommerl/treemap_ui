@@ -2,12 +2,12 @@ library treemap_ui;
 
 import 'dart:html' hide Node;
 import 'dart:async';
-import 'src/model/treemap_ui_model.dart';
-export 'src/model/treemap_ui_model.dart';
-import 'src/view/treemap_ui_view.dart';
-export 'src/view/treemap_ui_view.dart' show TreemapStyle, Orientation, Color;
-import 'src/layout/treemap_ui_layout.dart';
-export 'src/layout/treemap_ui_layout.dart';
+import 'model.dart';
+export 'model.dart';
+import 'view.dart';
+export 'view.dart' show TreemapStyle, Orientation, Color;
+import 'layout.dart';
+export 'layout.dart';
 
 class Treemap{
   

@@ -1,4 +1,4 @@
-part of treemap_ui_view;
+part of treemap_ui.view;
 
 class BranchNode extends Node implements NodeContainer {
 
@@ -73,6 +73,21 @@ class BranchNode extends Node implements NodeContainer {
       ]);
     });
     return subscriptions;
+  }
+  
+  void rectifyAppearance() {
+    super.rectifyAppearance();
+    String topPosition;
+    if (_nodeLabel.container.offset.height > viewModel.branchPadding ) {
+      topPosition = "${_nodeLabel.container.offset.height}px";
+      _content.style.top = topPosition;
+    } else {
+      topPosition = "${viewModel.branchPadding}px";
+      _nodeLabel.container.style.height = "${viewModel.branchPadding}px";
+    }
+    _naviLeft.style.top = topPosition;
+    _naviRight.style.top = topPosition;
+    children.forEach((child) => child.rectifyAppearance());
   }
 
   void cancelSubscriptions() {

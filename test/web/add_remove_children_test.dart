@@ -43,7 +43,7 @@ main() {
     new Timer(const Duration(milliseconds: 7500), () {
       new Timer(const Duration(milliseconds: 500), () => model.children.removeLast());
       new Timer(const Duration(milliseconds: 1000), () => model.children.retainAll([copy2, copy1]));
-      new Timer(const Duration(milliseconds: 2500), () => model.children.removeMatching(
+      new Timer(const Duration(milliseconds: 2500), () => model.children.removeWhere(
          (e) => (e as Leaf).someProperty == 6));
       new Timer(const Duration(milliseconds: 3000), () => model.children.clear());
       new Timer(const Duration(milliseconds: 3500), () {

@@ -1,4 +1,4 @@
-part of treemap_ui_view;
+part of treemap_ui.view;
 
 class NodeLabel implements Attachable{
 

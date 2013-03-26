@@ -1,4 +1,4 @@
-part of treemap_ui_view;
+part of treemap_ui.view;
 
 abstract class Node implements Attachable {
 
@@ -84,21 +84,6 @@ abstract class Node implements Attachable {
         }
       } else if (container.offset.width <= 2 * viewModel.borderWidth) {
         container.classes.add("${viewModel.styleNames[COLLAPSED_WIDTH]}");
-      }
-
-      if (isBranch) {
-        String topPosition;
-        if (_nodeLabel.container.offset.height > viewModel.branchPadding ) {
-          topPosition = "${_nodeLabel.container.offset.height}px";
-          _content.style.top = topPosition;
-          
-        } else {
-          topPosition = "${viewModel.branchPadding}px";
-          _nodeLabel.container.style.height = "${viewModel.branchPadding}px";
-        }
-        (this as BranchNode)._naviLeft.style.top = topPosition;
-        (this as BranchNode)._naviRight.style.top = topPosition;
-        (this as BranchNode).children.forEach((child) => child.rectifyAppearance());
       }
     });
   }

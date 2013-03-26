@@ -1,4 +1,4 @@
-part of treemap_ui_layout;
+part of treemap_ui.layout;
 
 /**
  * Implementation of the split layout algorithm. For further details see

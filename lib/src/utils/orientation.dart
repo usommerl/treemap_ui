@@ -1,4 +1,4 @@
-part of treemap_ui_utils;
+part of treemap_ui.utils;
 
 class Orientation {
 

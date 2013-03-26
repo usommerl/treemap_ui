@@ -1,4 +1,4 @@
-part of treemap_ui_layout;
+part of treemap_ui.layout;
 
 abstract class LayoutUtils {
   

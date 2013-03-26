@@ -1,4 +1,4 @@
-part of treemap_ui_model;
+part of treemap_ui.model;
 
 abstract class AbstractBranch extends DataModel {
 
