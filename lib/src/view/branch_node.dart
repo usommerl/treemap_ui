@@ -77,17 +77,19 @@ class BranchNode extends Node implements NodeContainer {
   
   void rectifyAppearance() {
     super.rectifyAppearance();
-    String topPosition;
-    if (_nodeLabel.container.offset.height > viewModel.branchPadding ) {
-      topPosition = "${_nodeLabel.container.offset.height}px";
-      _content.style.top = topPosition;
-    } else {
-      topPosition = "${viewModel.branchPadding}px";
-      _nodeLabel.container.style.height = "${viewModel.branchPadding}px";
-    }
-    _naviLeft.style.top = topPosition;
-    _naviRight.style.top = topPosition;
-    children.forEach((child) => child.rectifyAppearance());
+    parent.then((_) {
+      String topPosition;
+      if (_nodeLabel.container.offset.height > viewModel.branchPadding ) {
+        topPosition = "${_nodeLabel.container.offset.height}px";
+        _content.style.top = topPosition;
+      } else {
+        topPosition = "${viewModel.branchPadding}px";
+        _nodeLabel.container.style.height = "${viewModel.branchPadding}px";
+      }
+      _naviLeft.style.top = topPosition;
+      _naviRight.style.top = topPosition;
+      children.forEach((child) => child.rectifyAppearance());
+    });
   }
 
   void cancelSubscriptions() {
