@@ -170,6 +170,28 @@ class ObservableList<E> implements List<E> {
   E singleWhere(bool test(E value)) => _list.singleWhere(test);
 
   E elementAt(int index) => _list.elementAt(index);
+  
+  // @deprecated methods
+  
+  E min([int compare(E a, E b)]) {
+    throw new UnsupportedError("Method is deprecated");
+    _list.min(compare);
+  }
+  
+  E max([int compare(E a, E b)]) {
+    throw new UnsupportedError("Method is deprecated");
+    _list.max(compare);
+  }
+  
+  void addLast(E value) {
+    throw new UnsupportedError("Method is deprecated");
+    _list.addLast(value);    
+  }
+  
+  List<E> getRange(int start, int length) {
+    throw new UnsupportedError("Method is deprecated");
+    _list.getRange(start,length);    
+  }
 
 }
 

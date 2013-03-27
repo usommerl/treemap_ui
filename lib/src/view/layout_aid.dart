@@ -31,13 +31,6 @@ class LayoutAid implements NodeContainer {
     return row;
   }
 
-  // TODO: First implementation of Squarified algorithm needs this. Remove?
-  factory LayoutAid.alwaysFloatLeft(Percentage width, Percentage height, NodeContainer parent, Orientation orientation) {
-    var row = new LayoutAid._internal(width, height, parent, orientation);
-    row.container.style.float = "left";
-    return row;
-  }
-
   void add(Node child) {
     container.append(child.container);
     _onChildAddController.add(child);

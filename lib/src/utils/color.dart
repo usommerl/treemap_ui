@@ -16,7 +16,7 @@ class Color {
       throw new ArgumentError("Not a valid HEX color definition");
     }
     if (!hex.startsWith("#")) {
-      hex = "#".concat(hex);
+      hex = "#" + hex;
     }
     RegExp exp = new RegExp(r"^#([0-9a-f]{3}|[0-9a-f]{6})$", caseSensitive: false);
     if (exp.allMatches(hex).isEmpty) {

@@ -40,7 +40,7 @@ main() {
   initUiElements();
   registerListeners();
 
-  modelInput.valueAsNumber = 3;
+  modelInput.valueAsNumber = 5;
   treemap = new Treemap(treemapContainer, selectedModel, selectedAlgorithm);
   borderColorSelect.value = treemap.style.borderColor.toString();
   borderStyleSelect.value = treemap.style.borderStyle;
