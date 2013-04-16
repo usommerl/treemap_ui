@@ -58,7 +58,7 @@ class Split implements LayoutAlgorithm {
     }
   }
   
-  num _weight(Iterable<DataModel> l) => l.reduce(0, (acc,e) => acc + e.size);
+  num _weight(Iterable<DataModel> l) => l.fold(0, (acc,e) => acc + e.size);
   
   num _weightDelta(Iterable<DataModel> l1, Iterable<DataModel> l2) =>
       (_weight(l1) - _weight(l2)).abs();

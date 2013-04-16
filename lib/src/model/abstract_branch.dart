@@ -24,7 +24,7 @@ abstract class AbstractBranch extends DataModel {
     });
   }
 
-  num get size => children.reduce(0, (prev,elem) => prev + elem.size);
+  num get size => children.fold(0, (prev,elem) => prev + elem.size);
 
   bool get isLeaf => false;
 }

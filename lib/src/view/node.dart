@@ -50,7 +50,7 @@ abstract class Node implements Attachable {
 
   Future<BranchNode> get parent => _parent == null ?
       _parentCompleter.future :
-      new Future.immediate(_parent);
+      new Future.value(_parent);
 
   void setParent(BranchNode parent) {
     if (_parent == null) {

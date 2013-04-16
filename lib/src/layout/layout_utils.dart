@@ -15,7 +15,7 @@ abstract class LayoutUtils {
    * Calculates the aspect ratios for every element of [models] as if all of them
    * were placed in the available area of [parent] along a row with the provided [orientation].
    */
-  List<num> _aspectRatios(NodeContainer parent, Collection<DataModel> models, Orientation orientation) {
+  List<num> _aspectRatios(NodeContainer parent, Iterable<DataModel> models, Orientation orientation) {
     if (models.isEmpty) {
       return [];
     } else {
@@ -23,8 +23,8 @@ abstract class LayoutUtils {
       List<num> aspectRatios = new List();
       final shortEdge = orientation.isVertical ? _availableWidth(parent) : _availableHeight(parent);
       final longEdge = orientation.isVertical ? _availableHeight(parent) : _availableWidth(parent);
-      final sumModels = models.reduce(0, (acc,model) => acc + model.size);
-      final sumNotPlacedModels = _notPlacedModels(parent).reduce(0, (acc, model) => acc + model.size);
+      final sumModels = models.fold(0, (acc,model) => acc + model.size);
+      final sumNotPlacedModels = _notPlacedModels(parent).fold(0, (acc, model) => acc + model.size);
       final x = new Percentage.from(sumModels, sumNotPlacedModels).percentageValue(shortEdge);
       models.forEach((child) {
         final y = new Percentage.from(child.size, sumModels).percentageValue(longEdge);

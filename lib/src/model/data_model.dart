@@ -2,9 +2,18 @@ part of treemap_ui.model;
 
 abstract class DataModel {
 
-  final StreamController _structuralChangeController = new StreamController.broadcast();
+  Stream _onStructuralChange;
   
-  final StreamController _contentChangeController = new StreamController.broadcast();
+  Stream _onContentChange;
+  
+  final StreamController _structuralChangeController = new StreamController();
+  
+  final StreamController _contentChangeController = new StreamController();
+  
+  DataModel() {
+    _onStructuralChange = _structuralChangeController.stream.asBroadcastStream();
+    _onContentChange = _contentChangeController.stream.asBroadcastStream();
+  }
   
   AbstractBranch _root;
   
@@ -24,9 +33,9 @@ abstract class DataModel {
 
   num get size;
 
-  Stream get onStructuralChange => _structuralChangeController.stream;
+  Stream get onStructuralChange => _onStructuralChange;
 
-  Stream get onContentChange => _contentChangeController.stream;
+  Stream get onContentChange => _onContentChange;
 
   Element provideNodeLabel();
 

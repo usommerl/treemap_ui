@@ -33,7 +33,7 @@ class Strip extends LayoutAlgorithm with LayoutUtils {
   }
 
   void _layoutRow(BranchNode parent, List<DataModel> rowModels, Orientation orientation) {
-    final sumModelSizes = rowModels.reduce(0, (acc,model) => acc + model.size);
+    final sumModelSizes = rowModels.fold(0, (acc,model) => acc + model.size);
     final dimensionRow = new Percentage.from(sumModelSizes, rowModels.first.parent.size);
     LayoutAid row = new LayoutAid.expand(dimensionRow, parent, orientation);
     rowModels.forEach((model) {
@@ -54,10 +54,10 @@ class Strip extends LayoutAlgorithm with LayoutUtils {
     return _stripOrientation;
   }
 
-  num _avgAspectRatio(BranchNode parent, Collection<DataModel> models, Orientation orientation) {
+  num _avgAspectRatio(BranchNode parent, Iterable<DataModel> models, Orientation orientation) {
     final aspectRatios = _aspectRatios(parent, models, orientation);
     return aspectRatios.isEmpty ?
-        0 : aspectRatios.reduce(0, (accum, ratio) => accum + ratio) / aspectRatios.length;
+        0 : aspectRatios.fold(0, (accum, ratio) => accum + ratio) / aspectRatios.length;
   }
   
   num _availableWidth(BranchNode node) =>
@@ -68,11 +68,11 @@ class Strip extends LayoutAlgorithm with LayoutUtils {
 
   Percentage _availableWidthPercentage(BranchNode node) {
     final verticalRows = node.layoutAids.where((row) => row.orientation.isVertical);
-    return Percentage.ONE_HUNDRED - verticalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.width);
+    return Percentage.ONE_HUNDRED - verticalRows.fold(Percentage.ZERO, (sum,elem) => sum + elem.width);
   }
 
   Percentage _availableHeightPercentage (BranchNode node) {
     final horizontalRows = node.layoutAids.where((row) => row.orientation.isHorizontal);
-    return Percentage.ONE_HUNDRED - horizontalRows.reduce(Percentage.ZERO, (sum,elem) => sum + elem.height);
+    return Percentage.ONE_HUNDRED - horizontalRows.fold(Percentage.ZERO, (sum,elem) => sum + elem.height);
   }
 }

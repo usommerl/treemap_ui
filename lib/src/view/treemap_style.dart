@@ -6,7 +6,8 @@ class TreemapStyle {
   static final _validBorderStyles = ["none","hidden","dotted","dashed","solid","double",
                                      "groove", "ridge", "inset", "outset", "inherit"];
 
-  final StreamController _onChangeController = new StreamController.broadcast();
+  Stream _onChange;
+  final StreamController _onChangeController = new StreamController();
   String _prefix;
   Color _branchColor;
   Color _borderColor;
@@ -24,6 +25,7 @@ class TreemapStyle {
     }
   ){
    _prefix = "tm${_instanceCounter++}-";
+   _onChange = _onChangeController.stream.asBroadcastStream();
   }
 
   Map<String,String> _initClassNames(String prefix) {
@@ -178,7 +180,7 @@ class TreemapStyle {
 
   Color get branchColor => _branchColor;
   
-  Stream get onChange => _onChangeController.stream;
+  Stream get onChange => _onChange;
 
   set branchColor(Color color) {
     if (color == null) {

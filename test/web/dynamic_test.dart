@@ -98,7 +98,7 @@ void initUiElements() {
   propertyUpdateControls..append(propertyUpdateCheckbox)..append(propertyUpdateLabel)..append(propertyUpdateInput)..append(new Element.html("<span>ms</span>"));
   final algorithmControls = new DivElement();
   final algorithmLabel = new Element.html("<span class='controlsLabel'>layout algorithm:</span>");
-  var options = algorithmMap.keys.map((k) => "<option>$k</option>").reduce("", (acc,e) => "$acc$e");
+  var options = algorithmMap.keys.map((k) => "<option>$k</option>").fold("", (acc,e) => "$acc$e");
   algorithmSelect = new Element.html("<select>$options</select>");
   algorithmControls..append(algorithmLabel)..append(algorithmSelect);
   final modelControls = new DivElement();
@@ -107,12 +107,12 @@ void initUiElements() {
   modelInput.style..width = "48px"..marginLeft = "2px";
   modelControls..append(modelLabel)..append(modelInput)..append(resetModelButton);
   final borderStyleLabel = new Element.html("<span class='controlsLabel'>border style:</span>");
-  options = TestResources.validBorderStyles.map((e) => "<option>$e</option>").reduce("", (acc,e) => "$acc$e");
+  options = TestResources.validBorderStyles.map((e) => "<option>$e</option>").fold("", (acc,e) => "$acc$e");
   borderStyleSelect = new Element.html("<select>$options</select>");
   final borderStyleControls = new DivElement();
   borderStyleControls..append(borderStyleLabel)..append(borderStyleSelect);
   final borderColorLabel = new Element.html("<span class='controlsLabel'>border color:</span>");
-  options = colorMap.keys.map((k) => "<option style='background-color:${k};'>$k</option>").reduce("", (acc,e) => "$acc$e");
+  options = colorMap.keys.map((k) => "<option style='background-color:${k};'>$k</option>").fold("", (acc,e) => "$acc$e");
   borderColorSelect = new Element.html("<select>$options</select>");
   final borderColorControls = new DivElement();
   borderColorControls..append(borderColorLabel)..append(borderColorSelect);

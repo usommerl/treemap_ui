@@ -4,7 +4,7 @@ part of treemap_ui.layout;
  * Implementation of the squarified layout algorithm. For further details see
  * 'Squarified Treemaps' by Mark Bruls, Kees Huizing, Jarke J. van Wijk.
  * Joint Eurographics and IEEE TCVG Symposium on Visualization,
- * IEEE Computer Society, pp. 33-42, 2000.
+ * IEEE Computer Society, pp. 33-42, 1999.
  **/
 class Squarified extends LayoutAlgorithm with LayoutUtils {
 
@@ -34,8 +34,8 @@ class Squarified extends LayoutAlgorithm with LayoutUtils {
   }
 
   NodeContainer _layoutRow(NodeContainer parent, List<DataModel> rowModels, Orientation orientation) {
-    final num sumModels = rowModels.reduce(0, (acc,model) => acc + model.size);
-    final num sumNotPlacedModels = _notPlacedModels(parent).reduce(0, (acc, model) => acc + model.size);
+    final num sumModels = rowModels.fold(0, (acc,model) => acc + model.size);
+    final num sumNotPlacedModels = _notPlacedModels(parent).fold(0, (acc, model) => acc + model.size);
     final percentageRowItems = new Percentage.from(sumModels, sumNotPlacedModels);
     final row = new LayoutAid.expand(percentageRowItems, parent, orientation);
     final newLayoutParent = new LayoutAid.expand(Percentage.ONE_HUNDRED - percentageRowItems, parent, orientation);
@@ -58,7 +58,7 @@ class Squarified extends LayoutAlgorithm with LayoutUtils {
 
   num _availableHeight(NodeContainer nodeContainer) => nodeContainer.client.height;
 
-  num _worstAspectRatio(NodeContainer parent, Collection<DataModel> models, Orientation orientation) =>
-      _aspectRatios(parent, models, orientation).reduce(0, (accum,ratio) => max(accum,ratio));
+  num _worstAspectRatio(NodeContainer parent, Iterable<DataModel> models, Orientation orientation) =>
+      _aspectRatios(parent, models, orientation).fold(0, (accum,ratio) => max(accum,ratio));
 
 }
