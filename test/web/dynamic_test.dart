@@ -40,7 +40,8 @@ main() {
   initUiElements();
   registerListeners();
 
-  modelInput.valueAsNumber = 5;
+  modelInput.valueAsNumber = 2;
+  algorithmSelect.value = "${Pivot}";
   treemap = new Treemap(treemapContainer, selectedModel, selectedAlgorithm);
   borderColorSelect.value = treemap.style.borderColor.toString();
   borderStyleSelect.value = treemap.style.borderStyle;
@@ -121,7 +122,7 @@ void initUiElements() {
   final branchColorControls = new DivElement();
   branchColorControls..append(branchColorLabel)..append(branchColorSelect);
   final repaintControls = new DivElement();
-  repaintInput..min = "1"..max = "10000"..step = "1"..valueAsNumber = 20;
+  repaintInput..min = "1"..max = "10000"..step = "1"..valueAsNumber = 1;
   repaintButton.text = "repaint";
   repaintButton.style.width = "90px";
   final repaintLabel = new Element.html("<span class='controlsLabel'>&nbsp;</span>");

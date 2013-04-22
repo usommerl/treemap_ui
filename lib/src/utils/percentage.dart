@@ -20,8 +20,6 @@ class Percentage {
 
   num percentageValue(num basicValue) => (basicValue / 100) * this._percentage;
 
-  Percentage of(Percentage other) => new Percentage._internal(this.percentageValue(other._percentage));
-
   Percentage operator +(Percentage other) => new Percentage._internal(this._percentage + other._percentage);
 
   Percentage operator -(Percentage other) => new Percentage._internal(this._percentage - other._percentage);

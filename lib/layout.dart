@@ -12,3 +12,4 @@ part 'src/layout/strip.dart';
 part 'src/layout/slice_and_dice.dart';
 part 'src/layout/squarified.dart';
 part 'src/layout/split.dart';
+part 'src/layout/pivot.dart';

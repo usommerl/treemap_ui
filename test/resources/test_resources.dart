@@ -27,7 +27,7 @@ class TestResources {
 
   static final List<DataModel> testDataModels = [dataModel0,dataModel1,dataModel2,dataModel3, dataModel4, dataModel5, dataModel6, dataModel7];
 
-  static final List<LayoutAlgorithm> layoutAlgorithms = [new SliceAndDice(), new Strip(), new Squarified(), new Split()];
+  static final List<LayoutAlgorithm> layoutAlgorithms = [new SliceAndDice(), new Strip(), new Squarified(), new Split(), new Pivot()];
 
   static final List<Color> namedColors = [Color.ALICE_BLUE, Color.ANTIQUE_WHITE, Color.AQUA, Color.AQUAMARINE, Color.AZURE,
                                           Color.BEIGE, Color.BISQUE, Color.BLACK, Color.BLANCHED_ALMOND, Color.BLUE,

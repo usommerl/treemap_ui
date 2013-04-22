@@ -49,4 +49,7 @@ abstract class LayoutUtils {
     final width = orientation.isHorizontal ? sizeNode : Percentage.ONE_HUNDRED;
     return new Node(dModel, vModel, width, height, orientation);
   }
+  
+  num _accumulateModelSizes(num accumulator, DataModel element) => accumulator + element.size;
+
 }
