@@ -63,6 +63,15 @@ class ObservableList<E> implements List<E> {
     }
   }
   
+  void setAll(int index, Iterable<E> iterable) {
+    final oldValues = _list.getRange(index, index + iterable.length - 1).toList(growable:false);
+    _list.setAll(index, iterable);
+    for (var i = 0; i < oldValues.length; i++) {
+      _onUpdateController.add(new ListUpdateEvent(oldValues.elementAt(i), iterable.elementAt(i)));
+    }
+  } 
+
+  
   void removeRange(int start, int length) {
     final elements = sublist(start,length);
     _list.removeRange(start, length);
@@ -75,6 +84,20 @@ class ObservableList<E> implements List<E> {
   }
   
   void insertRange(int start, int length, [E fill]) => throw new UnsupportedError("");
+  
+  void fillRange(int start, int end, [E fillValue]) => throw new UnsupportedError("");
+
+  void replaceRange(int start, int end, Iterable<E> iterable) {
+    final removedValues = _list.getRange(start, end).toList(growable:false);
+    _list.replaceRange(start, end, iterable);
+    removedValues.forEach((e) => _onRemoveController.add(e));
+    iterable.forEach((e) => _onAddController.add(e));
+  }
+  
+  void insertAll(int index, Iterable<E> iterable) {
+    _list.insertAll(index, iterable);
+    iterable.forEach((e) => _onAddController.add(e));
+  }
 
   E operator [](int index) => _list[index];
   
@@ -85,6 +108,7 @@ class ObservableList<E> implements List<E> {
   }
 
   bool remove(Object value) {
+    // Throws an error ( see http://goo.gl/QPxa1 )
     if (_list.remove(value)) {
       _onRemoveController.add(value);
       return true;
