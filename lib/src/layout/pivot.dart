@@ -2,6 +2,17 @@ part of treemap_ui.layout;
 
 typedef DataModel PivotSelectionStrategy(Iterable<DataModel> models);
 
+PivotSelectionStrategy bySize = 
+  (Iterable<DataModel> models) => models.reduce((value, element) {
+    if (element.size > value.size) {
+      value = element;
+    }
+    return value;
+  });
+
+PivotSelectionStrategy byMiddle = 
+  (Iterable<DataModel> models) => models.elementAt(models.length ~/ 2);
+
 /**
  * Implementation of the pivot layout algorithm. For further details see
  * 'Ordered Treemap Layouts' by Ben Shneiderman and Martin Wattenberg.
@@ -9,18 +20,7 @@ typedef DataModel PivotSelectionStrategy(Iterable<DataModel> models);
  * IEEE Computer Society, pp. 73-78, 2001.
  **/
 class Pivot extends LayoutAlgorithm with LayoutUtils {
-  
-  static PivotSelectionStrategy bySize = 
-      (Iterable<DataModel> models) => models.reduce((value, element) {
-        if (element.size > value.size) {
-          value = element;
-        }
-        return value;
-      });
-  
-  static PivotSelectionStrategy byMiddle = 
-      (Iterable<DataModel> models) => models.elementAt(models.length ~/ 2);
-  
+    
   PivotSelectionStrategy _selectionStrategy;
   
   Pivot([PivotSelectionStrategy selectionStrategy]) {
