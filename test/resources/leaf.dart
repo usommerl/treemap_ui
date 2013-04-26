@@ -23,9 +23,9 @@ class Leaf extends AbstractLeaf {
 
   Leaf(num size) : super(size);
 
-  Element provideNodeLabel() => new Element.html("<span class='myLabel'>${_someProperty}</span>");
+  Element get label => new Element.html("<span class='myLabel'>${_someProperty}</span>");
 
-  Element provideTooltip() {
+  Element get tooltip {
     Element element = new Element.html("<div></div>");
     element.style..backgroundColor = "white"
         ..fontSize = "0.8em"
@@ -41,7 +41,7 @@ class Leaf extends AbstractLeaf {
 
   int get someProperty => _someProperty;
 
-  Color provideBackgroundColor() {
+  Color get backgroundColor {
     if (someProperty < grayscale.length - 1) {
       return grayscale.elementAt(someProperty);
     } else {

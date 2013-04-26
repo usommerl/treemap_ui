@@ -11,9 +11,9 @@ class Branch extends AbstractBranch {
     });
   }
 
-  Element provideNodeLabel() => new Element.html('<span>Branch</span>');
+  Element get label => new Element.html('<span>Branch</span>');
 
-  Element provideTooltip() {
+  Element get tooltip {
     Element element = new Element.html("<div></div>");
     element.style..backgroundColor = "white"
         ..fontSize = "0.8em"

@@ -37,11 +37,11 @@ abstract class DataModel {
 
   Stream get onContentChange => _onContentChange;
 
-  Element provideNodeLabel();
+  Element get label;
 
-  Element provideTooltip();
-
-  void _propagateModelChange() {
+  Element get tooltip;
+  
+  _propagateModelChange() {
     _structuralChangeController.add(null);
     if (parent != null) {
       parent._propagateModelChange();

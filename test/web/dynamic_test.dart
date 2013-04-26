@@ -221,8 +221,7 @@ void registerListeners() {
     if(modelInput.validity.valid) {
       final index = modelInput.valueAsNumber.toInt();
       final tmp = TestResources.testDataModels.elementAt(index);
-      final model = tmp.isBranch ? tmp as Branch : tmp as Leaf;
-      final copy = model.copy();
+      final copy = tmp.isBranch ? (tmp as Branch).copy() : (tmp as Leaf).copy();
       modelMap[index] = copy;
       treemap.model = selectedModel;
     }

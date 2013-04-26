@@ -6,7 +6,7 @@ class LeafNode extends Node {
     super._internal(dataModel, viewModel, width, height, orientation) {
     _content = container;
     _content.append(_nodeLabel.container);
-    container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
+    container.style.backgroundColor = dataModel.backgroundColor.toString();
     parent.then((parent) {
       _tooltip = parent.tooltip;
       _tooltip.registerSubscriptions([container],this.dataModel);
@@ -17,6 +17,6 @@ class LeafNode extends Node {
 
   void repaintContent() {
     super.repaintContent();
-    container.style.backgroundColor = dataModel.provideBackgroundColor().toString();
+    container.style.backgroundColor = dataModel.backgroundColor.toString();
   }
 }

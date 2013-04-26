@@ -65,7 +65,7 @@ class Tooltip implements Attachable {
 
   void _repaintContent(DataModel dataModel) {
     container.children.clear();
-    final tooltipContent = dataModel.provideTooltip();
+    final tooltipContent = dataModel.tooltip;
     if (tooltipContent != null) {
       container.append(tooltipContent);
     }
