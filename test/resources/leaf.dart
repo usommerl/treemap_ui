@@ -41,7 +41,7 @@ class Leaf extends AbstractLeaf {
 
   int get someProperty => _someProperty;
 
-  Color get backgroundColor {
+  Color get color {
     if (someProperty < grayscale.length - 1) {
       return grayscale.elementAt(someProperty);
     } else {

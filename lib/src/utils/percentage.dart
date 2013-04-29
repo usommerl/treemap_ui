@@ -10,7 +10,6 @@ class Percentage {
 
   factory Percentage.from(num amount, num basicValue) {
     assert(amount >= 0);
-    assert(basicValue >= amount);
     if (amount == 0) {
       return Percentage.ZERO;
     } else {

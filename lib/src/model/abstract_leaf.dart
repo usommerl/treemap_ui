@@ -24,6 +24,6 @@ abstract class AbstractLeaf extends DataModel {
     }
   }
 
-  Color get backgroundColor;
+  Color get color;
 }
 
