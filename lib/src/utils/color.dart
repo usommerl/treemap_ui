@@ -39,7 +39,7 @@ class Color {
   static const Color BLUE = const NamedColor("Blue");
   static const Color BLUE_VIOLET = const NamedColor("BlueViolet");
   static const Color BROWN = const NamedColor("Brown");
-  static const Color BURLYWOOD = const NamedColor("BurlyWood");
+  static const Color BURLY_WOOD = const NamedColor("BurlyWood");
   static const Color CADET_BLUE = const NamedColor("CadetBlue");
   static const Color CHARTREUSE = const NamedColor("Chartreuse");
   static const Color CHOCOLATE = const NamedColor("Chocolate");
