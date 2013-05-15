@@ -31,7 +31,7 @@ class TestResources {
 
   static final List<Color> namedColors = [Color.ALICE_BLUE, Color.ANTIQUE_WHITE, Color.AQUA, Color.AQUAMARINE, Color.AZURE,
                                           Color.BEIGE, Color.BISQUE, Color.BLACK, Color.BLANCHED_ALMOND, Color.BLUE,
-                                          Color.BLUE_VIOLET, Color.BROWN, Color.BURLYWOOD, Color.CADET_BLUE, Color.CHARTREUSE,
+                                          Color.BLUE_VIOLET, Color.BROWN, Color.BURLY_WOOD, Color.CADET_BLUE, Color.CHARTREUSE,
                                           Color.CHOCOLATE, Color.CORAL, Color.CORNFLOWER_BLUE, Color.CORNSILK, Color.CRIMSON,
                                           Color.CYAN, Color.DARK_BLUE, Color.DARK_CYAN, Color.DARK_GOLDEN_ROD, Color.DARK_GRAY,
                                           Color.DARK_GREY, Color.DARK_GREEN, Color.DARK_KHAKI, Color.DARK_MAGENTA, Color.DARK_OLIVE_GREEN,

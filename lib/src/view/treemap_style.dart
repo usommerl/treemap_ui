@@ -5,7 +5,6 @@ class TreemapStyle {
   static int _instanceCounter = 1;
   static final _validBorderStyles = ["none","hidden","dotted","dashed","solid","double",
                                      "groove", "ridge", "inset", "outset", "inherit"];
-
   Stream _onChange;
   final StreamController _onChangeController = new StreamController();
   String _prefix;
@@ -16,16 +15,19 @@ class TreemapStyle {
   String _borderStyle;
   Map<String,String> _classNames;
 
-  TreemapStyle(
-    {Color this._branchColor    : Color.GRAY,
-     int this._branchPadding    : 2,
-     Color this._borderColor    : Color.BLACK,
-     int this._borderWidth      : 1,
-     String this._borderStyle   : "solid"
-    }
-  ){
-   _prefix = "tm${_instanceCounter++}-";
-   _onChange = _onChangeController.stream.asBroadcastStream();
+  TreemapStyle({Color branchColor    : Color.GRAY,
+     int branchPadding    : 2,
+     Color borderColor    : Color.BLACK,
+     int borderWidth      : 1,
+     String borderStyle   : "solid"
+  }){
+     _branchColor = branchColor;
+     _branchPadding = branchPadding;
+     _borderColor = borderColor;
+     _borderWidth = borderWidth;
+     _borderStyle = borderStyle;
+     _prefix = "tm${_instanceCounter++}-";
+     _onChange = _onChangeController.stream.asBroadcastStream();
   }
 
   Map<String,String> _initClassNames(String prefix) {

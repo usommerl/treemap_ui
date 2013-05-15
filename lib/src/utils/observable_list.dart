@@ -108,7 +108,6 @@ class ObservableList<E> implements List<E> {
   }
 
   bool remove(Object value) {
-    // Throws an error ( see http://goo.gl/QPxa1 )
     if (_list.remove(value)) {
       _onRemoveController.add(value);
       return true;
@@ -117,7 +116,6 @@ class ObservableList<E> implements List<E> {
   }
   
   void removeAll(Iterable elements) => elements.forEach((e) => remove(e));
-  
     
   void retainAll(Iterable elements) {
     final others = _list.where((e) => !elements.contains(e)).toList();
