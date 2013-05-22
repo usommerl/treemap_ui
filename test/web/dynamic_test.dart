@@ -54,8 +54,8 @@ main() {
 }
 
 void initUiElements() {
-  widthInput..min = "25"..max = "950"..step = "25"..valueAsNumber = initialSize;
-  heightInput..min = "25"..max = "650"..step = "25"..valueAsNumber = initialSize;
+  widthInput..min = "25"..max = "1000"..step = "25"..valueAsNumber = initialSize;
+  heightInput..min = "25"..max = "1000"..step = "25"..valueAsNumber = initialSize;
   resetModelButton.text = "reset";
   resetModelButton.title = "Resets the selected model";
   final widthControls = new DivElement();

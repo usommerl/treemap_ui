@@ -1,5 +1,11 @@
 part of treemap_ui.view;
 
+/**
+ * An object which configures several visual ascpects of a [Treemap] instance.
+ *
+ * The [TreemapStyle] class features a simple event system, which is used to 
+ * notify observers about property changes.
+ */
 class TreemapStyle {
 
   static int _instanceCounter = 1;
@@ -15,7 +21,8 @@ class TreemapStyle {
   String _borderStyle;
   Map<String,String> _classNames;
 
-  TreemapStyle({Color branchColor    : Color.GRAY,
+  TreemapStyle({
+     Color branchColor    : Color.GRAY,
      int branchPadding    : 2,
      Color borderColor    : Color.BLACK,
      int borderWidth      : 1,
@@ -30,29 +37,92 @@ class TreemapStyle {
      _onChange = _onChangeController.stream.asBroadcastStream();
   }
 
-  Map<String,String> _initClassNames(String prefix) {
-    final map = new Map<String,String>();
-    map["${LeafNode}"] = "${prefix}leaf";
-    map["${BranchNode}"] = "${prefix}branch";
-    map["${LayoutAid}"] = "${prefix}layoutAid";
-    map["${Tooltip}"] = "${prefix}tooltip";
-    map["${NodeLabel}"] = "${prefix}label";
-    map[BranchNode.CONTENT] = "${prefix}${BranchNode.CONTENT}";
-    map[BranchNode.MODEL_ROOT] = "${prefix}${BranchNode.MODEL_ROOT}";
-    map[BranchNode.NAVI_LEFT] = "${prefix}${BranchNode.NAVI_LEFT}";
-    map[BranchNode.NAVI_RIGHT] = "${prefix}${BranchNode.NAVI_RIGHT}";
-    map[BranchNode.NAVI_BOTTOM] = "${prefix}${BranchNode.NAVI_BOTTOM}";
-    map[ViewModel.VIEW_ROOT] = "${prefix}${ViewModel.VIEW_ROOT}";
-    map[Node.NO_LEFT_BORDER] = "${prefix}${Node.NO_LEFT_BORDER}";
-    map[Node.NO_TOP_BORDER] = "${prefix}${Node.NO_TOP_BORDER}";
-    map[Node.COLLAPSED_WIDTH] = "${prefix}${Node.COLLAPSED_WIDTH}";
-    map[Node.COLLAPSED_HEIGHT] = "${prefix}${Node.COLLAPSED_HEIGHT}";
-    map[Orientation.VERTICAL.toString()] = "${prefix}${Orientation.VERTICAL.toString()}";
-    map[Orientation.HORIZONTAL.toString()] = "${prefix}${Orientation.HORIZONTAL.toString()}";
-    map[NAVIGATION_ELEMENT] = "${prefix}${NAVIGATION_ELEMENT}";
-    return map;
+  /// Stream of events which are triggered when a property of this instance is modified.
+  Stream get onChange => _onChange;
+
+  /// Background color of the branch padding area.
+  Color get branchColor => _branchColor;
+
+  set branchColor(Color color) {
+    if (color == null) {
+      throw nullError;
+    }
+    _branchColor = color;
+    _onChangeController.add(null);
+  }
+  
+  /**
+   * Size of the padding area around the content of a branch in px.
+   *
+   * Please note that the top padding is determined by the height of the branch label. 
+   * Only if the label height is smaller than [branchPadding], then this value also
+   * apllies to the top padding.
+   */
+  int get branchPadding => _branchPadding;
+
+  set branchPadding(int branchPadding) {
+    if (branchPadding == null || branchPadding < 0) {
+      throw new ArgumentError("branchPadding has to be a positive value");
+    }
+    _branchPadding = branchPadding;
+    _onChangeController.add(null);
   }
 
+  /// Color of the border around leaf and branch nodes.
+  Color get borderColor => _borderColor;
+
+  set borderColor(Color borderColor) {
+    if (borderColor == null) {
+      throw nullError;
+    }
+    _borderColor = borderColor;
+    _onChangeController.add(null);
+  }
+
+  /// Width of the border around leaf and branch nodes in px.
+  int get borderWidth => _borderWidth;
+
+  set borderWidth(int borderWidth) {
+    if (borderWidth == null || borderWidth < 0) {
+      throw new ArgumentError("borderWidth has to be a positive value");
+    }
+    _borderWidth = borderWidth;
+    _onChangeController.add(null);
+  }
+
+  /// Style of the border around leaf and branch nodes.
+  String get borderStyle => _borderStyle;
+
+  set borderStyle(String borderStyle) {
+    if (borderStyle == null || !_validBorderStyles.contains(borderStyle)) {
+      throw new ArgumentError("Please pass a valid CSS border-style");
+    }
+    _borderStyle = borderStyle;
+    _onChangeController.add(null);
+  }
+
+  /**
+   * Prefix string which is used in CSS selectors.
+   * 
+   * The prefix is automatically generated during instantiation. You may change 
+   * this value if a [TreemapStyle] CSS rule conflicts with one of your own.
+   */
+  String get prefix => _prefix;
+
+  set prefix(String prefix) {
+    if (prefix == null) {
+      throw nullError;
+    }
+    _prefix = prefix;
+    _onChangeController.add(null);
+  }
+
+  /**
+   * Element which contains the style rules for a [Treemap].
+   *
+   * The [Treemap] instance calls this getter and inserts the result
+   * into the [HeadElement] of your [document].
+   */
   StyleElement get inlineStyle {
     this._classNames = _initClassNames(prefix);
     final String inlineStyleHtml =
@@ -180,65 +250,26 @@ class TreemapStyle {
     return new Element.html(inlineStyleHtml);
   }
 
-  Color get branchColor => _branchColor;
-  
-  Stream get onChange => _onChange;
-
-  set branchColor(Color color) {
-    if (color == null) {
-      throw nullError;
-    }
-    _branchColor = color;
-    _onChangeController.add(null);
-  }
-
-  int get branchPadding => _branchPadding;
-
-  set branchPadding(int branchPadding) {
-    if (branchPadding == null || branchPadding < 0) {
-      throw new ArgumentError("branchPadding has to be a positive value");
-    }
-    _branchPadding = branchPadding;
-    _onChangeController.add(null);
-  }
-
-  Color get borderColor => _borderColor;
-
-  set borderColor(Color borderColor) {
-    if (borderColor == null) {
-      throw nullError;
-    }
-    _borderColor = borderColor;
-    _onChangeController.add(null);
-  }
-
-  int get borderWidth => _borderWidth;
-
-  set borderWidth(int borderWidth) {
-    if (borderWidth == null || borderWidth < 0) {
-      throw new ArgumentError("borderWidth has to be a positive value");
-    }
-    _borderWidth = borderWidth;
-    _onChangeController.add(null);
-  }
-
-  String get borderStyle => _borderStyle;
-
-  set borderStyle(String borderStyle) {
-    if (borderStyle == null || !_validBorderStyles.contains(borderStyle)) {
-      throw new ArgumentError("Please pass a valid CSS border-style");
-    }
-    _borderStyle = borderStyle;
-    _onChangeController.add(null);
-  }
-
-  String get prefix => _prefix;
-
-  set prefix(String prefix) {
-    if (prefix == null) {
-      throw nullError;
-    }
-    _prefix = prefix;
-    _onChangeController.add(null);
+  Map<String,String> _initClassNames(String prefix) {
+    final map = new Map<String,String>();
+    map["${LeafNode}"] = "${prefix}leaf";
+    map["${BranchNode}"] = "${prefix}branch";
+    map["${LayoutAid}"] = "${prefix}layoutAid";
+    map["${Tooltip}"] = "${prefix}tooltip";
+    map["${NodeLabel}"] = "${prefix}label";
+    map[BranchNode.CONTENT] = "${prefix}${BranchNode.CONTENT}";
+    map[BranchNode.MODEL_ROOT] = "${prefix}${BranchNode.MODEL_ROOT}";
+    map[BranchNode.NAVI_LEFT] = "${prefix}${BranchNode.NAVI_LEFT}";
+    map[BranchNode.NAVI_RIGHT] = "${prefix}${BranchNode.NAVI_RIGHT}";
+    map[BranchNode.NAVI_BOTTOM] = "${prefix}${BranchNode.NAVI_BOTTOM}";
+    map[ViewModel.VIEW_ROOT] = "${prefix}${ViewModel.VIEW_ROOT}";
+    map[Node.NO_LEFT_BORDER] = "${prefix}${Node.NO_LEFT_BORDER}";
+    map[Node.NO_TOP_BORDER] = "${prefix}${Node.NO_TOP_BORDER}";
+    map[Node.COLLAPSED_WIDTH] = "${prefix}${Node.COLLAPSED_WIDTH}";
+    map[Node.COLLAPSED_HEIGHT] = "${prefix}${Node.COLLAPSED_HEIGHT}";
+    map[Orientation.VERTICAL.toString()] = "${prefix}${Orientation.VERTICAL.toString()}";
+    map[Orientation.HORIZONTAL.toString()] = "${prefix}${Orientation.HORIZONTAL.toString()}";
+    map[NAVIGATION_ELEMENT] = "${prefix}${NAVIGATION_ELEMENT}";
+    return map;
   }
 }
