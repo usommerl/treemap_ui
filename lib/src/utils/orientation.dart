@@ -1,13 +1,14 @@
 part of treemap_ui.utils;
 
+/// A class that mocks a enumeration type for orientations.
 class Orientation {
+
+  static const Orientation VERTICAL = const Orientation._internal(_VERTICAL_VALUE);
+  static const Orientation HORIZONTAL = const Orientation._internal(_HORIZONTAL_VALUE);
 
   final int _value;
   static const int _HORIZONTAL_VALUE = 0;
   static const int _VERTICAL_VALUE = 1;
-
-  static const Orientation VERTICAL = const Orientation._internal(_VERTICAL_VALUE);
-  static const Orientation HORIZONTAL = const Orientation._internal(_HORIZONTAL_VALUE);
 
   const Orientation._internal(this._value);
 
