@@ -18,7 +18,7 @@ class ViewModel {
 
   int get branchPadding => _treemap.style.branchPadding;
 
-  bool get automaticUpdatesEnabled => _treemap.automaticRepaints;
+  bool get automaticUpdatesEnabled => _treemap.liveUpdates;
 
   bool get tooltipsEnabled => _treemap.showTooltips;
 
@@ -54,8 +54,8 @@ class ViewModel {
     _cachedNextSibling = node.container.nextElementSibling;
     node.container.classes.add("${styleNames[VIEW_ROOT]}");
     _viewRoot = node;
-    _treemap.componentRoot.children.clear();
-    _treemap.componentRoot.append(node.container);
+    _treemap.displayArea.children.clear();
+    _treemap.displayArea.append(node.container);
   }
 
   void _recreatePristineHtmlHierarchy(BranchNode node) {

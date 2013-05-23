@@ -17,7 +17,7 @@ final Element treemapContainer = new Element.html("<div id=treemapContainer styl
 final Map<String, LayoutAlgorithm> algorithmMap = initAlgorithmMap();
 final Map<int, DataModel> modelMap = initModelMap();
 final Map<String, Color> colorMap = initColorMap();
-final CheckboxInputElement automaticRepaintsCheckbox = new CheckboxInputElement();
+final CheckboxInputElement liveUpdatesCheckbox = new CheckboxInputElement();
 final CheckboxInputElement isTraversableCheckbox = new CheckboxInputElement();
 final CheckboxInputElement showTooltipsCheckbox = new CheckboxInputElement();
 final CheckboxInputElement sizeUpdateCheckbox = new CheckboxInputElement();
@@ -48,7 +48,7 @@ main() {
   branchColorSelect.value = treemap.style.branchColor.toString();
   borderWidthInput.valueAsNumber = treemap.style.borderWidth;
   branchPaddingInput.valueAsNumber = treemap.style.branchPadding;
-  automaticRepaintsCheckbox.checked = treemap.automaticRepaints;
+  liveUpdatesCheckbox.checked = treemap.liveUpdates;
   isTraversableCheckbox.checked = treemap.isTraversable;
   showTooltipsCheckbox.checked = treemap.showTooltips;
 }
@@ -72,10 +72,10 @@ void initUiElements() {
   branchPaddingInput..min = "0"..max = "100"..step = "1";
   final branchPaddingLabel = new Element.html("<span class='controlsLabel'>branch padding:</span>");
   branchPaddingControls..append(branchPaddingLabel)..append(branchPaddingInput)..append(new Element.html("<span>px</span>"));
-  final automaticRepaintsLabel = new Element.html("<span>automatic repaints</span>");
-  automaticRepaintsCheckbox.style.verticalAlign = "middle";
-  final automaticRepaintsControls = new DivElement();
-  automaticRepaintsControls..append(automaticRepaintsCheckbox)..append(automaticRepaintsLabel);
+  final liveUpdatesLabel = new Element.html("<span>live updates</span>");
+  liveUpdatesCheckbox.style.verticalAlign = "middle";
+  final liveUpdatesControls = new DivElement();
+  liveUpdatesControls..append(liveUpdatesCheckbox)..append(liveUpdatesLabel);
   final isTraversableLabel = new Element.html("<span>traversable</span>");
   isTraversableCheckbox.style.verticalAlign ="middle";
   final isTraversableControls = new DivElement();
@@ -139,7 +139,7 @@ void initUiElements() {
     ..append(borderColorControls)
     ..append(branchColorControls)
     ..append(new Element.html("<div class='divider'></div>"))
-    ..append(automaticRepaintsControls)
+    ..append(liveUpdatesControls)
     ..append(isTraversableControls)
     ..append(showTooltipsControls)
     ..append(new Element.html("<div class='divider'></div>"))
@@ -153,8 +153,8 @@ void initUiElements() {
 }
 
 void registerListeners() {
-  automaticRepaintsCheckbox.onChange.listen((e) {
-    treemap.automaticRepaints = automaticRepaintsCheckbox.checked;
+  liveUpdatesCheckbox.onChange.listen((e) {
+    treemap.liveUpdates = liveUpdatesCheckbox.checked;
   });
   isTraversableCheckbox.onChange.listen((e) {
     treemap.isTraversable = isTraversableCheckbox.checked;
