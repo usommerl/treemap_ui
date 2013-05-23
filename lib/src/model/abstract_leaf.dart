@@ -1,5 +1,6 @@
 part of treemap_ui.model;
 
+/// Base class for concrete implementations of a leaf in a tree data structure.
 abstract class AbstractLeaf extends DataModel {
 
   num _size;
@@ -24,6 +25,7 @@ abstract class AbstractLeaf extends DataModel {
     }
   }
 
+  /// Background color of the corresponding treemap node.
   Color get color;
 }
 
