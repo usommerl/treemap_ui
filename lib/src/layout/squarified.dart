@@ -1,11 +1,11 @@
 part of treemap_ui.layout;
 
 /**
- * Implementation of the squarified layout algorithm. For further details see
- * 'Squarified Treemaps' by Mark Bruls, Kees Huizing, Jarke J. van Wijk.
- * Joint Eurographics and IEEE TCVG Symposium on Visualization,
- * IEEE Computer Society, pp. 33-42, 1999.
- **/
+ * Implementation of the squarified layout algorithm.
+ *
+ * For further details see 'Squarified Treemaps' by Mark Bruls, Kees Huizing, Jarke J. van Wijk.
+ * Joint Eurographics and IEEE TCVG Symposium on Visualization, IEEE Computer Society, pp. 33-42, 1999.
+ */
 class Squarified extends LayoutAlgorithm with LayoutUtils {
 
   void layout(BranchNode parent) {

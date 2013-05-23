@@ -1,11 +1,12 @@
 part of treemap_ui.layout;
 
 /**
- * Implementation of the split layout algorithm. For further details see
- * 'Ordered and Unordered Treemap Algorithms and their Applications on Handheld Devices' 
- * by Björn Engdahl.
- * Master's Degree Project, Royal Institute of Technology Stockholm, Sweden (2005).
- **/
+ * Implementation of the split layout algorithm.
+ *
+ * For further details see 'Ordered and Unordered Treemap Algorithms and their 
+ * Applications on Handheld Devices' by Björn Engdahl. Master's Degree Project,
+ * Royal Institute of Technology Stockholm, Sweden (2005).
+ */
 class Split implements LayoutAlgorithm {
   
   void layout(BranchNode parent) {

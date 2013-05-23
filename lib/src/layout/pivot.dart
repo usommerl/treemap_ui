@@ -14,11 +14,12 @@ PivotSelectionStrategy byMiddle =
   (Iterable<DataModel> models) => models.elementAt(models.length ~/ 2);
 
 /**
- * Implementation of the pivot layout algorithm. For further details see
- * 'Ordered Treemap Layouts' by Ben Shneiderman and Martin Wattenberg.
+ * Implementation of the pivot layout algorithm. 
+ *
+ * For further details see 'Ordered Treemap Layouts' by Ben Shneiderman and Martin Wattenberg.
  * In proceedings of the IEEE Symposium on Information Visualization (INFOVIS),
  * IEEE Computer Society, pp. 73-78, 2001.
- **/
+ */
 class Pivot extends LayoutAlgorithm with LayoutUtils {
     
   PivotSelectionStrategy _selectionStrategy;

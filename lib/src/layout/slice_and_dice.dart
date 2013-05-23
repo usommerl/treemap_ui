@@ -1,10 +1,11 @@
 part of treemap_ui.layout;
 
 /**
- * Implementation of the slice-and-dice layout algorithm. For further details see
- * 'Tree Visualization with Tree-Maps: 2-d Space-filling Approach' by Ben Shneiderman.
- * ACM Transactions on Graphics, 11(1), pp. 92-99, 1992.
- **/
+ * Implementation of the slice-and-dice layout algorithm. 
+ *
+ * For further details see 'Tree Visualization with Tree-Maps: 2-d Space-filling Approach' 
+ * by Ben Shneiderman. ACM Transactions on Graphics, 11(1), pp. 92-99, 1992.
+ */
 class SliceAndDice implements LayoutAlgorithm {
 
   int _remainderVerticalOrientation;
