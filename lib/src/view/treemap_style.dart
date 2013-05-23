@@ -37,7 +37,7 @@ class TreemapStyle {
      _onChange = _onChangeController.stream.asBroadcastStream();
   }
 
-  /// Stream of events which are triggered when a property of this instance is modified.
+  /// Events which are triggered when a property of this instance is modified.
   Stream get onChange => _onChange;
 
   /// Background color of the branch padding area.
