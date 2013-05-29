@@ -6,7 +6,7 @@ A [treemap][] user interface component for web applications written in [Dart][].
 Features
 --------
 - Appearance of treemap nodes is completely customizable
-- Live updates on data model modifications 
+- Supports live updates on data model changes 
 - Includes several layout algorithms
     - Slice-And-Dice
     - Strip
@@ -32,13 +32,19 @@ Then run the package manager [pub][]:
 
     pub install
 
-**Disclaimer:**
-*This is an experimental library and the APIs are not finished. Updating may break your code.*
+**Disclaimer:** *This is a experimental library and the APIs are not finished. Updating may break your code.*
+
+Usage
+-----
+- [Basic Example] (https://github.com/usommerl/treemap_ui/wiki/Basic-Example)
 
 Collaboration
 -------------
 Patches and pull requests are welcome. Please file issues in our [issue tracker].
 
+License
+-------
+Licensed under the Apache License, Version 2.0
 
 
 [issue tracker]: https://github.com/usommerl/treemap_ui/issues
