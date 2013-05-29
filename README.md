@@ -36,7 +36,8 @@ Then run the package manager [pub][]:
 
 Usage
 -----
-- [Basic Example] (https://github.com/usommerl/treemap_ui/wiki/Basic-Example)
+- [Basic Example][]
+- [API Documentation][]
 
 Collaboration
 -------------
@@ -52,3 +53,6 @@ Licensed under the Apache License, Version 2.0
 [TreemapUI]: https://github.com/usommerl/treemap_ui/
 [Dart]: http://www.dartlang.org/
 [pub]: http://www.dartlang.org/docs/pub-package-manager/
+[Basic Example]: https://github.com/usommerl/treemap_ui/wiki/Basic-Example
+[API Documentation]: https://googledrive.com/host/0B7SuAtTI9WeHZk1tMkFDbHRpUk0/index.html
+
