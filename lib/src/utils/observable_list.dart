@@ -142,6 +142,8 @@ class ObservableList<E> implements List<E> {
   Iterator<E> get iterator => _list.iterator;
 
   bool get isEmpty => _list.isEmpty;
+  
+  bool get isNotEmpty => _list.isNotEmpty;
 
   int get length => _list.length;
   
