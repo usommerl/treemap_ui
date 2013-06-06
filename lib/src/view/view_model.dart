@@ -10,7 +10,7 @@ class ViewModel {
   Element _cachedHtmlParent;
   Element _cachedNextSibling;
 
-  ViewModel(this._treemap);
+  ViewModel(Treemap this._treemap);
 
   Map<String,String> get styleNames => _treemap.style._classNames;
 

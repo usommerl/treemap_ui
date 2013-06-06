@@ -11,8 +11,7 @@ class TreemapStyle {
   static int _instanceCounter = 1;
   static final _validBorderStyles = ["none","hidden","dotted","dashed","solid","double",
                                      "groove", "ridge", "inset", "outset", "inherit"];
-  Stream _onChange;
-  final StreamController _onChangeController = new StreamController();
+  final StreamController _onChangeController = new StreamController.broadcast();
   String _prefix;
   Color _branchColor;
   Color _borderColor;
@@ -34,11 +33,10 @@ class TreemapStyle {
      _borderWidth = borderWidth;
      _borderStyle = borderStyle;
      _prefix = "tm${_instanceCounter++}-";
-     _onChange = _onChangeController.stream.asBroadcastStream();
   }
 
   /// Events which are triggered when a property of this instance is modified.
-  Stream get onChange => _onChange;
+  Stream get onChange => _onChangeController.stream;
 
   /// Background color of the branch padding area.
   Color get branchColor => _branchColor;

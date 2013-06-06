@@ -2,28 +2,21 @@ part of treemap_ui.utils;
 
 class ObservableList<E> implements List<E> {
 
-  Stream<E> _onAdd;
-  Stream<E> _onRemove;
-  Stream<E> _onUpdate;
-  final StreamController<E> _onAddController = new StreamController<E>();
-  final StreamController<E> _onRemoveController = new StreamController<E>();
-  final StreamController<ListUpdateEvent<E>> _onUpdateController = new StreamController<ListUpdateEvent<E>>();
+  final StreamController<E> _onAddController = new StreamController<E>.broadcast();
+  final StreamController<E> _onRemoveController = new StreamController<E>.broadcast();
+  final StreamController<ListUpdateEvent<E>> _onUpdateController = new StreamController<ListUpdateEvent<E>>.broadcast();
   final List<E> _list;
 
-  ObservableList._internal(List<E> this._list) {
-    _onAdd = _onAddController.stream.asBroadcastStream();
-    _onRemove = _onRemoveController.stream.asBroadcastStream();
-    _onUpdate = _onUpdateController.stream.asBroadcastStream();
-  }
+  ObservableList._internal(List<E> this._list);
 
   factory ObservableList.from(Iterable other) =>
     new ObservableList._internal(new List<E>.from(other));
 
-  Stream<E> get onAdd => _onAdd;
+  Stream<E> get onAdd => _onAddController.stream;
 
-  Stream<E> get onRemove => _onRemove;
+  Stream<E> get onRemove => _onRemoveController.stream;
   
-  Stream<ListUpdateEvent<E>> get onUpdate => _onUpdate;
+  Stream<ListUpdateEvent<E>> get onUpdate => _onUpdateController.stream;
 
   void add(E value) {
     _list.add(value);

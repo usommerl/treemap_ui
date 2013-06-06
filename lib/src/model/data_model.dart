@@ -10,15 +10,8 @@ abstract class DataModel {
 
   AbstractBranch _root;
   AbstractBranch _parent;
-  Stream _onStructuralChange;
-  Stream _onContentChange;
-  final StreamController _structuralChangeController = new StreamController();
-  final StreamController _contentChangeController = new StreamController();
-  
-  DataModel() {
-    _onStructuralChange = _structuralChangeController.stream.asBroadcastStream();
-    _onContentChange = _contentChangeController.stream.asBroadcastStream();
-  }
+  final StreamController _structuralChangeController = new StreamController.broadcast();
+  final StreamController _contentChangeController = new StreamController.broadcast();
   
   /// Parent object of `this`.
   AbstractBranch get parent => _parent;
@@ -45,7 +38,7 @@ abstract class DataModel {
    * affect the entire visual representation of a treemap. A [Treemap] instance listens to 
    * this stream to determine when it needs to repaint itself entirely.
    */
-  Stream get onStructuralChange => _onStructuralChange;
+  Stream get onStructuralChange => _structuralChangeController.stream;
 
   /**
    * Events which are triggered by changes to the visual properties of this data model.
@@ -53,7 +46,7 @@ abstract class DataModel {
    * The treemap listens to this stream to determine when a single node needs to be repainted.
    * A custom [DataModel] can generate such events by calling [repaintNode].
    */
-  Stream get onContentChange => _onContentChange;
+  Stream get onContentChange => _contentChangeController.stream;
 
   /// HTML element that will be displayed as the label of the corresponding treemap node.
   Element get label;
