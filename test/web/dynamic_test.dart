@@ -41,7 +41,7 @@ main() {
   registerListeners();
 
   modelInput.valueAsNumber = 2;
-  algorithmSelect.value = "${Pivot}";
+  algorithmSelect.value = "${Squarified}";
   treemap = new Treemap(treemapContainer, selectedModel, selectedAlgorithm);
   borderColorSelect.value = treemap.style.borderColor.toString();
   borderStyleSelect.value = treemap.style.borderStyle;

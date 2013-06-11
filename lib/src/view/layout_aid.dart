@@ -7,7 +7,6 @@ class LayoutAid implements NodeContainer {
   final Orientation orientation;
   final Percentage width;
   final Percentage height;
-  final StreamController<Node> _onChildAddController = new StreamController();
 
   LayoutAid._internal(this.width, this.height, this._parent, this.orientation) {
     container.classes.add("${nodeContainerRoot.viewModel.styleNames[runtimeType.toString()]}");
@@ -33,7 +32,7 @@ class LayoutAid implements NodeContainer {
 
   void add(Node child) {
     container.append(child.container);
-    _onChildAddController.add(child);
+    nodeContainerRoot._register(child);
   }
   
   void addLayoutAid(LayoutAid aid) {
@@ -44,6 +43,4 @@ class LayoutAid implements NodeContainer {
   
   BranchNode get nodeContainerRoot => _parent.nodeContainerRoot;
   
-  Stream<Node> get onChildAdd => _onChildAddController.stream;
-
 }

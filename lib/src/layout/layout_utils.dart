@@ -40,7 +40,7 @@ abstract class LayoutUtils {
    */
   Iterable<DataModel> _notPlacedModels(NodeContainer nodeContainer) {
     final parentBranch = nodeContainer.nodeContainerRoot;
-    final placedModels = parentBranch.children.map((Node child) => child.dataModel);
+    final placedModels = parentBranch.children.map((Node child) => child.dataModel).toList();
     return parentBranch.dataModel.children.where((DataModel child) => !placedModels.contains(child));
   }
 

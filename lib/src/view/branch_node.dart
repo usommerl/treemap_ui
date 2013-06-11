@@ -47,7 +47,6 @@ class BranchNode extends Node implements NodeContainer {
   void addLayoutAid(LayoutAid layoutAid) {
     layoutAids.add(layoutAid);
     _content.append(layoutAid.container);
-    _subscriptions.add(layoutAid.onChildAdd.listen((node) => _register(node)));
   }
 
   AbstractBranch get dataModel => _dataModel;
