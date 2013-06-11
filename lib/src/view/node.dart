@@ -57,7 +57,7 @@ abstract class Node implements Attachable {
       _parent = parent;
       _parentCompleter.complete(parent);
     } else {
-      throw new RuntimeError("Parent already set. You can set the parent only once.");
+      throw new UnsupportedError("Parent already set. You can set the parent only once.");
     }
   }
 

@@ -1,5 +1,5 @@
 import 'package:unittest/unittest.dart';
-import '../lib/utils.dart';
+import 'package:treemap_ui/utils.dart';
 
 main() {
   group('color tests -', () {

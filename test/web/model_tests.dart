@@ -1,6 +1,6 @@
-import '../../packages/unittest/unittest.dart';
-import '../../packages/unittest/html_config.dart';
-import '../../lib/model.dart';
+import 'package:unittest/unittest.dart';
+import 'package:unittest/html_config.dart';
+import 'package:treemap_ui/model.dart';
 import '../resources/test_resources.dart';
 
 main() {
