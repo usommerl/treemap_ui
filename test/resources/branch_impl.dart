@@ -1,12 +1,12 @@
 part of treemap_test_resources;
 
-class Branch extends AbstractBranch {
+class BranchImpl extends Branch {
 
-  Branch([List<DataModel> children]) : super(children) {
+  BranchImpl([List<DataModel> children]) : super(children) {
     var counter = 0;
     this.children.forEach((child) {
       if (child.isLeaf) {
-        (child as Leaf).someProperty = counter++;
+        (child as LeafImpl).someProperty = counter++;
       }
     });
   }
@@ -23,12 +23,12 @@ class Branch extends AbstractBranch {
   }
 
   /**
-   * Creates a deep copy of this [Branch].
+   * Creates a deep copy of this [BranchImpl].
    * The parent reference will **not** be copied to the clone.
    **/
-  Branch copy() {
+  BranchImpl copy() {
     List<DataModel> childrenCopy = new List();
     children.forEach((child) => childrenCopy.add(child.copy()));
-    return new Branch(childrenCopy);
+    return new BranchImpl(childrenCopy);
   }
 }

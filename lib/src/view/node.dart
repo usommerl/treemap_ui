@@ -32,7 +32,7 @@ abstract class Node implements Attachable {
     rectifyAppearance();
     _modelSubscription = dataModel.onContentChange.listen((_) {
       if (viewModel.automaticUpdatesEnabled) {
-        repaintContent();
+        repaint();
       }
     });
   }
@@ -102,7 +102,7 @@ abstract class Node implements Attachable {
 
   DataModel get dataModel;
 
-  void repaintContent() {
+  void repaint() {
     _nodeLabel.repaintContent();
   }
 

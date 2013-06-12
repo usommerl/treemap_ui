@@ -19,7 +19,7 @@ abstract class LayoutUtils {
     if (models.isEmpty) {
       return [];
     } else {
-      assert(models.every((child) => parent.nodeContainerRoot.dataModel.children.contains(child)));
+      assert(models.every((child) => parent.node.dataModel.children.contains(child)));
       List<num> aspectRatios = new List();
       final shortEdge = orientation.isVertical ? _availableWidth(parent) : _availableHeight(parent);
       final longEdge = orientation.isVertical ? _availableHeight(parent) : _availableWidth(parent);
@@ -39,7 +39,7 @@ abstract class LayoutUtils {
    * which have no corresponding [Node] instance registered
    */
   Iterable<DataModel> _notPlacedModels(NodeContainer nodeContainer) {
-    final parentBranch = nodeContainer.nodeContainerRoot;
+    final parentBranch = nodeContainer.node;
     final placedModels = parentBranch.children.map((Node child) => child.dataModel).toList();
     return parentBranch.dataModel.children.where((DataModel child) => !placedModels.contains(child));
   }

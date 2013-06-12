@@ -9,13 +9,11 @@ class LayoutAid implements NodeContainer {
   final Percentage height;
 
   LayoutAid._internal(this.width, this.height, this._parent, this.orientation) {
-    container.classes.add("${nodeContainerRoot.viewModel.styleNames[runtimeType.toString()]}");
+    container.classes.add("${node.viewModel.styleNames[runtimeType.toString()]}");
     container.style..width = width.toString()
-        ..height = height.toString();
-    nodeContainerRoot.addLayoutAid(this);
-    if (_parent is LayoutAid) {
-      _parent.addLayoutAid(this);
-    }
+                   ..height = height.toString();
+    node.layoutAids.add(this);
+    _parent.mount(this);
   }
 
   factory LayoutAid.expand(Percentage size, NodeContainer parent, Orientation orientation) {
@@ -32,15 +30,15 @@ class LayoutAid implements NodeContainer {
 
   void add(Node child) {
     container.append(child.container);
-    nodeContainerRoot._register(child);
+    node.register(child);
   }
   
-  void addLayoutAid(LayoutAid aid) {
+  void mount(LayoutAid aid) {
     container.append(aid.container);
   }
   
   Rect get client => container.client;
   
-  BranchNode get nodeContainerRoot => _parent.nodeContainerRoot;
+  BranchNode get node => _parent.node;
   
 }

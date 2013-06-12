@@ -40,7 +40,7 @@ class Squarified extends LayoutAlgorithm with LayoutUtils {
     final row = new LayoutAid.expand(percentageRowItems, parent, orientation);
     final newLayoutParent = new LayoutAid.expand(Percentage.ONE_HUNDRED - percentageRowItems, parent, orientation);
     rowModels.forEach((model) {
-      final node = _createNodeForRow(model, parent.nodeContainerRoot.viewModel, new Percentage.from(model.size, sumModels), orientation);
+      final node = _createNodeForRow(model, parent.node.viewModel, new Percentage.from(model.size, sumModels), orientation);
       row.add(node);
       if (node.isBranch) {
         layout(node);

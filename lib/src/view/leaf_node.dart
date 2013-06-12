@@ -13,10 +13,10 @@ class LeafNode extends Node {
     });
   }
 
-  AbstractLeaf get dataModel => _dataModel;
+  Leaf get dataModel => _dataModel;
 
-  void repaintContent() {
-    super.repaintContent();
+  void repaint() {
+    super.repaint();
     container.style.backgroundColor = dataModel.color.toString();
   }
 }

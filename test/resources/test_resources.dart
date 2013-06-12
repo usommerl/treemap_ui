@@ -3,27 +3,27 @@ import 'package:treemap_ui/treemap_ui.dart';
 export 'package:treemap_ui/treemap_ui.dart';
 import 'dart:html';
 
-part 'leaf.dart';
-part 'branch.dart';
+part 'leaf_impl.dart';
+part 'branch_impl.dart';
 
 
 class TestResources {
 
-  static final Leaf dataModel0 = new Leaf(10);
-  static final Branch dataModel1 = new Branch();
-  static final Branch dataModel2 = new Branch([new Leaf(10), new Leaf(50), new Leaf(0)]);
-  static final Branch dataModel3 = new Branch([dataModel0.copy(), new Leaf(20), new Leaf(100)]);
-  static final Branch dataModel4 = new Branch([dataModel3.copy(), new Leaf(70)]);
-  static final Branch dataModel5 = new Branch([new Leaf(10), new Leaf(10),
-                                     new Leaf(10), new Leaf(369),
-                                     new Leaf(804), new Leaf(10),
-                                     new Leaf(634), new Leaf(120),
-                                     new Leaf(731), new Leaf(384),
-                                     new Leaf(450), new Leaf(10),
-                                     new Leaf(10), new Leaf(10)]);
+  static final LeafImpl dataModel0 = new LeafImpl(10);
+  static final BranchImpl dataModel1 = new BranchImpl();
+  static final BranchImpl dataModel2 = new BranchImpl([new LeafImpl(10), new LeafImpl(50), new LeafImpl(0)]);
+  static final BranchImpl dataModel3 = new BranchImpl([dataModel0.copy(), new LeafImpl(20), new LeafImpl(100)]);
+  static final BranchImpl dataModel4 = new BranchImpl([dataModel3.copy(), new LeafImpl(70)]);
+  static final BranchImpl dataModel5 = new BranchImpl([new LeafImpl(10), new LeafImpl(10),
+                                     new LeafImpl(10), new LeafImpl(369),
+                                     new LeafImpl(804), new LeafImpl(10),
+                                     new LeafImpl(634), new LeafImpl(120),
+                                     new LeafImpl(731), new LeafImpl(384),
+                                     new LeafImpl(450), new LeafImpl(10),
+                                     new LeafImpl(10), new LeafImpl(10)]);
 
-  static final Branch dataModel6 = new Branch([new Leaf(1000),new Leaf(2000), new Branch([new Leaf(2), new Leaf(5), new Branch([new Leaf(3)])])]);
-  static final Branch dataModel7 = new Branch([dataModel0.copy(), dataModel4.copy()]);
+  static final BranchImpl dataModel6 = new BranchImpl([new LeafImpl(1000),new LeafImpl(2000), new BranchImpl([new LeafImpl(2), new LeafImpl(5), new BranchImpl([new LeafImpl(3)])])]);
+  static final BranchImpl dataModel7 = new BranchImpl([dataModel0.copy(), dataModel4.copy()]);
 
   static final List<DataModel> testDataModels = [dataModel0,dataModel1,dataModel2,dataModel3, dataModel4, dataModel5, dataModel6, dataModel7];
 

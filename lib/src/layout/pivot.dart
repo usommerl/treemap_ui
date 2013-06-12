@@ -40,7 +40,7 @@ class Pivot extends LayoutAlgorithm with LayoutUtils {
     if (models.isEmpty) {
       return;
     } else if (models.length == 1) {
-      Node node = new Node(models.first, container.nodeContainerRoot.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
+      Node node = new Node(models.first, container.node.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
       container.add(node);
       if (node.isBranch) {
         layout(node);
@@ -74,7 +74,7 @@ class Pivot extends LayoutAlgorithm with LayoutUtils {
       final percentageX = new Percentage.from(sumSizesPivotAndL2, sumSizesAllModels);
       final percentageY = new Percentage.from(pivot.size, sumSizesPivotAndL2);
       final layoutAidRpAndR2 = new LayoutAid.expand(percentageX, container, orientation); 
-      final rp = _createNodeForRow(pivot, container.nodeContainerRoot.viewModel, percentageY, orientation);
+      final rp = _createNodeForRow(pivot, container.node.viewModel, percentageY, orientation);
       layoutAidRpAndR2.add(rp);
       if (rp.isBranch) {
         layout(rp);

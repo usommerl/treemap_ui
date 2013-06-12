@@ -1,12 +1,12 @@
 part of treemap_ui.model;
 
 /// Base class for concrete implementations of a branch in a tree data structure.
-abstract class AbstractBranch extends DataModel {
+abstract class Branch extends DataModel {
 
   /// A list of child elements of this branch.
   final ObservableList<DataModel> children;
 
-  AbstractBranch([Iterable<DataModel> children])
+  Branch([Iterable<DataModel> children])
           : children = children == null ?
                 new ObservableList.from([]) :
                 new ObservableList.from(children) {

@@ -19,7 +19,7 @@ class Split implements LayoutAlgorithm {
       return;
     } else if (partitions.length == 1) {
       DataModel model = partitions.first.first;
-      Node node = new Node(model, nodeContainer.nodeContainerRoot.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
+      Node node = new Node(model, nodeContainer.node.viewModel, Percentage.ONE_HUNDRED, Percentage.ONE_HUNDRED, Orientation.VERTICAL);
       nodeContainer.add(node);
       if (node.isBranch) {
         layout(node);

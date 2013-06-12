@@ -1,6 +1,6 @@
 part of treemap_test_resources;
 
-class Leaf extends AbstractLeaf {
+class LeafImpl extends Leaf {
 
   int _someProperty = 0;
 
@@ -21,7 +21,7 @@ class Leaf extends AbstractLeaf {
                          Color.LIGHT_STEEL_BLUE, Color.MEDIUM_VIOLET_RED,
                          Color.ROSY_BROWN, Color.YELLOW_GREEN];
 
-  Leaf(num size) : super(size);
+  LeafImpl(num size) : super(size);
 
   Element get label => new Element.html("<span class='myLabel'>${_someProperty}</span>");
 
@@ -50,10 +50,10 @@ class Leaf extends AbstractLeaf {
   }
 
   /**
-   * Creates a deep copy of this [Leaf].
+   * Creates a deep copy of this [LeafImpl].
    * The parent reference will **not** be copied to the clone.
    **/
-  Leaf copy() {
-    return new Leaf(size);
+  LeafImpl copy() {
+    return new LeafImpl(size);
   }
 }

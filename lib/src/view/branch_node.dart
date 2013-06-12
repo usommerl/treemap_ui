@@ -36,22 +36,21 @@ class BranchNode extends Node implements NodeContainer {
 
   void add(Node child) {
     _content.append(child.container);
-    _register(child);
+    register(child);
   }
 
-  void _register(Node child) {
+  void register(Node child) {
     child.setParent(this);
     children.add(child);
   }
 
-  void addLayoutAid(LayoutAid layoutAid) {
-    layoutAids.add(layoutAid);
-    _content.append(layoutAid.container);
+  void mount(LayoutAid aid) {
+    _content.append(aid.container);
   }
 
-  AbstractBranch get dataModel => _dataModel;
+  Branch get dataModel => _dataModel;
   
-  BranchNode get nodeContainerRoot => this;
+  BranchNode get node => this;
   
   Rect get client => _content.client;
 

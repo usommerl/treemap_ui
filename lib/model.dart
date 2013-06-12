@@ -5,5 +5,5 @@ import 'dart:async';
 import 'utils.dart' show Color, ObservableList;
 
 part 'src/model/data_model.dart';
-part 'src/model/abstract_leaf.dart';
-part 'src/model/abstract_branch.dart';
+part 'src/model/leaf.dart';
+part 'src/model/branch.dart';

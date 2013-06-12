@@ -1,11 +1,11 @@
 part of treemap_ui.model;
 
 /// Base class for concrete implementations of a leaf in a tree data structure.
-abstract class AbstractLeaf extends DataModel {
+abstract class Leaf extends DataModel {
 
   num _size;
 
-  AbstractLeaf(num this._size) {
+  Leaf(num this._size) {
       _validateSizeArgument(size);
   }
 

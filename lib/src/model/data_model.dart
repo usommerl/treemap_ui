@@ -3,21 +3,21 @@ part of treemap_ui.model;
 /**
  * Base class for a [Treemap] data model.
  *
- * The classes [AbstractLeaf] and [AbstractBranch] extend 
+ * The classes [Leaf] and [Branch] extend 
  * this class to compose a tree data structure.
  */
 abstract class DataModel {
 
-  AbstractBranch _root;
-  AbstractBranch _parent;
+  Branch _root;
+  Branch _parent;
   final StreamController _structuralChangeController = new StreamController.broadcast();
   final StreamController _contentChangeController = new StreamController.broadcast();
   
   /// Parent object of `this`.
-  AbstractBranch get parent => _parent;
+  Branch get parent => _parent;
 
   /// Root object of the entire data structure.
-  AbstractBranch get root => this.isRoot ? this : parent.root;
+  Branch get root => this.isRoot ? this : parent.root;
 
   /**
    * Hierarchy level of this [DataModel]

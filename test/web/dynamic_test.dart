@@ -221,7 +221,7 @@ void registerListeners() {
     if(modelInput.validity.valid) {
       final index = modelInput.valueAsNumber.toInt();
       final tmp = TestResources.testDataModels.elementAt(index);
-      final copy = tmp.isBranch ? (tmp as Branch).copy() : (tmp as Leaf).copy();
+      final copy = tmp.isBranch ? (tmp as BranchImpl).copy() : (tmp as LeafImpl).copy();
       modelMap[index] = copy;
       treemap.model = selectedModel;
     }
@@ -287,9 +287,9 @@ final randomSizeCallback = (Timer timer) =>
   timerCallback(timer, sizeUpdateCheckbox, (l,r) => l.size = r.nextInt(1000));
 
 final randomPropertyCallback = (Timer timer) =>
-  timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000) + Leaf.grayscale.length);
+  timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000) + LeafImpl.grayscale.length);
 
-final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(Leaf l, Random r)) {
+final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(LeafImpl l, Random r)) {
   final Random r = new Random();
   if (checkbox.checked) {
     final leafes = leafesOnly(selectedModel);
@@ -300,12 +300,12 @@ final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(Leaf l
   }
 };
 
-List<Leaf> leafesOnly(DataModel model) {
-  final List<AbstractLeaf> result = [];
+List<LeafImpl> leafesOnly(DataModel model) {
+  final List<Leaf> result = [];
   if (model.isLeaf) {
     result.add(model);
   } else {
-    final branch = model as AbstractBranch;
+    final branch = model as Branch;
     branch.children.map((child) => leafesOnly(child)).forEach((x) => result.addAll(x));
   }
   return result;

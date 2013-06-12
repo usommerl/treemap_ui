@@ -27,9 +27,9 @@ abstract class NodeContainer extends Attachable{
   
   void add(Node child);
   
-  void addLayoutAid(LayoutAid layoutAid);
+  void mount(LayoutAid layoutAid);
   
-  BranchNode get nodeContainerRoot;
+  BranchNode get node;
   
   Rect get client;
 
