@@ -13,16 +13,16 @@ abstract class Branch extends DataModel {
     this.children.forEach((child) => child._parent = this);
     this.children.onAdd.listen((newChild) {
       newChild._parent = this;
-      _propagateModelChange();
+      _propagateStructuralChange();
     });
     this.children.onRemove.listen((removedChild) {
       removedChild._parent = null;
-      _propagateModelChange();
+      _propagateStructuralChange();
     });
     this.children.onUpdate.listen((event) {
       event.oldValue._parent = null;
       event.newValue._parent = this;
-      _propagateModelChange();
+      _propagateStructuralChange();
     });
   }
 

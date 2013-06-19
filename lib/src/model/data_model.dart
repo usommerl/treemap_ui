@@ -11,12 +11,12 @@ abstract class DataModel {
   Branch _root;
   Branch _parent;
   final StreamController _structuralChangeController = new StreamController.broadcast();
-  final StreamController _contentChangeController = new StreamController.broadcast();
+  final StreamController _visiblePropertyChangeController = new StreamController.broadcast();
   
-  /// Parent object of `this`.
+  /// Parent [DataModel] of `this`.
   Branch get parent => _parent;
 
-  /// Root object of the entire data structure.
+  /// Root [DataModel] of the entire data structure.
   Branch get root => this.isRoot ? this : parent.root;
 
   /**
@@ -33,20 +33,21 @@ abstract class DataModel {
   /**
    * Events which are triggered by changes to the structure of the data model.
    * 
-   * Structural changes are for example the removal of a child or the modification
-   * of the [size] of a data model. It is called structural change because such modifications
-   * affect the entire visual representation of a treemap. A [Treemap] instance listens to 
-   * this stream to determine when it needs to repaint itself entirely.
+   * Examples for structural changes are the removal of a child or the modification
+   * of the [size] of a [DataModel]. This affects the entire visual representation 
+   * of the treemap. The [DataModel] generates these events automatically and the 
+   * [Treemap] instance listens to this stream to determine when it needs to repaint 
+   * itself entirely.
    */
   Stream get onStructuralChange => _structuralChangeController.stream;
 
   /**
    * Events which are triggered by changes to the visual properties of this data model.
    *
-   * The treemap listens to this stream to determine when a single node needs to be repainted.
-   * A custom [DataModel] can generate such events by calling [repaintNode].
+   * The [Treemap] instance listens to this stream to determine when a node needs to be repainted.
+   * A custom [DataModel] can generate such events by calling [fireVisiblePropertyChangedEvent].
    */
-  Stream get onContentChange => _contentChangeController.stream;
+  Stream get onVisiblePropertyChange => _visiblePropertyChangeController.stream;
 
   /// HTML element that will be displayed as the label of the corresponding treemap node.
   Element get label;
@@ -55,14 +56,13 @@ abstract class DataModel {
   Element get tooltip;
 
   /**
-   * Triggers a [onContentChange] event.
+   * Notifies the treemap that a visual property has changed.
    *
-   * Use this method in a concrete data model to notify the treemap that a 
-   * property has changed which in turn affects the label, tooltip or color 
-   * of the corresponding node.
+   * Call this method in your custom data model when a property has
+   * changed that affects the label, tooltip or color of a treemap node. 
    */
-  void repaintNode() {
-    _contentChangeController.add(null);
+  void fireVisiblePropertyChangedEvent() {
+    _visiblePropertyChangeController.add(null);
   }
 
   bool get isRoot => _parent == null;
@@ -71,10 +71,10 @@ abstract class DataModel {
 
   bool get isLeaf;
 
-  _propagateModelChange() {
+  _propagateStructuralChange() {
     _structuralChangeController.add(null);
     if (parent != null) {
-      parent._propagateModelChange();
+      parent._propagateStructuralChange();
     }
   }
 }

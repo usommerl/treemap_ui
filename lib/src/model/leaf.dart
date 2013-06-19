@@ -16,7 +16,7 @@ abstract class Leaf extends DataModel {
   set size(num size) {
     _validateSizeArgument(size);
     _size = size;
-    _propagateModelChange();
+    _propagateStructuralChange();
   }
 
   void _validateSizeArgument(num size) {

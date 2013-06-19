@@ -36,7 +36,7 @@ class LeafImpl extends Leaf {
 
   set someProperty(int value) {
     _someProperty = value;
-    repaintNode();
+    fireVisiblePropertyChangedEvent();
   }
 
   int get someProperty => _someProperty;

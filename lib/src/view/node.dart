@@ -30,7 +30,7 @@ abstract class Node implements Attachable {
                    ..height = height.toString();
     _nodeLabel = new NodeLabel(this);
     rectifyAppearance();
-    _modelSubscription = dataModel.onContentChange.listen((_) {
+    _modelSubscription = dataModel.onVisiblePropertyChange.listen((_) {
       if (viewModel.automaticUpdatesEnabled) {
         repaint();
       }
