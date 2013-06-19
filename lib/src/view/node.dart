@@ -99,6 +99,8 @@ abstract class Node implements Attachable {
   bool get isBranch => !isLeaf;
   
   Rect get client => _content.client;
+  
+  Decorator get decorator;
 
   DataModel get dataModel;
 

@@ -1,19 +1,18 @@
 import 'package:unittest/unittest.dart';
-import 'package:unittest/html_config.dart';
+//import 'package:unittest/html_config.dart';
 import 'package:treemap_ui/model.dart';
-import '../resources/test_resources.dart';
 
 main() {
-  useHtmlConfiguration();
+//  useHtmlConfiguration();
   group('model tests -', () {
     var leaf1, leaf2, leaf3, branch1, branch2;
 
     setUp(() {
-      leaf1 = new LeafImpl(5);
-      leaf2 = new LeafImpl(2);
-      leaf3 = new LeafImpl(10);
-      branch1 = new BranchImpl([leaf1,leaf2]);
-      branch2 = new BranchImpl([branch1,leaf3]);
+      leaf1 = new Leaf(5);
+      leaf2 = new Leaf(2);
+      leaf3 = new Leaf(10);
+      branch1 = new Branch([leaf1,leaf2]);
+      branch2 = new Branch([branch1,leaf3]);
     });
 
     test('x.size (branch with two leafes)', () {
@@ -22,8 +21,8 @@ main() {
     test('x.size (branch with three leafes)', () {
       expect(branch2.size, equals(branch1.size + leaf3.size));
     });
-    test('${new LeafImpl(1).runtimeType}(size,...) (size < 0 => exception)', () {
-      expect(() => new LeafImpl(-1),
+    test('${new Leaf(1).runtimeType}(size,...) (size < 0 => exception)', () {
+      expect(() => new Leaf(-1),
           throwsA(new isInstanceOf<ArgumentError>()));
     });
     test('x.depth', () {

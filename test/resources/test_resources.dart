@@ -3,27 +3,28 @@ import 'package:treemap_ui/treemap_ui.dart';
 export 'package:treemap_ui/treemap_ui.dart';
 import 'dart:html';
 
-part 'leaf_impl.dart';
-part 'branch_impl.dart';
+part 'custom_leaf.dart';
+part 'custom_branch.dart';
+part 'custom_leaf_decorator.dart';
 
 
 class TestResources {
 
-  static final LeafImpl dataModel0 = new LeafImpl(10);
-  static final BranchImpl dataModel1 = new BranchImpl();
-  static final BranchImpl dataModel2 = new BranchImpl([new LeafImpl(10), new LeafImpl(50), new LeafImpl(0)]);
-  static final BranchImpl dataModel3 = new BranchImpl([dataModel0.copy(), new LeafImpl(20), new LeafImpl(100)]);
-  static final BranchImpl dataModel4 = new BranchImpl([dataModel3.copy(), new LeafImpl(70)]);
-  static final BranchImpl dataModel5 = new BranchImpl([new LeafImpl(10), new LeafImpl(10),
-                                     new LeafImpl(10), new LeafImpl(369),
-                                     new LeafImpl(804), new LeafImpl(10),
-                                     new LeafImpl(634), new LeafImpl(120),
-                                     new LeafImpl(731), new LeafImpl(384),
-                                     new LeafImpl(450), new LeafImpl(10),
-                                     new LeafImpl(10), new LeafImpl(10)]);
+  static final CustomLeaf dataModel0 = new CustomLeaf(10);
+  static final CustomBranch dataModel1 = new CustomBranch();
+  static final CustomBranch dataModel2 = new CustomBranch([new CustomLeaf(10), new CustomLeaf(50), new CustomLeaf(0)]);
+  static final CustomBranch dataModel3 = new CustomBranch([dataModel0.copy(), new CustomLeaf(20), new CustomLeaf(100)]);
+  static final CustomBranch dataModel4 = new CustomBranch([dataModel3.copy(), new CustomLeaf(70)]);
+  static final CustomBranch dataModel5 = new CustomBranch([new CustomLeaf(10), new CustomLeaf(10),
+                                     new CustomLeaf(10), new CustomLeaf(369),
+                                     new CustomLeaf(804), new CustomLeaf(10),
+                                     new CustomLeaf(634), new CustomLeaf(120),
+                                     new CustomLeaf(731), new CustomLeaf(384),
+                                     new CustomLeaf(450), new CustomLeaf(10),
+                                     new CustomLeaf(10), new CustomLeaf(10)]);
 
-  static final BranchImpl dataModel6 = new BranchImpl([new LeafImpl(1000),new LeafImpl(2000), new BranchImpl([new LeafImpl(2), new LeafImpl(5), new BranchImpl([new LeafImpl(3)])])]);
-  static final BranchImpl dataModel7 = new BranchImpl([dataModel0.copy(), dataModel4.copy()]);
+  static final CustomBranch dataModel6 = new CustomBranch([new CustomLeaf(1000),new CustomLeaf(2000), new CustomBranch([new CustomLeaf(2), new CustomLeaf(5), new CustomBranch([new CustomLeaf(3)])])]);
+  static final CustomBranch dataModel7 = new CustomBranch([dataModel0.copy(), dataModel4.copy()]);
 
   static final List<DataModel> testDataModels = [dataModel0,dataModel1,dataModel2,dataModel3, dataModel4, dataModel5, dataModel6, dataModel7];
 

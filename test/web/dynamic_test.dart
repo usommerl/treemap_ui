@@ -42,7 +42,8 @@ main() {
 
   modelInput.valueAsNumber = 2;
   algorithmSelect.value = "${Squarified}";
-  treemap = new Treemap(treemapContainer, selectedModel, selectedAlgorithm);
+  treemap = new Treemap(treemapContainer, selectedModel, selectedAlgorithm,
+                        leafDecorator: const CustomLeafDecorator());
   borderColorSelect.value = treemap.style.borderColor.toString();
   borderStyleSelect.value = treemap.style.borderStyle;
   branchColorSelect.value = treemap.style.branchColor.toString();
@@ -221,7 +222,7 @@ void registerListeners() {
     if(modelInput.validity.valid) {
       final index = modelInput.valueAsNumber.toInt();
       final tmp = TestResources.testDataModels.elementAt(index);
-      final copy = tmp.isBranch ? (tmp as BranchImpl).copy() : (tmp as LeafImpl).copy();
+      final copy = tmp.isBranch ? (tmp as CustomBranch).copy() : (tmp as CustomLeaf).copy();
       modelMap[index] = copy;
       treemap.model = selectedModel;
     }
@@ -287,9 +288,9 @@ final randomSizeCallback = (Timer timer) =>
   timerCallback(timer, sizeUpdateCheckbox, (l,r) => l.size = r.nextInt(1000));
 
 final randomPropertyCallback = (Timer timer) =>
-  timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000) + LeafImpl.grayscale.length);
+  timerCallback(timer, propertyUpdateCheckbox, (l,r) => l.someProperty = r.nextInt(1000) + CustomLeafDecorator.grayscale.length);
 
-final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(LeafImpl l, Random r)) {
+final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(CustomLeaf l, Random r)) {
   final Random r = new Random();
   if (checkbox.checked) {
     final leafes = leafesOnly(selectedModel);
@@ -300,7 +301,7 @@ final timerCallback = (Timer timer, CheckboxInputElement checkbox, void f(LeafIm
   }
 };
 
-List<LeafImpl> leafesOnly(DataModel model) {
+List<CustomLeaf> leafesOnly(DataModel model) {
   final List<Leaf> result = [];
   if (model.isLeaf) {
     result.add(model);

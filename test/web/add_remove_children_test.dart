@@ -4,23 +4,24 @@ import '../resources/test_resources.dart';
 
 main() {
     final size = window.innerHeight - 16;
+    final levelsOfGray = CustomLeafDecorator.grayscale.length;
     final componentRoot = document.query("#treemapContainer");
     componentRoot.style..width = "${size}px"..height = "${size}px";
     Treemap treemap;
-    final leaf1 = new LeafImpl(100);
-    final leaf2 = new LeafImpl(200);
-    final leaf3 = new LeafImpl(700);
+    final leaf1 = new CustomLeaf(100);
+    final leaf2 = new CustomLeaf(200);
+    final leaf3 = new CustomLeaf(700);
     var i = 0;
-    leaf1.someProperty = LeafImpl.grayscale.length + i++;
-    leaf2.someProperty = LeafImpl.grayscale.length + i++;
-    leaf3.someProperty = LeafImpl.grayscale.length + i++;
+    leaf1.someProperty = levelsOfGray + i++;
+    leaf2.someProperty = levelsOfGray + i++;
+    leaf3.someProperty = levelsOfGray + i++;
     final copy1 = leaf1.copy();
-    copy1.someProperty = LeafImpl.grayscale.length + i++;
+    copy1.someProperty = levelsOfGray + i++;
     final copy2 = leaf2.copy();
-    copy2.someProperty = LeafImpl.grayscale.length + i++;
+    copy2.someProperty = levelsOfGray + i++;
     final copy3 = leaf3.copy();
-    copy3.someProperty = LeafImpl.grayscale.length + i++;
-    final model = (TestResources.dataModel5 as BranchImpl).copy();
+    copy3.someProperty = levelsOfGray + i++;
+    final model = (TestResources.dataModel5 as CustomBranch).copy();
     treemap = new Treemap(componentRoot, model, TestResources.layoutAlgorithms.last);
 
     new Timer(const Duration(milliseconds: 500), () {
@@ -44,10 +45,10 @@ main() {
       new Timer(const Duration(milliseconds: 500), () => model.children.removeLast());
       new Timer(const Duration(milliseconds: 1000), () => model.children.retainAll([copy2, copy1]));
       new Timer(const Duration(milliseconds: 2500), () => model.children.removeWhere(
-         (e) => (e as LeafImpl).someProperty == 6));
+         (e) => (e as CustomLeaf).someProperty == 6));
       new Timer(const Duration(milliseconds: 3000), () => model.children.clear());
       new Timer(const Duration(milliseconds: 3500), () {
-          var newModel = new BranchImpl();
+          var newModel = new CustomBranch();
           treemap.model = newModel;
           newModel.children.addAll(TestResources.dataModel2.children);
         });

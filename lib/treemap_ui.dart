@@ -5,7 +5,7 @@ import 'dart:async';
 import 'model.dart';
 export 'model.dart';
 import 'view.dart';
-export 'view.dart' show TreemapStyle, Orientation, Color;
+export 'view.dart' show TreemapStyle, LeafDecorator, BranchDecorator, Orientation, Color;
 import 'layout.dart';
 export 'layout.dart';
 
@@ -39,13 +39,15 @@ class Treemap{
 
    /// DOM element which contains the treemap.
    final DivElement displayArea;
-
+   static const DefaultBranchDecorator _defaultBranchDecorator = const DefaultBranchDecorator();
    TreemapStyle _style;
    LayoutAlgorithm _layoutAlgorithm;
    DataModel _dataModel;
    StyleElement _currentActiveStyle;
    Node _rootNode;
    StreamSubscription<num> _modelChangeSubscription;
+   BranchDecorator _branchDecorator;
+   LeafDecorator _leafDecorator;
 
    /**
     * Creates a new treemap instance.
@@ -53,14 +55,18 @@ class Treemap{
     * The [displayArea] argument has to be attached to the DOM 
     * and has to have a height greater than zero.
     */
-   Treemap(DivElement this.displayArea, DataModel this._dataModel, 
-           LayoutAlgorithm this._layoutAlgorithm, [TreemapStyle this._style]) {
+   Treemap(DivElement this.displayArea, DataModel this._dataModel, LayoutAlgorithm this._layoutAlgorithm, 
+           {TreemapStyle style, 
+            BranchDecorator branchDecorator: const DefaultBranchDecorator(),
+            LeafDecorator leafDecorator: const DefaultLeafDecorator()
+   }){
      if (displayArea == null || _dataModel == null || _layoutAlgorithm == null) {
        throw nullError;
      }
-     if (_style == null) {
-       _style = new TreemapStyle();
-     }
+     _style = style == null ? new TreemapStyle() : style;
+     _branchDecorator = branchDecorator;
+     _leafDecorator = leafDecorator;
+     
      _validateDisplayArea(displayArea);
      _registerModelChangeSubscription();
      _registerStyleUpdateSubscription();
@@ -75,7 +81,7 @@ class Treemap{
        _rootNode.cancelSubscriptions();
        viewModel = _rootNode.viewModel;
      } else {
-       viewModel = new ViewModel(this);
+       viewModel = new ViewModel(this, _branchDecorator, _leafDecorator);
      }
      _rootNode = new Node.forRoot(model, viewModel);
      displayArea.children.clear();

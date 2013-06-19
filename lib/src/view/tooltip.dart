@@ -65,7 +65,9 @@ class Tooltip implements Attachable {
 
   void _repaintContent(DataModel dataModel) {
     container.children.clear();
-    final tooltipContent = dataModel.tooltip;
+    final tooltipContent = dataModel.isBranch ? 
+        _branchNode.viewModel.branchDecorator.createTooltip(dataModel) : 
+        _branchNode.viewModel.leafDecorator.createTooltip(dataModel);
     if (tooltipContent != null) {
       container.append(tooltipContent);
     }

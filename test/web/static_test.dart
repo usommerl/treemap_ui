@@ -6,6 +6,7 @@ const descriptionClass = "description";
 const sizeTreemap = 300;
 const margin = 7;
 
+
 main() {
     prepareDocument("static test");
     List<LayoutAlgorithm> algorithms = TestResources.layoutAlgorithms;

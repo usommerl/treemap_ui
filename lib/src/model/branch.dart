@@ -1,7 +1,7 @@
 part of treemap_ui.model;
 
-/// Base class for concrete implementations of a branch in a tree data structure.
-abstract class Branch extends DataModel {
+/// Base class for a custom  implementations of a branch in a tree data structure.
+class Branch extends DataModel {
 
   /// A list of child elements of this branch.
   final ObservableList<DataModel> children;

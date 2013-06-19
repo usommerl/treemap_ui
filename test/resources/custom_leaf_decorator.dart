@@ -1,9 +1,9 @@
 part of treemap_test_resources;
 
-class LeafImpl extends Leaf {
-
-  int _someProperty = 0;
-
+class CustomLeafDecorator implements LeafDecorator<CustomLeaf> {
+  
+  const CustomLeafDecorator();
+  
   static final List<Color> grayscale =
                        [new Color.hex('#F0F0F0'), new Color.hex('#E8E8E8'),
                         new Color.hex('#E0E0E0'), new Color.hex('#D8D8D8'),
@@ -17,43 +17,26 @@ class LeafImpl extends Leaf {
                         new Color.hex('#606060'), new Color.hex('#585858'),
                         new Color.hex('#505050')];
 
-  List<Color> _colors = [Color.CRIMSON, Color.GOLD, Color.KHAKI,
-                         Color.LIGHT_STEEL_BLUE, Color.MEDIUM_VIOLET_RED,
-                         Color.ROSY_BROWN, Color.YELLOW_GREEN];
-
-  LeafImpl(num size) : super(size);
-
-  Element get label => new Element.html("<span class='myLabel'>${_someProperty}</span>");
-
-  Element get tooltip {
+  final List<Color> _colors = [Color.CRIMSON, Color.GOLD, Color.KHAKI,
+                               Color.LIGHT_STEEL_BLUE, Color.MEDIUM_VIOLET_RED,
+                               Color.ROSY_BROWN, Color.YELLOW_GREEN];
+  
+  Element createLabel(CustomLeaf model) => new Element.html("<span class='myLabel'>${model._someProperty}</span>");
+  
+  Element createTooltip(CustomLeaf model) {
     Element element = new Element.html("<div></div>");
     element.style..backgroundColor = "white"
         ..fontSize = "0.8em"
         ..padding = "1px 5px 1px 5px";
-    element.text = "Leaf [size: ${size}, someProperty: ${someProperty}]";
+    element.text = "Leaf [size: ${model.size}, someProperty: ${model.someProperty}]";
     return element;
   }
-
-  set someProperty(int value) {
-    _someProperty = value;
-    fireVisiblePropertyChangedEvent();
-  }
-
-  int get someProperty => _someProperty;
-
-  Color get color {
-    if (someProperty < grayscale.length - 1) {
-      return grayscale.elementAt(someProperty);
+  
+  Color defineColor(CustomLeaf model) {
+    if (model.someProperty < grayscale.length - 1) {
+      return grayscale.elementAt(model.someProperty);
     } else {
-      return _colors.elementAt(someProperty % _colors.length);
+      return _colors.elementAt(model.someProperty % _colors.length);
     }
-  }
-
-  /**
-   * Creates a deep copy of this [LeafImpl].
-   * The parent reference will **not** be copied to the clone.
-   **/
-  LeafImpl copy() {
-    return new LeafImpl(size);
   }
 }

@@ -49,12 +49,6 @@ abstract class DataModel {
    */
   Stream get onVisiblePropertyChange => _visiblePropertyChangeController.stream;
 
-  /// HTML element that will be displayed as the label of the corresponding treemap node.
-  Element get label;
-
-  /// HTML element that will be displayed as the tooltip of the corresponding treemap node.
-  Element get tooltip;
-
   /**
    * Notifies the treemap that a visual property has changed.
    *

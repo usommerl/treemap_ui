@@ -48,6 +48,8 @@ class BranchNode extends Node implements NodeContainer {
     _content.append(aid.container);
   }
 
+  BranchDecorator get decorator => viewModel.branchDecorator;
+  
   Branch get dataModel => _dataModel;
   
   BranchNode get node => this;

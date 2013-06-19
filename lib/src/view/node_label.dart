@@ -17,7 +17,7 @@ class NodeLabel implements Attachable{
 
   void repaintContent() {
     container.children.clear();
-    final labelContent = _node.dataModel.label;
+    final labelContent = _node.decorator.createLabel(_node.dataModel);
     if (labelContent != null) {
       container.append(labelContent);
     }

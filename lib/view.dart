@@ -15,6 +15,9 @@ part 'src/view/view_model.dart';
 part 'src/view/treemap_style.dart';
 part 'src/view/tooltip.dart';
 part 'src/view/node_label.dart';
+part 'src/view/decorator.dart';
+part 'src/view/default_branch_decorator.dart';
+part 'src/view/default_leaf_decorator.dart';
 
 const String NAVIGATION_ELEMENT = "navigation-element";
 final ArgumentError nullError = new ArgumentError("Please pass a valid reference. NULL is not supported!");

@@ -1,7 +1,7 @@
 part of treemap_ui.model;
 
 /// Base class for concrete implementations of a leaf in a tree data structure.
-abstract class Leaf extends DataModel {
+class Leaf extends DataModel {
 
   num _size;
 
@@ -24,8 +24,5 @@ abstract class Leaf extends DataModel {
       throw new ArgumentError("Size has to be a non-negative value");
     }
   }
-
-  /// Background color of the corresponding treemap node.
-  Color get color;
 }
 

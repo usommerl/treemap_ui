@@ -9,8 +9,10 @@ class ViewModel {
   Node _rootNode;
   Element _cachedHtmlParent;
   Element _cachedNextSibling;
+  final BranchDecorator branchDecorator;
+  final LeafDecorator leafDecorator;
 
-  ViewModel(Treemap this._treemap);
+  ViewModel(Treemap this._treemap, BranchDecorator this.branchDecorator, LeafDecorator this.leafDecorator);
 
   Map<String,String> get styleNames => _treemap.style._classNames;
 
