@@ -29,21 +29,29 @@ class ViewModel {
   void branchClicked(BranchNode node) {
     if (_treemap.isTraversable) {
       if (node == _viewRoot && node != _rootNode ) {
-        _recreatePristineHtmlHierarchy(node);
-        node.parent.then((parent) {
-          _setAsViewRoot(parent);
-          node.rectifyAppearance();
-        });
+        _traverseViewToParentOf(node);
       } else if (node != _viewRoot) {
-        node.parent.then((parent){
-          if (parent == _viewRoot && parent != _rootNode) {
-            _recreatePristineHtmlHierarchy(parent);
-          }
-          _setAsViewRoot(node);
-          node.rectifyAppearance();
-        });
+        _traverseViewTo(node);
       }
     }
+  }
+
+  void _traverseViewTo(BranchNode clickedNode) {
+    clickedNode.parent.then((parent){
+      if (parent == _viewRoot && parent != _rootNode) {
+        _recreatePristineHtmlHierarchy(parent);
+      }
+      _setAsViewRoot(clickedNode);
+      clickedNode.rectifyAppearance();
+    });
+  }
+
+  void _traverseViewToParentOf(BranchNode clickedNode) {
+    _recreatePristineHtmlHierarchy(clickedNode);
+    clickedNode.parent.then((parent) {
+      _setAsViewRoot(parent);
+      clickedNode.rectifyAppearance();
+    });
   }
   
   set rootNode(Node node) {
