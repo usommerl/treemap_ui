@@ -1,6 +1,7 @@
 library treemap_ui.view;
 
 import 'dart:html' hide Node;
+import 'dart:html' as html show Node;
 import 'dart:async';
 import 'treemap_ui.dart' show Treemap;
 import 'model.dart';
@@ -18,6 +19,7 @@ part 'src/view/node_label.dart';
 part 'src/view/decorator.dart';
 part 'src/view/default_branch_decorator.dart';
 part 'src/view/default_leaf_decorator.dart';
+part 'src/view/display_area.dart';
 
 const String NAVIGATION_ELEMENT = "navigation-element";
 final ArgumentError nullError = new ArgumentError("Please pass a valid reference. NULL is not supported!");

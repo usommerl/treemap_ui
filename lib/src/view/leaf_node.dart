@@ -7,15 +7,13 @@ class LeafNode extends Node {
     _content = container;
     _content.append(_nodeLabel.container);
     container.style.backgroundColor = decorator.defineColor(dataModel).toString();
-    parent.then((parent) {
-      _tooltip = parent.tooltip;
-      _tooltip.registerSubscriptions([container],this.dataModel);
-    });
   }
 
   Leaf get dataModel => _dataModel;
   
   LeafDecorator get decorator => viewModel.leafDecorator;
+  
+  Iterable<Element> get mouseoverElements =>[container];
 
   void repaint() {
     super.repaint();

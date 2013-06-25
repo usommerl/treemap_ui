@@ -17,7 +17,7 @@ class CustomLeafDecorator implements LeafDecorator<CustomLeaf> {
                         new Color.hex('#606060'), new Color.hex('#585858'),
                         new Color.hex('#505050')];
 
-  final List<Color> _colors = [Color.CRIMSON, Color.GOLD, Color.KHAKI,
+  static final List<Color> _colors = [Color.CRIMSON, Color.GOLD, Color.KHAKI,
                                Color.LIGHT_STEEL_BLUE, Color.MEDIUM_VIOLET_RED,
                                Color.ROSY_BROWN, Color.YELLOW_GREEN];
   

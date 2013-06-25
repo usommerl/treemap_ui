@@ -30,7 +30,6 @@ class BranchNode extends Node implements NodeContainer {
       container.append(_naviRight);
       container.append(_naviBottom);
       container.append(_content);
-      _tooltip = new Tooltip(this);
       _subscriptions = _registerSubscriptions([_nodeLabel.container, _naviLeft, _naviRight, _naviBottom]);
     }
 
@@ -55,6 +54,8 @@ class BranchNode extends Node implements NodeContainer {
   BranchNode get node => this;
   
   Rect get client => _content.client;
+  
+  Iterable<Element> get mouseoverElements => [_nodeLabel.container, _naviLeft, _naviRight, _naviBottom];
 
   Iterable<StreamSubscription> _registerSubscriptions(Iterable<Element> l) {
     final List<StreamSubscription> subscriptions = [];
@@ -95,9 +96,6 @@ class BranchNode extends Node implements NodeContainer {
   void cancelSubscriptions() {
     super.cancelSubscriptions();
     _subscriptions.forEach((s) => s.cancel());
-    _tooltip.cancelSubscriptions();
     children.forEach((c) => c.cancelSubscriptions());
   }
-  
-  Tooltip get tooltip => _tooltip;
 }

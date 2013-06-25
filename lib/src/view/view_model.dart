@@ -5,6 +5,7 @@ class ViewModel {
   static const String VIEW_ROOT = "viewRoot";
 
   final Treemap _treemap;
+  final DisplayArea displayArea;
   Node _viewRoot;
   Node _rootNode;
   Element _cachedHtmlParent;
@@ -12,15 +13,16 @@ class ViewModel {
   final BranchDecorator branchDecorator;
   final LeafDecorator leafDecorator;
 
-  ViewModel(Treemap this._treemap, BranchDecorator this.branchDecorator, LeafDecorator this.leafDecorator);
+  ViewModel(Treemap this._treemap, DisplayArea this.displayArea,
+            BranchDecorator this.branchDecorator, LeafDecorator this.leafDecorator);
 
-  Map<String,String> get styleNames => _treemap.style._classNames;
+  Map<String,String> get styleNames => _treemap.style._styleNames;
 
   int get borderWidth => _treemap.style.borderWidth;
 
   int get branchPadding => _treemap.style.branchPadding;
 
-  bool get automaticUpdatesEnabled => _treemap.liveUpdates;
+  bool get liveUpdatesEnabled => _treemap.liveUpdates;
 
   bool get tooltipsEnabled => _treemap.showTooltips;
 
@@ -64,8 +66,8 @@ class ViewModel {
     _cachedNextSibling = node.container.nextElementSibling;
     node.container.classes.add("${styleNames[VIEW_ROOT]}");
     _viewRoot = node;
-    _treemap.displayArea.children.clear();
-    _treemap.displayArea.append(node.container);
+    displayArea.clear();
+    displayArea.append(node.container);
   }
 
   void _recreatePristineHtmlHierarchy(BranchNode node) {

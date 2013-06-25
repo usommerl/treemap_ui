@@ -18,7 +18,6 @@ abstract class Node implements Attachable {
   BranchNode _parent;
   DivElement _content;
   NodeLabel _nodeLabel;
-  Tooltip _tooltip;
 
   Node._internal(DataModel dataModel, this.viewModel, this.width, this.height, this.orientation)
             : _isLeaf = dataModel.isLeaf,
@@ -31,10 +30,12 @@ abstract class Node implements Attachable {
     _nodeLabel = new NodeLabel(this);
     rectifyAppearance();
     _modelSubscription = dataModel.onVisiblePropertyChange.listen((_) {
-      if (viewModel.automaticUpdatesEnabled) {
+      if (viewModel.liveUpdatesEnabled) {
         repaint();
       }
     });
+    // Order is important (nodeLabel/registerSubscriptions)
+    viewModel.displayArea.tooltip.registerSubscriptions(this);
   }
 
   factory Node(DataModel dataModel, ViewModel viewModel, Percentage width, Percentage height, Orientation orientation)
@@ -103,6 +104,8 @@ abstract class Node implements Attachable {
   Decorator get decorator;
 
   DataModel get dataModel;
+  
+  Iterable<Element> get mouseoverElements;
 
   void repaint() {
     _nodeLabel.repaintContent();

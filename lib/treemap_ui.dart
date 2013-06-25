@@ -37,9 +37,6 @@ class Treemap{
     */
    bool liveUpdates = true;
 
-   /// DOM element which contains the treemap.
-   final DivElement displayArea;
-   static const DefaultBranchDecorator _defaultBranchDecorator = const DefaultBranchDecorator();
    TreemapStyle _style;
    LayoutAlgorithm _layoutAlgorithm;
    DataModel _dataModel;
@@ -48,6 +45,7 @@ class Treemap{
    StreamSubscription<num> _modelChangeSubscription;
    BranchDecorator _branchDecorator;
    LeafDecorator _leafDecorator;
+   DisplayArea _displayArea;
 
    /**
     * Creates a new treemap instance.
@@ -55,19 +53,20 @@ class Treemap{
     * The [displayArea] argument has to be attached to the DOM 
     * and has to have a height greater than zero.
     */
-   Treemap(DivElement this.displayArea, DataModel this._dataModel, LayoutAlgorithm this._layoutAlgorithm, 
+   Treemap(DivElement displayArea, DataModel this._dataModel, LayoutAlgorithm this._layoutAlgorithm, 
            {TreemapStyle style, 
             BranchDecorator branchDecorator: const DefaultBranchDecorator(),
             LeafDecorator leafDecorator: const DefaultLeafDecorator()
    }){
-     if (displayArea == null || _dataModel == null || _layoutAlgorithm == null) {
+     if (displayArea == null || _dataModel == null || _layoutAlgorithm == null 
+         || branchDecorator == null || leafDecorator == null) {
        throw nullError;
      }
      _style = style == null ? new TreemapStyle() : style;
      _branchDecorator = branchDecorator;
      _leafDecorator = leafDecorator;
+     _displayArea = new DisplayArea(displayArea);
      
-     _validateDisplayArea(displayArea);
      _registerModelChangeSubscription();
      _registerStyleUpdateSubscription();
      _setTreemapStyle();
@@ -77,23 +76,22 @@ class Treemap{
    /// Repaints the treemap.
    void repaint() {
      ViewModel viewModel;
-     if (_rootNode != null) {
+     if (_rootNode == null) {
+       viewModel = new ViewModel(this,_displayArea,_branchDecorator,_leafDecorator);
+     } else {
        _rootNode.cancelSubscriptions();
        viewModel = _rootNode.viewModel;
-     } else {
-       viewModel = new ViewModel(this, _branchDecorator, _leafDecorator);
      }
      _rootNode = new Node.forRoot(model, viewModel);
-     displayArea.children.clear();
-     displayArea.append(_rootNode.container);
+     _displayArea.purgeAndSet(viewModel);
+     _displayArea.append(_rootNode.container);
      if (_rootNode.isBranch) {
-       final branch = _rootNode as BranchNode;
-       layoutAlgorithm.layout(branch);
+       layoutAlgorithm.layout(_rootNode as BranchNode);
      }
      viewModel.rootNode = _rootNode;
    }
 
-   /// The data model of this treemap.
+   /// The data model of this treemap
    DataModel get model => _dataModel;
 
    set model(DataModel model) {
@@ -153,14 +151,5 @@ class Treemap{
        styleOrLinkElements.first.insertAdjacentElement('beforeBegin', styleElement);
      }
      _currentActiveStyle = styleElement;
-   }
-
-   void _validateDisplayArea(DivElement element) {
-     if (element.client.height <= 0) {
-       throw new ArgumentError("The <div> element has to have a height greater than zero and must be attached to the document");
-     }
-     if (element.children.length > 0) {
-       throw new ArgumentError("Do not add any extra elements to the <div> element");
-     }
    }
 }

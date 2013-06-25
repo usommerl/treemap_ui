@@ -18,7 +18,7 @@ class TreemapStyle {
   int _borderWidth;
   int _branchPadding;
   String _borderStyle;
-  Map<String,String> _classNames;
+  Map<String,String> _styleNames;
 
   TreemapStyle({
      Color branchColor    : Color.GRAY,
@@ -122,125 +122,125 @@ class TreemapStyle {
    * into the [HeadElement] of your [document].
    */
   StyleElement get inlineStyle {
-    this._classNames = _initClassNames(prefix);
+    this._styleNames = _initStyleNames(prefix);
     final String inlineStyleHtml =
 """
 <style type="text/css">
-.${_classNames["${LeafNode}"]},
-.${_classNames["${BranchNode}"]},
-.${_classNames["${LayoutAid}"]},
-.${_classNames[BranchNode.CONTENT]},
-.${_classNames[BranchNode.NAVI_LEFT]},
-.${_classNames[BranchNode.NAVI_RIGHT]},
-.${_classNames[BranchNode.NAVI_BOTTOM]} {
+.${_styleNames["${LeafNode}"]},
+.${_styleNames["${BranchNode}"]},
+.${_styleNames["${LayoutAid}"]},
+.${_styleNames[BranchNode.CONTENT]},
+.${_styleNames[BranchNode.NAVI_LEFT]},
+.${_styleNames[BranchNode.NAVI_RIGHT]},
+.${_styleNames[BranchNode.NAVI_BOTTOM]} {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
 }
-.${_classNames["${LeafNode}"]},
-.${_classNames["${BranchNode}"]} {
+.${_styleNames["${LeafNode}"]},
+.${_styleNames["${BranchNode}"]} {
   position: relative;
   overflow: hidden;
   border-color: ${_borderColor};
   border-style: ${_borderStyle};
   border-width: ${_borderWidth}px;
 }
-.${_classNames["${BranchNode}"]}  {
+.${_styleNames["${BranchNode}"]}  {
   background-color: ${_branchColor};
 }
-.${_classNames[BranchNode.CONTENT]},
-.${_classNames[BranchNode.NAVI_LEFT]},
-.${_classNames[BranchNode.NAVI_RIGHT]},
-.${_classNames[BranchNode.NAVI_BOTTOM]}{
+.${_styleNames[BranchNode.CONTENT]},
+.${_styleNames[BranchNode.NAVI_LEFT]},
+.${_styleNames[BranchNode.NAVI_RIGHT]},
+.${_styleNames[BranchNode.NAVI_BOTTOM]}{
   position: absolute;
 }
-.${_classNames[BranchNode.NAVI_LEFT]},
-.${_classNames[BranchNode.NAVI_RIGHT]},
-.${_classNames[BranchNode.NAVI_BOTTOM]}{
+.${_styleNames[BranchNode.NAVI_LEFT]},
+.${_styleNames[BranchNode.NAVI_RIGHT]},
+.${_styleNames[BranchNode.NAVI_BOTTOM]}{
   z-index: 0;
 }
-.${_classNames[BranchNode.CONTENT]} {
+.${_styleNames[BranchNode.CONTENT]} {
   top: ${_branchPadding}px;
   right: ${_branchPadding}px;
   bottom: ${_branchPadding}px;
   left: ${_branchPadding}px;
   z-index: 1;
 }
-.${_classNames[BranchNode.NAVI_LEFT]} {
+.${_styleNames[BranchNode.NAVI_LEFT]} {
   width: ${_branchPadding}px;
   bottom: 0px;
   left: 0px;
 }
-.${_classNames[BranchNode.NAVI_RIGHT]} {
+.${_styleNames[BranchNode.NAVI_RIGHT]} {
   width: ${_branchPadding}px;
   bottom: 0px;
   right: 0px;
 }
-.${_classNames[BranchNode.NAVI_BOTTOM]} {
+.${_styleNames[BranchNode.NAVI_BOTTOM]} {
   height: ${_branchPadding}px;
   bottom: 0px;
   left: 0px;
   right: 0px;
 }
-.${_classNames[BranchNode.MODEL_ROOT]},
-.${_classNames["${LayoutAid}"]},
-.${_classNames[BranchNode.MODEL_ROOT]}.${_classNames[ViewModel.VIEW_ROOT]} {
+.${_styleNames[BranchNode.MODEL_ROOT]},
+.${_styleNames["${LayoutAid}"]},
+.${_styleNames[BranchNode.MODEL_ROOT]}.${_styleNames[ViewModel.VIEW_ROOT]} {
   border-width: 0px;
 }
-.${_classNames[BranchNode.MODEL_ROOT]} > .${_classNames[BranchNode.CONTENT]} {
+.${_styleNames[BranchNode.MODEL_ROOT]} > .${_styleNames[BranchNode.CONTENT]} {
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
 }
-.${_classNames[BranchNode.MODEL_ROOT]} > .${_classNames["${NodeLabel}"]} {
+.${_styleNames[BranchNode.MODEL_ROOT]} > .${_styleNames["${NodeLabel}"]} {
   display: none;
 }
-.${_classNames["${LeafNode}"]} *:first-child {
+.${_styleNames["${LeafNode}"]} *:first-child {
   cursor: default;
 }
-.${_classNames["${Tooltip}"]} {
+.${_styleNames["${Tooltip}"]} {
   position: absolute;
   z-index: 2;
   display: none;
 }
-.${_classNames["${Tooltip}"]}.${Tooltip.VISIBLE} {
+.${_styleNames["${Tooltip}"]}.${Tooltip.VISIBLE} {
   display: block;
 }
-.${_classNames[Node.NO_LEFT_BORDER]}{
+.${_styleNames[Node.NO_LEFT_BORDER]}{
   border-left-width: 0px;
 }
-.${_classNames[Node.NO_TOP_BORDER]}{
+.${_styleNames[Node.NO_TOP_BORDER]}{
   border-top-width: 0px;
 }
-.${_classNames[Node.COLLAPSED_WIDTH]}[style] {
+.${_styleNames[Node.COLLAPSED_WIDTH]}[style] {
   border-left-width: 0px;
   border-right-width: 0px;
   background-color: ${_borderColor} !important;
 }
-.${_classNames[Node.COLLAPSED_HEIGHT]}[style] {
+.${_styleNames[Node.COLLAPSED_HEIGHT]}[style] {
   border-top-width: 0px;
   border-bottom-width: 0px;
   background-color: ${_borderColor} !important;
 }
-.${_classNames[Node.COLLAPSED_WIDTH]}.${_classNames["${BranchNode}"]},
-.${_classNames[Node.COLLAPSED_HEIGHT]}.${_classNames["${BranchNode}"]} {
+.${_styleNames[Node.COLLAPSED_WIDTH]}.${_styleNames["${BranchNode}"]},
+.${_styleNames[Node.COLLAPSED_HEIGHT]}.${_styleNames["${BranchNode}"]} {
   background-color: ${_branchColor};
 }
-.${_classNames[ViewModel.VIEW_ROOT]}[style]{
+.${_styleNames[ViewModel.VIEW_ROOT]}[style]{
   width: 100% !important;
   height: 100% !important;
 }
-.${_classNames[ViewModel.VIEW_ROOT]}{
+.${_styleNames[ViewModel.VIEW_ROOT]}{
   border-width: ${_borderWidth}px;
 }
-.${_classNames[Orientation.VERTICAL.toString()]}{
+.${_styleNames[Orientation.VERTICAL.toString()]}{
   float: none;
 }
-.${_classNames[Orientation.HORIZONTAL.toString()]}{
+.${_styleNames[Orientation.HORIZONTAL.toString()]}{
   float: left;
 }
-.${_classNames[NAVIGATION_ELEMENT]}{
+.${_styleNames[NAVIGATION_ELEMENT]}{
   cursor: pointer;
 }
 </style>
@@ -248,7 +248,7 @@ class TreemapStyle {
     return new Element.html(inlineStyleHtml);
   }
 
-  Map<String,String> _initClassNames(String prefix) {
+  Map<String,String> _initStyleNames(String prefix) {
     final map = new Map<String,String>();
     map["${LeafNode}"] = "${prefix}leaf";
     map["${BranchNode}"] = "${prefix}branch";

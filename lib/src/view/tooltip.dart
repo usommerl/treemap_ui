@@ -2,74 +2,85 @@ part of treemap_ui.view;
 
 class Tooltip implements Attachable {
 
-  DivElement container = new DivElement();
   static const String VISIBLE = 'visible';
+  final List<StreamSubscription> _mouseSubscriptions = [];
+  final DisplayArea _displayArea;
+  StreamSubscription _dataModelSubscription;
+  DivElement container = new DivElement();
   Timer _delayTimer = new Timer(const Duration(milliseconds: 0),(){});
-  final BranchNode _branchNode;
-  final List<StreamSubscription> _subscriptions = [];
+  MouseEvent _lastMouseMoveEvent;
 
-  Tooltip(BranchNode this._branchNode) {
-    container.classes.add("${_branchNode.viewModel.styleNames[runtimeType.toString()]}");
-    _branchNode.container.append(container);
-    final hoverElements = [_branchNode._nodeLabel.container, _branchNode._naviLeft, _branchNode._naviRight, _branchNode._naviBottom];
-    registerSubscriptions(hoverElements, _branchNode.dataModel);
-  }
+  Tooltip(DisplayArea this._displayArea);
 
-  void registerSubscriptions(Iterable<Element> hoverElements, DataModel dataModel) {
-    hoverElements.forEach((hoverElement) {
-      _subscriptions.addAll([
-        hoverElement.onMouseMove.listen((MouseEvent event){
-          container.classes.remove("${Tooltip.VISIBLE}");
-          _delayTimer.cancel();
-          _delayTimer = _createTimer(event, hoverElement, dataModel);
+  void registerSubscriptions(Node node) {
+    node.mouseoverElements.forEach((mouseoverElement) {
+      _mouseSubscriptions.addAll([
+        mouseoverElement.onMouseMove.listen((MouseEvent event){
+          _deactivateTooltip();
+          _delayTimer = _createTimer(node);
         }),
-        hoverElement.onMouseOut.listen((MouseEvent event){
-          container.classes.remove("${Tooltip.VISIBLE}");
-          _delayTimer.cancel();
+        mouseoverElement.onMouseOut.listen((MouseEvent event){
+          _deactivateTooltip();
         })
       ]);
     });
   }
-
-  void cancelSubscriptions() {
-    _delayTimer.cancel();
-    _subscriptions.forEach((s) => s.cancel());
+  
+  void reset() {
+    _cancelSubscriptions();
+    container.classes.clear();
+    container.classes.add("${_displayArea.viewModel.styleNames[runtimeType.toString()]}");
   }
   
-  Timer _createTimer(MouseEvent event, Element hoverElement, DataModel dataModel) {
+  Timer _createTimer(Node node) {
     return new Timer(const Duration(milliseconds: 1000),(){
-      if (_branchNode.viewModel.tooltipsEnabled) {
-        final y = dataModel.isLeaf && !dataModel.parent.isRoot ? 
-            event.offset.y + _branchNode.viewModel.branchPadding + hoverElement.offset.top :
-            event.offset.y + hoverElement.offset.top;
-        final x = dataModel.isLeaf && !dataModel.parent.isRoot ? 
-            event.offset.x + _branchNode.viewModel.branchPadding + hoverElement.offset.left :
-            event.offset.x + hoverElement.offset.left;
-        int adjX, adjY = 0;
-        _repaintContent(dataModel);
+      if (_displayArea.viewModel.tooltipsEnabled) {
+        final mousePosition = _displayArea.mousePosition;
+        final y = mousePosition.y;
+        final x = mousePosition.x;
+        num adjX, adjY = 0;
+        _repaintTooltipContentFor(node);
         container.classes.add("${Tooltip.VISIBLE}");
-        if (x < _branchNode.container.client.width - x) {
+        if (x < _displayArea.client.width - x) {
           adjX = x;
         } else {
           adjX = x - container.offset.width;
         }
-        if (y < _branchNode.container.client.height - y) {
+        if (y < _displayArea.client.height - y) {
           adjY = y+18;
         } else {
           adjY = y - container.offset.height-5;
         }
         container.style..left = "${adjX}px"..top = "${adjY}px";
+        _dataModelSubscription = node.dataModel.onVisiblePropertyChange.listen((_) => _repaintTooltipContentFor(node));
       }
     });
   }
-
-  void _repaintContent(DataModel dataModel) {
+  
+  void _repaintTooltipContentFor(Node node) {
     container.children.clear();
-    final tooltipContent = dataModel.isBranch ? 
-        _branchNode.viewModel.branchDecorator.createTooltip(dataModel) : 
-        _branchNode.viewModel.leafDecorator.createTooltip(dataModel);
+    final tooltipContent = node.decorator.createTooltip(node.dataModel);
     if (tooltipContent != null) {
       container.append(tooltipContent);
+    }
+  }
+  
+  void _cancelSubscriptions() {
+    _delayTimer.cancel();
+    _cancelDataModelSubscription();
+    _mouseSubscriptions.forEach((s) => s.cancel());
+    _mouseSubscriptions.clear();
+  }
+  
+  void _deactivateTooltip() {
+    container.classes.remove("${Tooltip.VISIBLE}");
+    _cancelDataModelSubscription();
+    _delayTimer.cancel();
+  }
+  
+  void _cancelDataModelSubscription() {
+    if (_dataModelSubscription != null) {
+      _dataModelSubscription.cancel();
     }
   }
 
