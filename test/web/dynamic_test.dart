@@ -28,7 +28,6 @@ SelectElement algorithmSelect;
 SelectElement orientationSelect;
 SelectElement borderColorSelect;
 SelectElement borderStyleSelect;
-SelectElement branchColorSelect;
 int initialSize;
 Timer sizeUpdateTimer = new Timer(const Duration(seconds: 0),(){});
 Timer propertyUpdateTimer = new Timer(const Duration(seconds: 0),(){});
@@ -46,7 +45,6 @@ main() {
                         leafDecorator: const CustomLeafDecorator());
   borderColorSelect.value = treemap.style.borderColor.toString();
   borderStyleSelect.value = treemap.style.borderStyle;
-  branchColorSelect.value = treemap.style.branchColor.toString();
   borderWidthInput.valueAsNumber = treemap.style.borderWidth;
   branchPaddingInput.valueAsNumber = treemap.style.branchPadding;
   liveUpdatesCheckbox.checked = treemap.liveUpdates;
@@ -118,10 +116,6 @@ void initUiElements() {
   borderColorSelect = new Element.html("<select>$options</select>");
   final borderColorControls = new DivElement();
   borderColorControls..append(borderColorLabel)..append(borderColorSelect);
-  final branchColorLabel = new Element.html("<span class='controlsLabel'>branch color:</span>");
-  branchColorSelect = new Element.html("<select>$options</select>");
-  final branchColorControls = new DivElement();
-  branchColorControls..append(branchColorLabel)..append(branchColorSelect);
   final repaintControls = new DivElement();
   repaintInput..min = "1"..max = "10000"..step = "1"..valueAsNumber = 1;
   repaintButton.text = "repaint";
@@ -138,7 +132,6 @@ void initUiElements() {
     ..append(borderWidthControls)
     ..append(borderStyleControls)
     ..append(borderColorControls)
-    ..append(branchColorControls)
     ..append(new Element.html("<div class='divider'></div>"))
     ..append(liveUpdatesControls)
     ..append(isTraversableControls)
@@ -196,9 +189,6 @@ void registerListeners() {
   });
   borderStyleSelect.onChange.listen((e) {
     treemap.style.borderStyle = borderStyleSelect.value;
-  });
-  branchColorSelect.onChange.listen((e) {
-    treemap.style.branchColor = selectedColor(branchColorSelect);
   });
   sizeUpdateCheckbox.onChange.listen((e) {
     sizeUpdateTimer = new Timer.periodic(new Duration(milliseconds: sizeUpdateInput.valueAsNumber.toInt()),randomSizeCallback);

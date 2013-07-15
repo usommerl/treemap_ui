@@ -2,14 +2,14 @@ part of treemap_ui.view;
 
 class NodeLabel implements Attachable{
 
-  Element _container;
+  Element _shell;
   final Node _node;
 
   NodeLabel(Node this._node) {
     if (_node.isBranch) {
-      _container = new Element.html("<div align=center></div>");
+      _shell = new Element.html("<div align=center></div>");
     } else {
-      _container = new DivElement();
+      _shell = new DivElement();
     }
     shell.classes.add("${_node.viewModel.styleNames[runtimeType.toString()]}");
     repaintContent();
@@ -23,6 +23,6 @@ class NodeLabel implements Attachable{
     }
   }
 
-  Element get shell => _container;
+  Element get shell => _shell;
 
 }

@@ -14,4 +14,6 @@ class DefaultBranchDecorator implements BranchDecorator<Branch> {
     element.text = "Branch [size: ${model.size}]";
     return element;
   }
+  
+  Color defineColor(Branch model) => Color.GRAY;
 }

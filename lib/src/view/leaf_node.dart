@@ -6,7 +6,6 @@ class LeafNode extends Node {
     super._internal(dataModel, viewModel, width, height, orientation) {
     _content = shell;
     _content.append(_nodeLabel.shell);
-    shell.style.backgroundColor = decorator.defineColor(dataModel).toString();
   }
 
   Leaf get dataModel => _dataModel;

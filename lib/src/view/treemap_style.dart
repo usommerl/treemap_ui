@@ -13,7 +13,6 @@ class TreemapStyle {
                                      "groove", "ridge", "inset", "outset", "inherit"];
   final StreamController _onChangeController = new StreamController.broadcast();
   String _prefix;
-  Color _branchColor;
   Color _borderColor;
   int _borderWidth;
   int _branchPadding;
@@ -21,13 +20,11 @@ class TreemapStyle {
   Map<String,String> _styleNames;
 
   TreemapStyle({
-     Color branchColor    : Color.GRAY,
      int branchPadding    : 2,
      Color borderColor    : Color.BLACK,
      int borderWidth      : 1,
      String borderStyle   : "solid"
   }){
-     _branchColor = branchColor;
      _branchPadding = branchPadding;
      _borderColor = borderColor;
      _borderWidth = borderWidth;
@@ -37,17 +34,6 @@ class TreemapStyle {
 
   /// Events which are triggered when a property of this instance is modified.
   Stream get onChange => _onChangeController.stream;
-
-  /// Background color of the branch padding area.
-  Color get branchColor => _branchColor;
-
-  set branchColor(Color color) {
-    if (color == null) {
-      throw nullError;
-    }
-    _branchColor = color;
-    _onChangeController.add(null);
-  }
   
   /**
    * Size of the padding area around the content of a branch in px.
@@ -145,9 +131,6 @@ class TreemapStyle {
   border-style: ${_borderStyle};
   border-width: ${_borderWidth}px;
 }
-.${_styleNames["${BranchNode}"]}  {
-  background-color: ${_branchColor};
-}
 .${_styleNames[BranchNode.CONTENT]},
 .${_styleNames[BranchNode.NAVI_LEFT]},
 .${_styleNames[BranchNode.NAVI_RIGHT]},
@@ -222,10 +205,6 @@ class TreemapStyle {
   border-top-width: 0px;
   border-bottom-width: 0px;
   background-color: ${_borderColor} !important;
-}
-.${_styleNames[Node.COLLAPSED_WIDTH]}.${_styleNames["${BranchNode}"]},
-.${_styleNames[Node.COLLAPSED_HEIGHT]}.${_styleNames["${BranchNode}"]} {
-  background-color: ${_branchColor};
 }
 .${_styleNames[ViewModel.VIEW_ROOT]}[style]{
   width: 100% !important;
