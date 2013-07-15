@@ -17,11 +17,11 @@ class DisplayArea {
     }
     _outerDiv.append(_actualDisplayArea);
     _tooltip = new Tooltip(this);
-    _actualDisplayArea.append(_tooltip.container);
+    _actualDisplayArea.append(_tooltip.shell);
     _actualDisplayArea.onMouseMove.listen((MouseEvent e) => _lastMouseMoveEvent = e);
   }
   
-  void clear() => _actualDisplayArea.children.removeWhere((Element e) => !identical(e,_tooltip.container));
+  void clear() => _actualDisplayArea.children.removeWhere((Element e) => !identical(e,_tooltip.shell));
   
   void purgeAndSet(ViewModel viewModel) {
     _viewModel = viewModel;

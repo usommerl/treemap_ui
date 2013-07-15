@@ -65,7 +65,7 @@ class Split implements LayoutAlgorithm {
       (_weight(l1) - _weight(l2)).abs();
   
   Orientation _determineOrientation(NodeContainer parent) =>
-      parent.container.client.width > parent.container.client.height ?
+      parent.shell.client.width > parent.shell.client.height ?
           Orientation.VERTICAL :
           Orientation.HORIZONTAL;
 }

@@ -11,18 +11,18 @@ class NodeLabel implements Attachable{
     } else {
       _container = new DivElement();
     }
-    container.classes.add("${_node.viewModel.styleNames[runtimeType.toString()]}");
+    shell.classes.add("${_node.viewModel.styleNames[runtimeType.toString()]}");
     repaintContent();
   }
 
   void repaintContent() {
-    container.children.clear();
+    shell.children.clear();
     final labelContent = _node.decorator.createLabel(_node.dataModel);
     if (labelContent != null) {
-      container.append(labelContent);
+      shell.append(labelContent);
     }
   }
 
-  Element get container => _container;
+  Element get shell => _container;
 
 }

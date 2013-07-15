@@ -18,23 +18,23 @@ class BranchNode extends Node implements NodeContainer {
   BranchNode(dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
       if (dataModel.isRoot) {
-        container.classes.add("${viewModel.styleNames[MODEL_ROOT]}");
+        shell.classes.add("${viewModel.styleNames[MODEL_ROOT]}");
       }
       _content = new DivElement();
       _content.classes.add("${viewModel.styleNames[CONTENT]}");
       _naviLeft.classes.add("${viewModel.styleNames[NAVI_LEFT]}");
       _naviRight.classes.add("${viewModel.styleNames[NAVI_RIGHT]}");
       _naviBottom.classes.add("${viewModel.styleNames[NAVI_BOTTOM]}");
-      container.append(_nodeLabel.container);
-      container.append(_naviLeft);
-      container.append(_naviRight);
-      container.append(_naviBottom);
-      container.append(_content);
-      _subscriptions = _registerSubscriptions([_nodeLabel.container, _naviLeft, _naviRight, _naviBottom]);
+      shell.append(_nodeLabel.shell);
+      shell.append(_naviLeft);
+      shell.append(_naviRight);
+      shell.append(_naviBottom);
+      shell.append(_content);
+      _subscriptions = _registerSubscriptions([_nodeLabel.shell, _naviLeft, _naviRight, _naviBottom]);
     }
 
   void add(Node child) {
-    _content.append(child.container);
+    _content.append(child.shell);
     register(child);
   }
 
@@ -44,7 +44,7 @@ class BranchNode extends Node implements NodeContainer {
   }
 
   void mount(LayoutAid aid) {
-    _content.append(aid.container);
+    _content.append(aid.shell);
   }
 
   BranchDecorator get decorator => viewModel.branchDecorator;
@@ -55,7 +55,7 @@ class BranchNode extends Node implements NodeContainer {
   
   Rect get client => _content.client;
   
-  Iterable<Element> get mouseoverElements => [_nodeLabel.container, _naviLeft, _naviRight, _naviBottom];
+  Iterable<Element> get mouseoverElements => [_nodeLabel.shell, _naviLeft, _naviRight, _naviBottom];
 
   Iterable<StreamSubscription> _registerSubscriptions(Iterable<Element> l) {
     final List<StreamSubscription> subscriptions = [];
@@ -80,12 +80,12 @@ class BranchNode extends Node implements NodeContainer {
     super.rectifyAppearance();
     parent.then((_) {
       String topPosition;
-      if (_nodeLabel.container.offset.height > viewModel.branchPadding ) {
-        topPosition = "${_nodeLabel.container.offset.height}px";
+      if (_nodeLabel.shell.offset.height > viewModel.branchPadding ) {
+        topPosition = "${_nodeLabel.shell.offset.height}px";
         _content.style.top = topPosition;
       } else {
         topPosition = "${viewModel.branchPadding}px";
-        _nodeLabel.container.style.height = "${viewModel.branchPadding}px";
+        _nodeLabel.shell.style.height = "${viewModel.branchPadding}px";
       }
       _naviLeft.style.top = topPosition;
       _naviRight.style.top = topPosition;

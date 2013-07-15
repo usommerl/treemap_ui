@@ -2,15 +2,15 @@ part of treemap_ui.view;
 
 class LayoutAid implements NodeContainer {
 
-  final DivElement container = new DivElement();
+  final DivElement shell = new DivElement();
   final NodeContainer _parent;
   final Orientation orientation;
   final Percentage width;
   final Percentage height;
 
   LayoutAid._internal(this.width, this.height, this._parent, this.orientation) {
-    container.classes.add("${node.viewModel.styleNames[runtimeType.toString()]}");
-    container.style..width = width.toString()
+    shell.classes.add("${node.viewModel.styleNames[runtimeType.toString()]}");
+    shell.style..width = width.toString()
                    ..height = height.toString();
     node.layoutAids.add(this);
     _parent.mount(this);
@@ -20,24 +20,24 @@ class LayoutAid implements NodeContainer {
     LayoutAid row;
     if (orientation.isHorizontal) {
       row = new LayoutAid._internal(Percentage.ONE_HUNDRED, size, parent, orientation);
-      row.container.style.float = "none";
+      row.shell.style.float = "none";
     } else {
       row = new LayoutAid._internal(size, Percentage.ONE_HUNDRED, parent, orientation);
-      row.container.style.float = "left";
+      row.shell.style.float = "left";
     }
     return row;
   }
 
   void add(Node child) {
-    container.append(child.container);
+    shell.append(child.shell);
     node.register(child);
   }
   
   void mount(LayoutAid aid) {
-    container.append(aid.container);
+    shell.append(aid.shell);
   }
   
-  Rect get client => container.client;
+  Rect get client => shell.client;
   
   BranchNode get node => _parent.node;
   

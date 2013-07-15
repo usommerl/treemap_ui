@@ -62,20 +62,20 @@ class ViewModel {
   }
 
   void _setAsViewRoot(BranchNode node) {
-    _cachedHtmlParent = node.container.parent;
-    _cachedNextSibling = node.container.nextElementSibling;
-    node.container.classes.add("${styleNames[VIEW_ROOT]}");
+    _cachedHtmlParent = node.shell.parent;
+    _cachedNextSibling = node.shell.nextElementSibling;
+    node.shell.classes.add("${styleNames[VIEW_ROOT]}");
     _viewRoot = node;
     displayArea.clear();
-    displayArea.append(node.container);
+    displayArea.append(node.shell);
   }
 
   void _recreatePristineHtmlHierarchy(BranchNode node) {
-    node.container.classes.remove("${styleNames[VIEW_ROOT]}");
+    node.shell.classes.remove("${styleNames[VIEW_ROOT]}");
     if (_cachedNextSibling == null) {
-      _cachedHtmlParent.append(node.container);
+      _cachedHtmlParent.append(node.shell);
     } else {
-      _cachedNextSibling.insertAdjacentElement('beforeBegin', node.container);
+      _cachedNextSibling.insertAdjacentElement('beforeBegin', node.shell);
     }
   }
 }

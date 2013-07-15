@@ -84,7 +84,7 @@ class Treemap{
      }
      _rootNode = new Node.forRoot(model, viewModel);
      _displayArea.purgeAndSet(viewModel);
-     _displayArea.append(_rootNode.container);
+     _displayArea.append(_rootNode.shell);
      if (_rootNode.isBranch) {
        layoutAlgorithm.layout(_rootNode as BranchNode);
      }

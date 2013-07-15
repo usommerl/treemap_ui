@@ -4,19 +4,19 @@ class LeafNode extends Node {
 
   LeafNode(dataModel, viewModel, width, height, orientation) :
     super._internal(dataModel, viewModel, width, height, orientation) {
-    _content = container;
-    _content.append(_nodeLabel.container);
-    container.style.backgroundColor = decorator.defineColor(dataModel).toString();
+    _content = shell;
+    _content.append(_nodeLabel.shell);
+    shell.style.backgroundColor = decorator.defineColor(dataModel).toString();
   }
 
   Leaf get dataModel => _dataModel;
   
   LeafDecorator get decorator => viewModel.leafDecorator;
   
-  Iterable<Element> get mouseoverElements =>[container];
+  Iterable<Element> get mouseoverElements =>[shell];
 
   void repaint() {
     super.repaint();
-    container.style.backgroundColor = decorator.defineColor(dataModel).toString();
+    shell.style.backgroundColor = decorator.defineColor(dataModel).toString();
   }
 }

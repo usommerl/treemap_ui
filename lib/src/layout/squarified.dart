@@ -29,7 +29,7 @@ class Squarified extends LayoutAlgorithm with LayoutUtils {
       }
     }
     if (layoutParent is LayoutAid) {
-      layoutParent.container.remove();      
+      layoutParent.shell.remove();      
     }
   }
 

@@ -25,7 +25,7 @@ const String NAVIGATION_ELEMENT = "navigation-element";
 final ArgumentError nullError = new ArgumentError("Please pass a valid reference. NULL is not supported!");
 
 abstract class Attachable {
-  Element get container;
+  Element get shell;
 }
 
 abstract class NodeContainer extends Attachable{

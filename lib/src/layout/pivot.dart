@@ -25,10 +25,10 @@ class Pivot extends LayoutAlgorithm with LayoutUtils {
   PivotSelectionStrategy _selectionStrategy;
   
   Pivot([PivotSelectionStrategy selectionStrategy]) {
-    if (?selectionStrategy) {
-      _selectionStrategy = selectionStrategy;
-    } else {
+    if (selectionStrategy == null) {
       _selectionStrategy = bySize;
+    } else {
+      _selectionStrategy = selectionStrategy;
     }
   }
   
@@ -82,7 +82,7 @@ class Pivot extends LayoutAlgorithm with LayoutUtils {
       if (!l2.isEmpty) {
         final orientationR2 = orientation.isVertical ? Orientation.HORIZONTAL : Orientation.VERTICAL;
         final r2 = new LayoutAid.expand(Percentage.ONE_HUNDRED - percentageY, layoutAidRpAndR2, orientationR2);
-        r2.container.style.float = orientation.isVertical ? "none" : "left";
+        r2.shell.style.float = orientation.isVertical ? "none" : "left";
         _layoutRecursive(l2, r2);
       }
       if (!l3.isEmpty) {
@@ -109,7 +109,7 @@ class Pivot extends LayoutAlgorithm with LayoutUtils {
   }
   
   Orientation _determineOrientation(NodeContainer parent) =>
-      parent.container.client.width >= parent.container.client.height ?
+      parent.shell.client.width >= parent.shell.client.height ?
           Orientation.VERTICAL :
           Orientation.HORIZONTAL;
   
