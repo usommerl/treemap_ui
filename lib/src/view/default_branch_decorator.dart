@@ -4,7 +4,7 @@ class DefaultBranchDecorator implements BranchDecorator<Branch> {
   
   const DefaultBranchDecorator();
   
-  Element createLabel(Branch model) => new Element.html('<span>Branch</span>');
+  Element createLabel(Branch model) => new Element.html('<h4 style="text-align: center; margin: 0px; font-weight: normal">Branch</h4>');
 
   Element createTooltip(Branch model) {
     Element element = new Element.html("<div></div>");
