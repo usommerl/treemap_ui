@@ -15,7 +15,11 @@ Features
     - Pivot-by-Size
     - Pivot-by-Middle
 
-
+Usage
+-----
+- [Basic example](/doc/basic_example.md)
+- [Custom model example](/doc/custom_model_example.md)
+- [API Documentation] (https://googledrive.com/host/0B7SuAtTI9WeHZk1tMkFDbHRpUk0/index.html)
 
 Install bleeding edge version
 -----------------------------
@@ -32,14 +36,9 @@ Then run the package manager [pub][]:
 
     pub install
 
-Usage
------
-- [Advanced customization][]
-- [API Documentation][]
-
 Collaboration
 -------------
-Patches and pull requests are welcome. Please file issues in our [issue tracker].
+Patches and pull requests are welcome. Please file issues in our [issue tracker][].
 
 License
 -------
@@ -51,6 +50,4 @@ Licensed under the Apache License, Version 2.0
 [TreemapUI]: https://github.com/usommerl/treemap_ui/
 [Dart]: http://www.dartlang.org/
 [pub]: http://www.dartlang.org/docs/pub-package-manager/
-[Advanced customization]: /doc/custom_model_example.md
-[API Documentation]: https://googledrive.com/host/0B7SuAtTI9WeHZk1tMkFDbHRpUk0/index.html
 

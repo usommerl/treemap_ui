@@ -12,6 +12,6 @@ abstract class Decorator<T extends DataModel> {
   Color defineNodeColor(T model);
 }
 
-abstract class BranchDecorator<E extends Branch> implements Decorator<E> {}
+abstract class BranchDecorator<T extends Branch> implements Decorator<T> {}
 
-abstract class LeafDecorator<E extends Leaf> implements Decorator<E> {}
+abstract class LeafDecorator<T extends Leaf> implements Decorator<T> {}

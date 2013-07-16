@@ -1,8 +1,8 @@
 part of treemap_ui.example.custom_model;
 
-class CityDecorator implements LeafDecorator<City> {
+class CustomLeafDecorator implements LeafDecorator<City> {
   
-  const CityDecorator();
+  const CustomLeafDecorator();
   
   Element createLabel(City city) => new Element.html("<span>${city.name}</span>");
 
@@ -31,5 +31,4 @@ class CityDecorator implements LeafDecorator<City> {
     }
     return color;
   }
-  
 }
