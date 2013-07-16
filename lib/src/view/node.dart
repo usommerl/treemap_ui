@@ -27,7 +27,7 @@ abstract class Node implements Attachable {
     shell.classes.add("${viewModel.styleNames[orientation.toString()]}");
     shell.style..width = width.toString()
                ..height = height.toString()
-               ..backgroundColor = decorator.defineColor(dataModel).toString();
+               ..backgroundColor = decorator.defineNodeColor(dataModel).toString();
     _nodeLabel = new NodeLabel(this);
     rectifyAppearance();
     _modelSubscription = dataModel.onVisiblePropertyChange.listen((_) {

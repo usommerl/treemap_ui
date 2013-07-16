@@ -16,6 +16,6 @@ class LeafNode extends Node {
 
   void repaint() {
     super.repaint();
-    shell.style.backgroundColor = decorator.defineColor(dataModel).toString();
+    shell.style.backgroundColor = decorator.defineNodeColor(dataModel).toString();
   }
 }

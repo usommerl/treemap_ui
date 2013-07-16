@@ -15,5 +15,5 @@ class DefaultLeafDecorator implements LeafDecorator<Leaf> {
     return element;
   }
   
-  Color defineColor(Leaf model) => Color.LIGHT_GREY;
+  Color defineNodeColor(Leaf model) => Color.LIGHT_GREY;
 }

@@ -32,7 +32,7 @@ class CustomLeafDecorator implements LeafDecorator<CustomLeaf> {
     return element;
   }
   
-  Color defineColor(CustomLeaf model) {
+  Color defineNodeColor(CustomLeaf model) {
     if (model.someProperty < grayscale.length - 1) {
       return grayscale.elementAt(model.someProperty);
     } else {

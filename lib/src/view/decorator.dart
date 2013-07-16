@@ -8,8 +8,8 @@ abstract class Decorator<T extends DataModel> {
   /// Generates a HTML element that will be displayed as the tooltip of [model].
   Element createTooltip(T model);
   
-  /// Defines the background color for the corresponding treemap node of [model].
-  Color defineColor(T model);
+  /// Defines the background color for the corresponding treemap node.
+  Color defineNodeColor(T model);
 }
 
 abstract class BranchDecorator<E extends Branch> implements Decorator<E> {}
