@@ -1,8 +1,9 @@
 name: treemap_ui
-version: 0.2.0
+version: 0.2.1
 description: A generic treemap user interface component for web applications.
 author: Uwe Sommerlatt <uwe.sommerlatt@gmail.com>
+homepage: https://github.com/usommerl/treemap_ui
 dependencies:
-  browser: any
+  browser: ">=0.6.3+1"
 dev_dependencies:
   unittest: any
