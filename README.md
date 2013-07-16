@@ -1,13 +1,13 @@
 TreemapUI
 =========
 
-A [treemap][] user interface component for web applications written in [Dart][].
+A generic [treemap][] user interface component for web applications written in [Dart][].
 
 Features
 --------
-- Appearance of treemap nodes is completely customizable
-- Supports live updates on data model changes 
-- Includes several layout algorithms
+- Highly customizable through a exentsible data model
+- Supports live updates and user interaction 
+- Includes several common layout algorithms
     - Slice-And-Dice
     - Strip
     - Squarified
@@ -17,8 +17,8 @@ Features
 
 
 
-Installation
-------------
+Install bleeding edge version
+-----------------------------
 
 Add this to your `pubspec.yaml`:
 
@@ -32,11 +32,9 @@ Then run the package manager [pub][]:
 
     pub install
 
-**Disclaimer:** *This is a experimental library and the APIs are not finished. Updating may break your code.*
-
 Usage
 -----
-- [Basic Example][]
+- [Advanced customization][]
 - [API Documentation][]
 
 Collaboration
@@ -53,6 +51,6 @@ Licensed under the Apache License, Version 2.0
 [TreemapUI]: https://github.com/usommerl/treemap_ui/
 [Dart]: http://www.dartlang.org/
 [pub]: http://www.dartlang.org/docs/pub-package-manager/
-[Basic Example]: https://github.com/usommerl/treemap_ui/wiki/Basic-Example
+[Advanced customization]: /doc/custom_model_example.md
 [API Documentation]: https://googledrive.com/host/0B7SuAtTI9WeHZk1tMkFDbHRpUk0/index.html
 
