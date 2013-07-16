@@ -1,3 +1,5 @@
+About
+-----
 A generic [treemap][] user interface component for web applications written in [Dart][].
 
 Features
