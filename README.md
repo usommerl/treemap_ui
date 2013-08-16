@@ -16,8 +16,8 @@ Features
 
 Usage
 -----
-- [Basic example](/doc/basic_example.md)
-- [Custom model example](/doc/custom_model_example.md)
+- [Basic example](https://github.com/usommerl/treemap_ui/blob/master/doc/basic_example.md)
+- [Custom model example](https://github.com/usommerl/treemap_ui/blob/master/doc/custom_model_example.md)
 - [API Documentation][]
 
 Install bleeding edge version
