@@ -1,9 +1,8 @@
 import 'package:unittest/unittest.dart';
-//import 'package:unittest/html_config.dart';
 import 'package:treemap_ui/model.dart';
+import 'dart:async';
 
 main() {
-//  useHtmlConfiguration();
   group('model tests -', () {
     var leaf1, leaf2, leaf3, branch1, branch2;
 
@@ -49,6 +48,33 @@ main() {
       expect(leaf3.isLeaf, isTrue);
       expect(branch1.isLeaf, isFalse);
       expect(branch2.isLeaf, isFalse);
+    });
+    test('A Leaf can only be a child of one branch 1', () {
+      final leaf = new Leaf(1);
+      final branchA = new Branch([leaf]);
+      final branchB = new Branch([leaf]);
+      expect(branchB.children.contains(leaf), isTrue);
+      expect(branchA.children.contains(leaf), isFalse);
+    });
+    test('A Leaf can only be a child of one branch 2', () {
+      final leaf = new Leaf(1);
+      final branchA = new Branch([leaf]);
+      final branchB = new Branch();
+      branchB.children.onAdd.listen((_) {
+        expect(branchB.children.contains(leaf), isTrue);
+        expect(branchA.children.contains(leaf), isFalse);
+      });
+      branchB.children.add(leaf);
+    });
+    test('A Leaf can only be a child of one branch 3', () {
+      final leaf = new Leaf(1);
+      final branchA = new Branch([leaf]);
+      final branchB = new Branch([new Leaf(99)]);
+      branchB.children.onUpdate.listen((_) {
+        expect(branchB.children.contains(leaf), isTrue);
+        expect(branchA.children.contains(leaf), isFalse);
+      });
+      branchB.children[0] = leaf;
     });
   });
 }

@@ -10,18 +10,18 @@ class Branch extends DataModel {
           : children = children == null ?
                 new ObservableList.from([]) :
                 new ObservableList.from(children) {
-    this.children.forEach((child) => child._parent = this);
-    this.children.onAdd.listen((newChild) {
-      newChild._parent = this;
+    this.children.forEach((child) => _setParent(child));
+    this.children.onAdd.listen((child) {
+      _setParent(child);
       _propagateStructuralChange();
     });
-    this.children.onRemove.listen((removedChild) {
-      removedChild._parent = null;
+    this.children.onRemove.listen((child) {
+      child._parent = null;
       _propagateStructuralChange();
     });
     this.children.onUpdate.listen((event) {
       event.oldValue._parent = null;
-      event.newValue._parent = this;
+      _setParent(event.newValue);
       _propagateStructuralChange();
     });
   }
@@ -29,6 +29,14 @@ class Branch extends DataModel {
   num get size => children.fold(0, (prev,elem) => prev + elem.size);
 
   bool get isLeaf => false;
+  
+  void _setParent(DataModel child) {
+    final previousParent = child.parent;
+    if (previousParent != null && !identical(previousParent,this)) {
+      previousParent.children.remove(child);
+    }
+    child._parent = this;
+  }
 }
 
 
