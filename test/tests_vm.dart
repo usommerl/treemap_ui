@@ -6,9 +6,7 @@ import 'dart:isolate';
  */
 void main() {
   ReceivePort receivePort = new ReceivePort();
-  
-  final path = new Path(Directory.current.path);
-  final testDirectory = new Directory.fromPath(path);
+  final testDirectory = new Directory(Directory.current.path);
   final lister = testDirectory.list(recursive: false);
   lister.listen((FileSystemEntity e) {
     if (e.path.endsWith("_tests.dart")) {
