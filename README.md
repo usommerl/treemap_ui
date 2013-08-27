@@ -39,9 +39,13 @@ Collaboration
 -------------
 Patches and pull requests are welcome. Please file issues in our [issue tracker][].
 
+Versioning
+----------
+We follow [Semantic Versioning](http://semver.org/).
+
 License
 -------
-Licensed under the Apache License, Version 2.0
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 
 [issue tracker]: https://github.com/usommerl/treemap_ui/issues
