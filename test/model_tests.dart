@@ -1,6 +1,5 @@
 import 'package:unittest/unittest.dart';
 import 'package:treemap_ui/model.dart';
-import 'dart:async';
 
 main() {
   group('model tests -', () {
