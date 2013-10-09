@@ -24,7 +24,8 @@ main() {
       }
     });
     // Only for screenshots
-    document.body.children.add(new Element.html("<div style='width: 100%;height: 100px;clear: both'>&nbsp;</div>"));
+    document.body.children.add(new Element.html("<div style='width: 100%;height: 100px;clear: both'>&nbsp;</div>",
+                                                validator: new NodeValidatorBuilder()..allowInlineStyles()..allowElement("div")));
 }
 
 void prepareDocument(String documentTitle) {

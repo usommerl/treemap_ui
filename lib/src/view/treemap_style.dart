@@ -109,9 +109,9 @@ class TreemapStyle {
    */
   StyleElement get inlineStyle {
     this._styleNames = _initStyleNames(prefix);
-    final String inlineStyleHtml =
+    final styleElement = new StyleElement();
+    final String styleRules =
 """
-<style type="text/css">
 .${_styleNames["${LeafNode}"]},
 .${_styleNames["${BranchNode}"]},
 .${_styleNames["${LayoutAid}"]},
@@ -222,9 +222,9 @@ class TreemapStyle {
 .${_styleNames[NAVIGATION_ELEMENT]}{
   cursor: pointer;
 }
-</style>
 """;
-    return new Element.html(inlineStyleHtml);
+    styleElement.text = styleRules;
+    return styleElement;
   }
 
   Map<String,String> _initStyleNames(String prefix) {

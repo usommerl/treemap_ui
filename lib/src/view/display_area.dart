@@ -2,11 +2,13 @@ part of treemap_ui.view;
 
 class DisplayArea {
   
-  final DivElement _outerDiv;
-  final Element _actualDisplayArea = new Element.html("<div style='position: relative; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px'></div>");
   ViewModel _viewModel;
   MouseEvent _lastMouseMoveEvent;
   Tooltip _tooltip;
+  final DivElement _outerDiv;
+  final Element _actualDisplayArea = new Element.html(
+      "<div style='position: relative; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px'></div>",
+      validator: new NodeValidatorBuilder()..allowInlineStyles()..allowElement("div"));
   
   DisplayArea(DivElement this._outerDiv) {
     if (_outerDiv.client.height <= 0) {

@@ -7,7 +7,7 @@ class DefaultLeafDecorator implements LeafDecorator<Leaf> {
   Element createLabel(Leaf model) => null;
   
   Element createTooltip(Leaf model) {
-    Element element = new Element.html("<div></div>");
+    DivElement element = new DivElement();
     element.style..backgroundColor = Color.WHITE.toString()
         ..fontSize = "0.8em"
         ..padding = "1px 5px 1px 5px";

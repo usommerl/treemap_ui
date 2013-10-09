@@ -13,7 +13,9 @@ final NumberInputElement repaintInput = new NumberInputElement();
 final NumberInputElement modelInput = new NumberInputElement();
 final ButtonElement resetModelButton = new ButtonElement();
 final ButtonElement repaintButton = new ButtonElement();
-final Element treemapContainer = new Element.html("<div id=treemapContainer style='width:${initialSize}px;height:${initialSize}px;float:left;'></div>");
+final Element treemapContainer = new Element.html("<div id=treemapContainer style='width:${initialSize}px;height:${initialSize}px;float:left;'></div>",
+                                                  validator: new NodeValidatorBuilder()..allowInlineStyles()
+                                                                                       ..allowElement("div", attributes: ["id"]));
 final Map<String, LayoutAlgorithm> algorithmMap = initAlgorithmMap();
 final Map<int, DataModel> modelMap = initModelMap();
 final Map<String, Color> colorMap = initColorMap();
@@ -113,7 +115,10 @@ void initUiElements() {
   borderStyleControls..append(borderStyleLabel)..append(borderStyleSelect);
   final borderColorLabel = new Element.html("<span class='controlsLabel'>border color:</span>");
   options = colorMap.keys.map((k) => "<option style='background-color:${k};'>$k</option>").fold("", (acc,e) => "$acc$e");
-  borderColorSelect = new Element.html("<select>$options</select>");
+  borderColorSelect = new Element.html(
+      "<select>$options</select>", validator: new NodeValidatorBuilder()..allowInlineStyles()
+                                                                        ..allowElement("option")
+                                                                        ..allowElement("select"));
   final borderColorControls = new DivElement();
   borderColorControls..append(borderColorLabel)..append(borderColorSelect);
   final repaintControls = new DivElement();

@@ -4,10 +4,12 @@ class DefaultBranchDecorator implements BranchDecorator<Branch> {
   
   const DefaultBranchDecorator();
   
-  Element createLabel(Branch model) => new Element.html('<h4 style="text-align: center; margin: 0px; font-weight: normal">Branch</h4>');
+  Element createLabel(Branch model) => new Element.html(
+      '<h4 style="text-align: center; margin: 0px; font-weight: normal">Branch</h4>',
+      validator: new NodeValidatorBuilder()..allowInlineStyles()..allowElement("h4"));
 
   Element createTooltip(Branch model) {
-    Element element = new Element.html("<div></div>");
+    DivElement element = new DivElement();
     element.style..backgroundColor = "white"
         ..fontSize = "0.8em"
         ..padding = "1px 5px 1px 5px";
