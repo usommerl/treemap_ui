@@ -184,6 +184,6 @@ class _NamedColor implements Color {
   const _NamedColor(String this._value);
 
   String toString() => _value;
-
+  
 }
 

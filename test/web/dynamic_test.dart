@@ -257,7 +257,7 @@ Color selectedColor(SelectElement select) => colorMap[select.value];
 Map<int, DataModel> initModelMap() {
   var i = 0;
   final map = new Map<int, DataModel>();
-  TestResources.testDataModels.forEach((model) {
+  TestResources.testDataModels.forEach((CustomModel model) {
     map[i++] = model.copy();
   });
   return map;

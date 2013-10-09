@@ -21,7 +21,7 @@ main() {
     copy2.someProperty = levelsOfGray + i++;
     final copy3 = leaf3.copy();
     copy3.someProperty = levelsOfGray + i++;
-    final model = (TestResources.dataModel5 as CustomBranch).copy();
+    final model = TestResources.dataModel5.copy();
     treemap = new Treemap(componentRoot, model, TestResources.layoutAlgorithms.last);
 
     new Timer(const Duration(milliseconds: 500), () {

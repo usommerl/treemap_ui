@@ -5,6 +5,7 @@ import 'dart:html';
 
 part 'custom_leaf.dart';
 part 'custom_branch.dart';
+part 'custom_model.dart';
 part 'custom_leaf_decorator.dart';
 
 

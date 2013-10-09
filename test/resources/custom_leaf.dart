@@ -1,6 +1,6 @@
 part of treemap_test_resources;
 
-class CustomLeaf extends Leaf {
+class CustomLeaf extends Leaf implements CustomModel {
 
   int _someProperty = 0;
 

@@ -1,6 +1,6 @@
 part of treemap_test_resources;
 
-class CustomBranch extends Branch {
+class CustomBranch extends Branch implements CustomModel{
 
   CustomBranch([List<DataModel> children]) : super(children) {
     var counter = 0;
@@ -17,7 +17,7 @@ class CustomBranch extends Branch {
    **/
   CustomBranch copy() {
     List<DataModel> childrenCopy = new List();
-    children.forEach((child) => childrenCopy.add(child.copy()));
+    children.forEach((CustomModel child) => childrenCopy.add(child.copy()));
     return new CustomBranch(childrenCopy);
   }
 }
