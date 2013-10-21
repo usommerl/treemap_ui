@@ -111,12 +111,12 @@ main() {
                               leafDecorator: const CustomLeafDecorator());
   
   new Timer(const Duration(seconds: 1),(){
-    final newYork = model.children.firstWhere((city) => city.name == 'New York City');
+    final City newYork = model.children.firstWhere((City city) => city.name == 'New York City');
     newYork.population = 8.175;
   });
   
   new Timer(const Duration(seconds: 2),(){
-    final berlin = model.children.firstWhere((city) => city.name == 'Berlin');
+    final City berlin = model.children.firstWhere((City city) => city.name == 'Berlin');
     berlin.country = 'Germany';
   });
 }
