@@ -53,7 +53,7 @@ class BranchNode extends Node implements NodeContainer {
   
   BranchNode get node => this;
   
-  Rect get client => _content.client;
+  Rectangle get client => _content.client;
   
   Iterable<Element> get mouseoverElements => [_nodeLabel.shell, _naviLeft, _naviRight, _naviBottom];
 

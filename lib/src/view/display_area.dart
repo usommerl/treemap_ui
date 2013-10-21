@@ -33,7 +33,7 @@ class DisplayArea {
   
   html.Node append(Element newChild) => _actualDisplayArea.append(newChild);
   
-  Rect get client => _actualDisplayArea.client;
+  Rectangle get client => _actualDisplayArea.client;
   
   Point get mousePosition {
     final rect = _actualDisplayArea.getBoundingClientRect();

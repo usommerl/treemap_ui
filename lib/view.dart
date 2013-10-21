@@ -36,6 +36,6 @@ abstract class NodeContainer extends Attachable{
   
   BranchNode get node;
   
-  Rect get client;
+  Rectangle get client;
 
 }

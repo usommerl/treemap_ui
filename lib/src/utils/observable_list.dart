@@ -76,6 +76,8 @@ class ObservableList<E> implements List<E> {
     _onAddController.add(element);
   }
   
+  void shuffle() => _list.shuffle();
+  
   void insertRange(int start, int length, [E fill]) => throw new UnsupportedError("");
   
   void fillRange(int start, int end, [E fillValue]) => throw new UnsupportedError("");

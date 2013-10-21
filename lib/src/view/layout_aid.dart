@@ -37,7 +37,7 @@ class LayoutAid implements NodeContainer {
     shell.append(aid.shell);
   }
   
-  Rect get client => shell.client;
+  Rectangle get client => shell.client;
   
   BranchNode get node => _parent.node;
   
