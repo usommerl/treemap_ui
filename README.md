@@ -53,4 +53,4 @@ Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/
 [TreemapUI]: https://github.com/usommerl/treemap_ui/
 [Dart]: http://www.dartlang.org/
 [pub]: http://www.dartlang.org/docs/pub-package-manager/
-[API Documentation]: https://googledrive.com/host/0B7SuAtTI9WeHZk1tMkFDbHRpUk0/
+[API Documentation]: https://www.dartdocs.org/documentation/treemap_ui/0.3.3/
