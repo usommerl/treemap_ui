@@ -41,7 +41,7 @@ main() {
 
 The picture below displays the result of the code in this example.
 
-![Result of the code in this example][./example01.png]
+![Result of the code in this example](./example01.png)
 
 [TreemapUI]: https://github.com/usommerl/treemap_ui/
 [squarified layout algorithm]: http://www.win.tue.nl/~vanwijk/stm.pdf
