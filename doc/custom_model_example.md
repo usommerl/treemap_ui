@@ -3,7 +3,7 @@ Custom model example
 
 This example uses the [TreemapUI][] library to visualize the population of various cities from different countries. The size of a treemap node corresponds to the number of residents of the city and the color of the node encodes the affiliation of the city to a country. The picture below displays the final result of the [example code](../example/custom_model/).
 
-![Result of the code in this example][pictureResult]
+![Result of the code in this example](./example02.png)
 
 The `City` class extends `Leaf` from the [TreemapUI][] library and adds a couple additional properties. We can display these properties in our treemap by implementing a custom `LeafDecorator`. You can notify the treemap that a property which affects the label, tooltip or color of a node has changed by calling `fireVisiblePropertyChangedEvent()`. The `Leaf.size` setter issues update events automatically, so that you don't have to do anything when you modify this value. 
 
@@ -121,9 +121,5 @@ main() {
   });
 }
 ```
-
-
-
-[pictureResult]: https://googledrive.com/host/0B7SuAtTI9WeHc1ozNTdEaW5HZ0E/example02.png 
 [TreemapUI]: https://github.com/usommerl/treemap_ui/
 [tree data structure]: https://en.wikipedia.org/wiki/Tree_(data_structure)
